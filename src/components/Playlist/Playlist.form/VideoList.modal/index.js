@@ -86,7 +86,7 @@ class VideoListModal extends Component {
             {...video}
             disableDelete={true}
             onClick={() => {
-              const newVideo = {...video, selected: true};
+              const newVideo = {...video, selected: !video.selected};
               this.setState({
                 videos: {
                   ...this.state.videos,

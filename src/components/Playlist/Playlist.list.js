@@ -10,7 +10,9 @@ import './Playlist.list.css';
   
 class PlayListList extends Component {
   componentWillMount() {
-    this.props.fetchPlaylists();
+    if(!this.props.playlistReducer) {
+      this.props.fetchPlaylists();
+    }
   }
 
   render() {

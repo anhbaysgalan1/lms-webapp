@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import  { Formik } from 'formik';
 import { Form, FormGroup, Input, Button } from 'reactstrap';
@@ -25,7 +26,6 @@ class PlaylistForm extends Component {
     }
     return errors;
   }
-
 
   renderForm(formProps) {
     const {
@@ -64,7 +64,7 @@ class PlaylistForm extends Component {
           <VideoListModal
             isOpen={this.state.videolistModalOpen}
             toggle={() => this.setState({videolistModalOpen: false})}
-            onOK={(videos) => console.log(videos)}
+            onOK={(newVideos) => setFieldValue("videos", _.unionBy(videos, newVideos, "_id"))}
           />
           {
             videos.map((video, index) => {

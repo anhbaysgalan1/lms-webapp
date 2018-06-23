@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import { fetchPlaylist } from '../../networks/playlist';
+import { updatePlaylist } from 'actions/playlist';
 import PlaylistForm from './Playlist.form';
-  
-  
+
 class PlaylistDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
       playlist: null
     };
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentWillMount() {
@@ -20,8 +23,9 @@ class PlaylistDetail extends Component {
     })
   }
 
-  onSubmit(values) {
-
+  onSubmit(playlist) {
+    this.props.updatePlaylist(playlist);
+    this.props.history.goBack();
   }
 
   render() {
@@ -40,6 +44,6 @@ class PlaylistDetail extends Component {
     );
   }
 }
+
   
-  
-export default PlaylistDetail;
+export default connect(null, {updatePlaylist})(PlaylistDetail);
