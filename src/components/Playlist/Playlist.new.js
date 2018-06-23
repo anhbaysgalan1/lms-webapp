@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { addPlaylist } from 'actions/playlist';
 import PlaylistForm from './Playlist.form'; 
   
 class PlaylistNew extends Component {
-  onSubmit(values) {
-
+  constructor(props) {
+    super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+  
+  onSubmit(playlist) {
+    this.props.addPlaylist(playlist);
+    this.props.history.goBack();
   }
 
   render() {
@@ -26,4 +35,4 @@ class PlaylistNew extends Component {
 }
   
   
-export default PlaylistNew;
+export default connect(null, {addPlaylist})(PlaylistNew);
