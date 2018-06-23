@@ -18,17 +18,19 @@ class PlaylistNew extends Component {
   render() {
     return (
       <div>
-        <h3 className="admin-title">
+        <h4 className="admin-title ml-2">
           Add playlist
-        </h3>
-        <PlaylistForm
-          initialValues={{
-            name: "",
-            videos: []
-          }}
-          onSubmit={this.onSubmit}
-          onCancel={this.props.history.goBack}
-        />
+        </h4>
+        <div className="round-panel">
+          <PlaylistForm
+            initialValues={{
+              name: "",
+              videos: []
+            }}
+            onSubmit={this.onSubmit}
+            onCancel={this.props.history.goBack}
+          />
+        </div>
       </div>
     );
   }

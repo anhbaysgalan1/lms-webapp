@@ -32,14 +32,16 @@ class PlaylistDetail extends Component {
     if(!this.state.playlist) return <div>Loading...</div>
     return (
       <div>
-        <h3 className="admin-title">
+        <h4 className="admin-title ml-2">
           Playlist detail
-        </h3>
-        <PlaylistForm
-          initialValues={this.state.playlist}
-          onSubmit={this.onSubmit}
-          onCancel={this.props.history.goBack}
-        />
+        </h4>
+        <div className="round-panel">
+          <PlaylistForm
+            initialValues={this.state.playlist}
+            onSubmit={this.onSubmit}
+            onCancel={this.props.history.goBack}
+          />
+        </div>
       </div>
     );
   }
