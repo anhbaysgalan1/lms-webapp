@@ -3,3 +3,14 @@
   display: flex;
   flex-flow: row;
 }
+
+#app-panel {
+  padding: 16px;
+  width: 100%;
+  border-radius: 16px;
+}
+
+#app-panel > div {
+  background: #FFFFFF;
+  width: 100%;
+}

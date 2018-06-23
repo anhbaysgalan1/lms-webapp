@@ -21,7 +21,7 @@ class App extends Component {
                 }
               ]}
             />
-            <div>
+            <div id="app-panel">
               <Switch>
                 <Route
                   path={ROUTE_ADMIN_PLAYLIST}
