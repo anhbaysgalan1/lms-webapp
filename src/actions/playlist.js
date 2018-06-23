@@ -2,6 +2,7 @@
 export const FETCH_PLAYLISTS = "Fetch playlists";
 export const UPDATE_PLAYLIST = "Update playlist";
 export const ADD_PLAYLIST = "Add playlist";
+export const DELETE_PLAYLIST = "Delete playlist";
 
 export const dummyPlaylist = [
   {
@@ -119,6 +120,13 @@ export function updatePlaylist(playlist) {
 export function addPlaylist(playlist) {
   return {
     type: ADD_PLAYLIST,
+    payload: playlist
+  };
+}
+
+export function deletePlaylist(playlist) {
+  return {
+    type: DELETE_PLAYLIST,
     payload: playlist
   };
 }

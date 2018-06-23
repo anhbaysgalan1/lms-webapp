@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { Table, Button } from 'reactstrap';
 import _ from 'lodash';
 
-import { fetchPlaylists } from 'actions/playlist';
+import { fetchPlaylists, deletePlaylist } from 'actions/playlist';
+import { openPopup } from 'actions/popup';
 import { ROUTE_ADMIN_PLAYLIST_NEW, ROUTE_ADMIN_PLAYLIST_DETAIL } from '../routes';
 
 import './Playlist.list.css';
@@ -50,7 +51,13 @@ class PlayListList extends Component {
                   <td>{ index + 1 }</td>
                   <td>{ playlist.name }</td>
                   <td>{ playlist.videos.length } videos</td>
-                  <td  onClick={(event) => event.stopPropagation()}>
+                  <td onClick={(event) => {
+                    event.stopPropagation();
+                    this.props.openPopup(() => {
+                      this.props.deletePlaylist(playlist)
+                    },
+                    null);
+                  }}>
                     <div className="delete">
                       <i className="text-danger fas fa-trash-alt"></i>
                     </div>
@@ -72,7 +79,9 @@ function mapReducerProps({ playlistReducer }) {
 }
 
 const actions = {
-  fetchPlaylists
+  fetchPlaylists,
+  deletePlaylist,
+  openPopup
 }
   
 export default connect(mapReducerProps, actions)(PlayListList);

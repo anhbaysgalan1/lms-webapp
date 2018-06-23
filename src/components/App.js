@@ -3,6 +3,7 @@ import { withRouter, Switch, Route } from 'react-router-dom';
 
 import SideBar from './SideBar';
 import Playlist from './Playlist';
+import Popup from './Popup';
 
 import { ROUTE_ADMIN_PLAYLIST } from './routes';
 
@@ -12,6 +13,7 @@ class App extends Component {
     render() {
         return (
           <div id="app">
+            <Popup />
             <SideBar
               items={[
                 {
