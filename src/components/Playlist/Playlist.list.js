@@ -31,14 +31,6 @@ class PlayListList extends Component {
           </Button>
         </div>
         <Table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Video count</th>
-              <th></th>
-            </tr>
-          </thead>
           <tbody>
           {
             _.values(playlists).map((playlist, index) => {
