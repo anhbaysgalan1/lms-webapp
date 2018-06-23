@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import  { Formik } from 'formik';
-import { Form } from 'reactstrap';
+import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
+
+import { withRouter } from 'react-router-dom';
+
+import './Playlist.form.css';
+import VideoItem from './VideoItem';
 
 class PlaylistForm extends Component {
   constructor(props) {
@@ -11,8 +16,12 @@ class PlaylistForm extends Component {
 
   validate(values) {
     const errors = {};
+    if(!values.name) {
+      errors.name = "Name is required";
+    }
     return errors;
   }
+
 
   renderForm(formProps) {
     const {
@@ -22,12 +31,42 @@ class PlaylistForm extends Component {
       handleChange,
       handleBlur,
       handleSubmit,
-      //isSubmitting,
+      setFieldValue
     } = formProps;
 
+    const {name, videos} = values;
     return (
-      <Form>
-
+      <Form onSubmit={handleSubmit} className="playlist-form">
+        <FormGroup>
+          <legend>Name</legend>
+          <Input
+            type='text'
+            name='name'
+            value={name}
+            invalid={touched.name && !!errors.name}
+            onBlur={handleBlur}
+            onChange={handleChange}
+          />
+          <div className="text-danger">{touched.name ? errors.name : ""}</div>
+        </FormGroup>
+        <FormGroup className="videos">
+          <legend>Videos</legend>
+          {
+            videos.map((video, index) => {
+              return <VideoItem key={index} {...video} onDeleteClick={() => console.log("Delete")} />
+            })
+          }
+        </FormGroup>
+        <div className="d-flex justify-content-end">
+          <Button
+            color="secondary"
+            onClick={this.props.onCancel}
+          >
+            Cancel
+          </Button>
+          <Button className="mx-1" color="primary">OK</Button>
+        </div>
+        
       </Form>
     );
   }

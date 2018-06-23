@@ -2,17 +2,23 @@ import React, { Component } from 'react';
 import PlaylistForm from './Playlist.form'; 
   
 class PlaylistNew extends Component {
+  onSubmit(values) {
+
+  }
+
   render() {
     return (
       <div>
-        <h5 className="admin-title">
+        <h3 className="admin-title">
           Add playlist
-        </h5>
+        </h3>
         <PlaylistForm
           initialValues={{
             name: "",
             videos: []
           }}
+          onSubmit={this.onSubmit}
+          onCancel={this.props.history.goBack}
         />
       </div>
     );

@@ -1,0 +1,21 @@
+.video-item {
+  margin-bottom: 8px;
+  display: flex;
+  flex-flow: row;
+}
+
+.video-item .brief {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  margin-left: 16px;
+}
+
+.video-item .fas.fa-times {
+  position: relative;
+  top: 4px;
+}
+
+.video-item .duration {
+  font-size: 0.75rem;
+}

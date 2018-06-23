@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import PlaylistList from './Playlist.list';
 import PlaylistNew from './Playlist.new';
 import PlaylistDetail from './Playlist.detail';
@@ -21,4 +21,4 @@ class Playlist extends Component {
 }
  
  
-export default Playlist;
+export default withRouter(Playlist);

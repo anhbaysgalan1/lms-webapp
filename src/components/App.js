@@ -7,7 +7,7 @@ import Playlist from './Playlist';
 import { ROUTE_ADMIN_PLAYLIST } from './routes';
 
 import './App.css';
- 
+
 class App extends Component {
     render() {
         return (
