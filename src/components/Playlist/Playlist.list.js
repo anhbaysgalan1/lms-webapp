@@ -59,7 +59,7 @@ class PlayListList extends Component {
                     null);
                   }}>
                     <div className="delete">
-                      <i className="text-danger fas fa-trash-alt"></i>
+                      <i className="text-dark fas fa-trash-alt"></i>
                     </div>
                   </td>
                 </tr>
