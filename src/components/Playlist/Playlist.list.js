@@ -24,10 +24,10 @@ class PlayListList extends Component {
       <div>
         <div className="admin-controls">
           <Button
-            className="admin-add mr-2"
+            className="admin-btn mr-2 text-dark"
             onClick={() => this.props.history.push(ROUTE_ADMIN_PLAYLIST_NEW)}
           >
-            Add playlist
+           <i className="fas fa-plus mr-1"></i> {'  '} Add playlist
           </Button>
         </div>
         <Table className="round-panel">

@@ -44,3 +44,12 @@
   font-size: 1.5rem;
   margin-bottom: .5rem;
 }
+
+.admin-btn {
+  background-color: #00000000;
+  border-width: 0px;
+}
+
+.admin-btn:hover {
+  background-color: #bec6e4;
+}
