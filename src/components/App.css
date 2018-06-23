@@ -13,4 +13,5 @@
 #app-panel > div {
   background: #FFFFFF;
   width: 100%;
+  padding: 16px;
 }
