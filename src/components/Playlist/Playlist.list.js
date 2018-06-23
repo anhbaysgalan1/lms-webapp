@@ -24,13 +24,13 @@ class PlayListList extends Component {
       <div>
         <div className="admin-controls">
           <Button
-            className="admin-add"
+            className="admin-add mr-2"
             onClick={() => this.props.history.push(ROUTE_ADMIN_PLAYLIST_NEW)}
           >
             Add playlist
           </Button>
         </div>
-        <Table>
+        <Table className="round-panel">
           <tbody>
           {
             _.values(playlists).map((playlist, index) => {

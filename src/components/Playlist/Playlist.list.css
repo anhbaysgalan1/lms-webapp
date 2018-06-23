@@ -1,9 +1,10 @@
 .playlist-item {
   cursor: pointer;
-  border-radius: 16px;
+  border-radius: 8px;
 }
 
 .playlist-item:hover {
+  cursor: pointer;
   background-color: #bec6e4;
 }
 

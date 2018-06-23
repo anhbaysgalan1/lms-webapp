@@ -14,11 +14,16 @@
   border-radius: 16px;
 }
 
-#app-panel > div {
+.round {
+  border-radius: 16px;
+}
+
+.round-panel {
   background: #FFFFFF;
   width: 100%;
+  min-height: 100%;
   padding: 16px;
-  border-radius: 16px;
+  border-radius: 8px;
 }
 
 .admin-controls {
