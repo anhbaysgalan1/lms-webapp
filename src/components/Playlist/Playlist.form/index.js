@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import  { Formik } from 'formik';
-import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
+import { Form, FormGroup, Input, Button } from 'reactstrap';
 
 import { withRouter } from 'react-router-dom';
 
-import './Playlist.form.css';
+import './index.css';
 import VideoItem from './VideoItem';
+import VideoListModal from './VideoList.modal';
 
 class PlaylistForm extends Component {
   constructor(props) {
     super(props);
     this.validate = this.validate.bind(this);
     this.renderForm = this.renderForm.bind(this);
+    this.state = {
+      videolistModalOpen: false
+    };
   }
 
   validate(values) {
@@ -50,10 +54,29 @@ class PlaylistForm extends Component {
           <div className="text-danger">{touched.name ? errors.name : ""}</div>
         </FormGroup>
         <FormGroup className="videos">
-          <legend>Videos</legend>
+          <div className="topbar">
+            <div className="legend">Videos</div>
+            <Button
+              size="sm" color="secondary" className="mb-2"
+              onClick={() => this.setState({videolistModalOpen: true})}
+            >Add video</Button>
+          </div>
+          <VideoListModal
+            isOpen={this.state.videolistModalOpen}
+            toggle={() => this.setState({videolistModalOpen: false})}
+            onOK={(videos) => console.log(videos)}
+          />
           {
             videos.map((video, index) => {
-              return <VideoItem key={index} {...video} onDeleteClick={() => console.log("Delete")} />
+              return <VideoItem 
+                        {...video}
+                        key={index}
+                        onDeleteClick={() => {
+                          const newVideos = videos.filter((vid) => vid !== video);
+                          setFieldValue("videos", newVideos);
+                        }}
+                        playlistName={name}
+                      />
             })
           }
         </FormGroup>

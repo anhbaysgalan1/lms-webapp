@@ -1,0 +1,69 @@
+.video-item {
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-flow: row;
+  cursor: pointer;
+  justify-content: space-between;
+  border-bottom: 0.5px solid #EEEEEE;
+}
+.video-item .content {
+  display: flex;
+  flex-flow: row;
+}
+
+.video-item .thumbnail {
+  height: 80px;
+  display: flex;
+  flex-flow: column;
+}
+
+.video-item .thumbnail img {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+}
+
+.video-item .thumbnail .duration {
+  position: relative;
+  padding: 1px 2px 1px 2px;
+  background-color: #000000b4;
+  color: #FFFFFF;
+  font-weight: bold;
+  top: -24px;
+  right: 4px;
+  align-self: flex-end;
+}
+
+.video-item .brief {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  margin-left: 16px;
+}
+
+.video-item .brief .title {
+  position: relative;
+  top: -5px;
+}
+
+.video-item .fas.fa-times {
+  position: relative;
+  top: 4px;
+}
+
+.video-item .controls {
+  color: rgb(168, 167, 167);
+}
+
+.video-item .controls i {
+  visibility: hidden;
+}
+
+.video-item:hover .controls i {
+  visibility: visible;
+}
+
+.video-item .duration {
+  font-size: 0.75rem;
+}

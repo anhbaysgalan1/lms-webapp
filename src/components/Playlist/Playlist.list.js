@@ -48,13 +48,13 @@ class PlayListList extends Component {
                   <td>{ index + 1 }</td>
                   <td>{ playlist.name }</td>
                   <td>{ playlist.videos.length } videos</td>
-                  <td>
+                  <td  onClick={(event) => event.stopPropagation()}>
                     <div className="delete">
                       <i className="text-danger fas fa-trash-alt"></i>
                     </div>
                   </td>
                 </tr>
-              );   
+              );
             })
           }
           </tbody>
