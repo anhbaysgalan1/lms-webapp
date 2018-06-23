@@ -1,3 +1,7 @@
+.clickable {
+  cursor: pointer;
+}
+
 #app {
   background-color: #e9ebee;
   display: flex;
@@ -14,4 +18,14 @@
   background: #FFFFFF;
   width: 100%;
   padding: 16px;
+}
+
+.admin-controls {
+  margin-bottom: 16px;
+  display: flex;
+  flex-flow: row-reverse;
+}
+
+.admin-title {
+  margin-bottom: 16px;
 }

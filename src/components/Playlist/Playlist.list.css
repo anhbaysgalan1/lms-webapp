@@ -1,0 +1,16 @@
+.playlist-item {
+  cursor: pointer;
+  border-radius: 16px;
+}
+
+.playlist-item:hover {
+  background-color: #a6acc2;
+}
+
+.playlist-item .delete {
+  visibility: hidden;
+}
+
+.playlist-item:hover .delete {
+  visibility: visible;
+}
