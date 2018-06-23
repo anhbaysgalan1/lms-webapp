@@ -1,3 +1,5 @@
 #app {
   background-color: #e9ebee;
+  display: flex;
+  flex-flow: row;
 }

@@ -1,1 +1,1 @@
-export const ROUTE_ADMIN_PLAYLIST = "playlist";
+export const ROUTE_ADMIN_PLAYLIST = "/playlist";
