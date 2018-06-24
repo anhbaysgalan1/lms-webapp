@@ -5,8 +5,12 @@
   flex-flow: row;
   cursor: pointer;
   justify-content: space-between;
+}
+
+.video-item:not(:last-child) {
   border-bottom: 0.5px solid #EEEEEE;
 }
+
 .video-item .content {
   display: flex;
   flex-flow: row;
@@ -20,7 +24,7 @@
 
 .video-item .thumbnail img {
   width: 120px;
-  height: 80px;
+  height: 70px;
   object-fit: cover;
 }
 
