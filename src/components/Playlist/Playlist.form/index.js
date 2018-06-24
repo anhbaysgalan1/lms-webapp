@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import  { Formik } from 'formik';
 import { Form, FormGroup, Input, Button } from 'reactstrap';
 
-import { withRouter } from 'react-router-dom';
-
 import './index.css';
 import VideoItem from './VideoItem';
 import VideoListModal from './VideoList.modal';

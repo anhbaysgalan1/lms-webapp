@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table, Button } from 'reactstrap';
+import { Button } from 'reactstrap';
 import _ from 'lodash';
 
 import { fetchPlaylists, deletePlaylist } from 'actions/playlist';
