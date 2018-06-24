@@ -18,9 +18,6 @@ class PlaylistNew extends Component {
   render() {
     return (
       <div>
-        <h4 className="admin-title ml-2">
-          Add playlist
-        </h4>
         <div className="round-panel">
           <PlaylistForm
             initialValues={{

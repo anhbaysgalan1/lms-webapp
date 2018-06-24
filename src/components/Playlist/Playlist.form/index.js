@@ -42,7 +42,6 @@ class PlaylistForm extends Component {
     return (
       <Form onSubmit={handleSubmit} className="playlist-form">
         <FormGroup>
-          <legend>Name</legend>
           <Input
             type='text'
             name='name'
@@ -55,9 +54,8 @@ class PlaylistForm extends Component {
         </FormGroup>
         <FormGroup className="videos">
           <div className="topbar">
-            <div className="legend">Videos</div>
             <Button
-              size="sm" color="secondary" className="mb-2"
+              size="sm" color="secondary"
               onClick={() => this.setState({videolistModalOpen: true})}
             >Add video</Button>
           </div>

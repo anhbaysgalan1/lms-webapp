@@ -32,9 +32,6 @@ class PlaylistDetail extends Component {
     if(!this.state.playlist) return <div>Loading...</div>
     return (
       <div>
-        <h4 className="admin-title ml-2">
-          Playlist detail
-        </h4>
         <div className="round-panel">
           <PlaylistForm
             initialValues={this.state.playlist}

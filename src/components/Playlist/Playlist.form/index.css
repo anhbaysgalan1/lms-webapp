@@ -6,6 +6,6 @@
 .playlist-form .topbar {
   display: flex;
   flex-flow: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin-bottom: 16px;
 }
