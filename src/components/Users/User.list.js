@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { Button, } from 'reactstrap';
 import _ from 'lodash';
 
-import { fetchUsers, updateUser ,deleteUser} from "actions/users";
+import { fetchUsers, deleteUser} from "actions/user";
 import { openPopup } from 'actions/popup';
 import { ROUTE_ADMIN_USER_NEW, ROUTE_ADMIN_USER_DETAIL } from "../routes";
 
-import "./users.list.css";
+import "./User.list.css";
 
-class UsersList extends Component {
+class UserList extends Component {
   componentWillMount(){
     if(!this.props.usersReducer) {
       this.props.fetchUsers();
@@ -91,7 +91,7 @@ const actions = {
   openPopup
 }
 
-export default connect(mapReducerProps, actions)(UsersList);
+export default connect(mapReducerProps, actions)(UserList);
 
 
 

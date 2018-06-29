@@ -1,7 +1,7 @@
-export const FETCH_USERS = "Fetch users";
-export const ADD_USERS = "Add users";
-export const UPDATE_USER_ROLE = "Update user role";
-export const DELETE_USERS = "Delete users";
+export const FETCH_USER = "Fetch user";
+export const ADD_USER = "Add user";
+export const UPDATE_USER = "Update user";
+export const DELETE_USER = "Delete user";
 
 export const dummyUsers = [
   {
@@ -43,28 +43,28 @@ export const dummyUsers = [
 
 export function fetchUsers(){
   return {
-    type: FETCH_USERS,
+    type: FETCH_USER,
     payload: dummyUsers
   }
 }
 
-export function updateUserRole(user){
+export function updateUser(user){
   return {
-    type: UPDATE_USER_ROLE,
+    type: UPDATE_USER,
     payload: user
   }
 }
 
 export function addUser(user) {
   return {
-    type: ADD_USERS,
+    type: ADD_USER,
     playload: user
   }
 }
 
 export function deleteUser(user) {
   return {
-    type: DELETE_USERS,
+    type: DELETE_USER,
     payload: user
   }
 }

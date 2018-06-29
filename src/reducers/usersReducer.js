@@ -1,24 +1,19 @@
-import {FETCH_USERS, UPDATE_USER_ROLE ,ADD_USERS, DELETE_USERS} from "../actions/users";
+import { FETCH_USER, UPDATE_USER ,ADD_USER, DELETE_USER } from "../actions/user";
 import _ from "lodash";
 
 export default function(state = null, action){
   switch(action.type) {
-    case FETCH_USERS:
+    case FETCH_USER:
       return _.mapKeys(action.payload, "_id");
-    case UPDATE_USER_ROLE:
+    case UPDATE_USER:
+    case ADD_USER:
       return {
         ...state,
-        [action.payload._id] : action.payload
+        [action.payload._id]: action.payload
       };
-    case ADD_USERS:
-      return {
-        ...state,
-        [action.payload._id] : action.payload
-      };
-    case DELETE_USERS:
+    case DELETE_USER:
       return _.omit(state, [action.payload._id]);
     default:
       return state;
-
-    }  
+  }  
 }
