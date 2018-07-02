@@ -12,29 +12,29 @@ export const getDataFromApi = ()=>{
 export const classroomlist = [
     {
         _id: 1,
-        name: 'C4E',
-        course: 14,
+        course: 'C4E',
+        _class: 14,
         teachers: ["Huỳnh Tuấn Anh", "Nguyễn Quang Huy"],
         member : []
     },
     {
         _id: 2,
-        name: 'C4E',
-        course: 18,
+        course: 'C4E',
+        _class: 18,
         teachers: [],
         member : []
     },
     { 
         _id: 3,
-        name: 'CI',
-        course: 11,
+        course: 'CI',
+        _class: 11,
         teachers: [],
         members : []
     },
     {
         _id: 4,
-        name: 'Web',
-        course: 11,
+        course: 'Web',
+        _class: 11,
         teachers: [],
         members : []
     },

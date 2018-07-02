@@ -25,10 +25,10 @@ class ClassroomNew extends Component{
 
         return <div><ClassroomForm 
         initialValues = {{
-            name_class : "",
+            _id: ID_form,
             course : "",
-            id_form: ID_form,
-            teacher: [],
+            _class : "",
+            teachers: [],
             member: []
         }}
         data_name_course = {par_data}

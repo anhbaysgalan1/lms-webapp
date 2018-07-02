@@ -23,8 +23,8 @@ class ClassroomForm extends Component {
 
   validate(values) {
     const errors = {};
-    if (!values.name_class){
-        errors.name_class = "Name is required!"
+    if (!values._class){
+        errors._class = "Name is required!"
     }
     if (values.course === ""){
       errors.course = "Choose Your Course!"
@@ -35,7 +35,7 @@ class ClassroomForm extends Component {
   
   renderOption(){
     const data_obj = this.props.data_name_course;
-    const filter = _.mapKeys(data_obj,"name");
+    const filter = _.mapKeys(data_obj,"course");
     // console.log(filter);
     const list_data = Object.keys(filter);
     return (
@@ -62,8 +62,9 @@ class ClassroomForm extends Component {
       isSubmitting,
     } = formProps;
 
+    //Values in here must be like initialValues in Component New!!
     const {
-        name_class,course,id_form
+        _class,course,_id
       } = values;
       
     let _flag = true
@@ -82,7 +83,7 @@ class ClassroomForm extends Component {
         onChange={handleChange}
         invalid={touched.course && !!errors.course}
       >
-      <option value="">Choose...</option> 
+      <option key="0"  value="">Choose...</option> 
       {this.renderOption()}
       </Input>
       <div className="text-danger">{touched.course ? errors.course : ""}</div>
@@ -94,14 +95,14 @@ class ClassroomForm extends Component {
       <Label>Class</Label>
       <Input
         type='number'
-        name='name_class'
+        name='_class'
         onBlur={handleBlur}
         onChange={handleChange}
-        value={name_class}
-        invalid={touched.name_class && !!errors.name_class}
+        value={_class}
+        invalid={touched._class && !!errors._class}
       >
       </Input>
-      <div className="text-danger">{touched.name_class ? errors.name_class : ""}</div>
+      <div className="text-danger">{touched._class ? errors._class : ""}</div>
     </FormGroup>
     <Button>Send Nude</Button>
     </Form>);

@@ -45,8 +45,8 @@ class ClassRoomList extends Component{
                 onClick={() => this.props.history.push(`${ROUTE_ADMIN_CLASSROOM_DETAIL}/${_classroom._id}`)}
               >
                 <div className="no">{ index + 1 }</div>
-                <div className="name">{ _classroom.name }{_classroom.course}</div>
-                {/* <div className="name2">{_classroom.teachers.length} Teachers</div> */}
+                <div className="name">{ _classroom.course }{_classroom._class}</div>
+                <div className="name2">{_classroom.teachers.length} Teachers</div>
                 <div className="video-count"></div>
                 <div className="controls" 
                     onClick={(event) => {
