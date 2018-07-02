@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 
 //action
 import {fetchClassroom_withID} from '../../networks/classroom';
+import Axios from 'axios';
 
 class ClassroomDetail extends Component {
     constructor(props){
@@ -14,13 +15,14 @@ class ClassroomDetail extends Component {
     }
     async componentWillMount(){
         const classID = this.props.match.params.id;
-        const fetch = await fetchClassroom_withID(classID)
+        const fetch = fetchClassroom_withID(classID)
         // console.log(fetch);
+        // console.log(test_axios.data);
         this.setState({_class : fetch})
     }
     
     render(){
-        return <div>NameClass - {this.state._class.name}{this.state._class.course}</div>
+        return <div>NameClass</div>
     }
 }
 

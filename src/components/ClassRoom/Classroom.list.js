@@ -46,7 +46,7 @@ class ClassRoomList extends Component{
               >
                 <div className="no">{ index + 1 }</div>
                 <div className="name">{ _classroom.name }{_classroom.course}</div>
-                <div className="name2">{_classroom.teachers.length} Teachers</div>
+                {/* <div className="name2">{_classroom.teachers.length} Teachers</div> */}
                 <div className="video-count"></div>
                 <div className="controls" 
                     onClick={(event) => {
