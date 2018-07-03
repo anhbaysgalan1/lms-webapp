@@ -18,6 +18,8 @@ class ClassroomDetail extends Component {
         const fetch = fetchClassroom_withID(classID)
         // console.log(fetch);
         // console.log(test_axios.data);
+        console.log(fetch);
+        
         this.setState({_class : fetch})
     }
     
