@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import  { Formik } from 'formik';
-import {Form, FormGroup, Label, Input, Button} from 'reactstrap';
+import { Formik } from 'formik';
+import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { validateEmail } from 'utils';
 
-class UserForm extends Component {
+class UserDetailForm extends Component {
   constructor(props) {
     super(props);
     this.validate = this.validate.bind(this);
@@ -21,9 +21,6 @@ class UserForm extends Component {
     else if (!validateEmail(values.email)) {
       errors.email = "Email is not valid";
     }
-    if (!values.password) {
-      errors.password = "Password is required";
-    }
     return errors;
   }
 
@@ -37,25 +34,25 @@ class UserForm extends Component {
       handleSubmit,
       setFieldValue,
     } = formProps;
-    
+
     const {
-      username, email, password, role
+      username, email, role
     } = values;
-    
+
     return (
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <Label> Username </Label>
           <Input
-          name="username" 
-          onChange={handleChange} 
-          onBlur={handleBlur}
-          invalid={touched.username && !!errors.username}
-          value={username}
+            name="username"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            invalid={touched.username && !!errors.username}
+            value={username}
           />
           <div className="text-danger"> {touched.username ? errors.username : ""} </div>
         </FormGroup>
-      <FormGroup>
+        <FormGroup>
           <Label>Email</Label>
           <Input
             type='text'
@@ -68,19 +65,7 @@ class UserForm extends Component {
           <div className="text-danger">{touched.email ? errors.email : ""}</div>
         </FormGroup>
 
-        <FormGroup>
-          <Label>Password</Label>
-          <Input
-            type='password'
-            name='password'
-            value={password}
-            onBlur={handleBlur}
-            invalid={touched.password && !!errors.password}
-            onChange={handleChange}
-          />
-          <div className="text-danger">{touched.password ? errors.password : ""}</div>
-        </FormGroup>
-        
+       
         <FormGroup className="d-flex">
           <FormGroup check className="mr-2">
             <Label check>
@@ -95,7 +80,7 @@ class UserForm extends Component {
           <FormGroup check>
             <Label check>
               <Input type="radio" checked={role === 1} onChange={event => {
-                if(event.target.value === "on") {
+                if (event.target.value === "on") {
                   setFieldValue("role", 1);
                 }
               }} />{' '}
@@ -104,10 +89,10 @@ class UserForm extends Component {
           </FormGroup>
         </FormGroup>
         <div className="d-flex justify-content-end">
-          <Button 
-            onClick={this.props.onCancel} 
-            className="mx-1" 
-            color="secondary"> Cancel 
+          <Button
+            onClick={this.props.onCancel}
+            className="mx-1"
+            color="secondary"> Cancel
           </Button>
           <Button color="primary"> OK </Button>
         </div>
@@ -130,5 +115,5 @@ class UserForm extends Component {
   }
 }
 
-export default UserForm;
+export default UserDetailForm;
 

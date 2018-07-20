@@ -10,16 +10,22 @@ import { ROUTE_ADMIN_USER_NEW, ROUTE_ADMIN_USER_DETAIL } from "../routes";
 import "./User.list.css";
 
 class UserList extends Component {
+
   componentWillMount(){
     if(!this.props.usersReducer) {
       this.props.fetchUsers();
     }
   }
 
+  
+
   renderUsers() {
     const users = this.props.usersReducer;
-    if(!users) {return <div>Loading...</div>}
-
+    const role = ["student", "teacher"]
+    if(!users)
+    {
+      return <div>Loading...</div>
+    }
     return (
       <div className="round-panel">
         {
@@ -33,12 +39,12 @@ class UserList extends Component {
               <div className="no">{index + 1}</div>
               <div className="name"> {users.username} </div>
               <div className="name"> {users.email} </div>
-              <div className="user-role">{users.role}</div>
+              <div className="user-role">{role[users.role]}</div>
               <div className="controls"
                 onClick={(event) => {
                   event.stopPropagation();
                   this.props.openPopup(()=>{
-                    this.props.deleteUser(users)
+                    this.props.deleteUser(users._id)
                   }, null);
                 }}>
               <div className="delete">

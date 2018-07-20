@@ -16,7 +16,8 @@ class UserNew extends Component {
           initialValues={{
             username: "",
             email: "",
-            role: "student"
+            password: "",
+            role: 0
           }}
           onSubmit={this.onSubmit} 
           onCancel={this.props.history.goBack}

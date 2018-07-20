@@ -4,15 +4,21 @@ import _ from "lodash";
 export default function(state = null, action){
   switch(action.type) {
     case FETCH_USER:
-      return _.mapKeys(action.payload, "_id");
-    case UPDATE_USER:
+      return _.mapKeys(action.payload.data.data, "_id");
     case ADD_USER:
+    return {
+      
+        ...state,
+        [action.payload.data.data._id]: action.payload.data.data
+      };
+    case UPDATE_USER:
       return {
         ...state,
-        [action.payload._id]: action.payload
+        [action.payload.data.data._id]: action.payload.data.data
       };
     case DELETE_USER:
-      return _.omit(state, [action.payload._id]);
+      return _.omit(state, [action.payload.userId]);
+
     default:
       return state;
   }  

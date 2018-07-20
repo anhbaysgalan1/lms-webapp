@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { fetchUserById } from "../../networks/user";
 import { updateUser } from "actions/user";
-import UserForm from './User.form';
+import UserDetailForm from './User.detail.form';
   
   
 class UserDetail extends Component {
@@ -18,6 +18,7 @@ class UserDetail extends Component {
   componentWillMount() {
     const user = this.props.match.params.id;
     fetchUserById(user).then((user) => {
+      
       this.setState({
         user
       });
@@ -36,8 +37,8 @@ class UserDetail extends Component {
     return (
       <div>
         <div>
-          <UserForm 
-          initialValues={this.state.user}
+          <UserDetailForm 
+          initialValues={this.state.user.data.data}
           onSubmit={this.onSubmit}
           onCacel={this.props.history.goback}
           />
