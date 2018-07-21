@@ -1,11 +1,30 @@
 import { classroomlist } from "../actions/classroom";
-import { getDataFromApi} from "../actions/classroom";
+import axios from "axios";
+const link = "http://localhost:9000"
+
+
+export async function deleteClassroomPromise(obj_class){
+    const deleteFunc = axios.delete(`${link}/api/classrooms/${obj_class._id}`)
+    return {
+        classID :obj_class._id,
+        deleteFunc : await deleteFunc
+    }
+}
+
+export async function addClassroomPromise(obj_class){
+    let classAdd = await axios.post(`${link}/api/classrooms`,obj_class)
+    return classAdd
+}
+
+export async function fetchClass(){
+    let data_get = await axios.get(`${link}/api/classrooms`);
+    return data_get.data
+}
 
 export async function fetchClassroom_withID(id) {
-    const test = await getDataFromApi();
-    console.log(test.data);
-    const classrooms = await classroomlist.filter((_class) => {
-        return _class._id === id
-    })   
-    return classrooms[0];
+    let data_get = await axios.get(`${link}/api/classrooms/${id}`);
+    return data_get.data.data
 }
+
+
+

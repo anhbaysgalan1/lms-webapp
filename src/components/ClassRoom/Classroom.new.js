@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import ClassroomForm from './Classroom.form';
+import ClassroomForm from './Classroom.form/Classroom.form';
 import {fetchClassrooms,AddClassroom} from '../../actions/classroom';
+import {fetchCourse} from '../../networks/classcourse';
 import _ from 'lodash';
 
 
@@ -9,30 +10,35 @@ class ClassroomNew extends Component{
     constructor(props){
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
+        this.state = ({
+            option_courses : null
+        })
     }
-    componentWillMount(){
+    async componentWillMount(){
+        const fetchData = await fetchCourse()
         if (!this.props.classroomReducer){
             this.props.fetchClassrooms(); 
         }
+        this.setState({
+            option_courses: fetchData.data
+        })
     }
 
     render(){
-        const par_data = this.props.classroomReducer;
         // console.log("New Side");
         // console.log(Object.keys(par_data));
-        const ID_form = _.map(par_data).length + 1
-        console.log(ID_form);
 
-        return <div><ClassroomForm 
+        return <div>
+        <ClassroomForm 
         initialValues = {{
-            _id: ID_form,
             course : "",
             _class : "",
             teachers: [],
-            member: []
+            members: []
         }}
-        data_name_course = {par_data}
+        data_name_course = {this.state.option_courses}
         onSubmit={this.onSubmit}
+        onCancel={this.props.history.goBack}
         /> 
         </div>
     }

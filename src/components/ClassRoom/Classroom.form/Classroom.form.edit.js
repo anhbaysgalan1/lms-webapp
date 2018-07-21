@@ -1,24 +1,17 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
 import _ from 'lodash'
 import  { withFormik, Formik } from 'formik';
 import {Form, FormGroup, Label, Input, Button} from 'reactstrap';
+import {dummyUsers} from '../../../actions/user';
+import {RemoveDuplicate} from '../Methods';
+import ClassRoom_list_teacher from '../Classroom.form/Classroom.form.list.edit';
 
 
-
-
-class ClassroomForm extends Component {
+class ClassroomEditForm extends Component {
   constructor(props) {
     super(props);
     this.validate = this.validate.bind(this);
     this.renderForm = this.renderForm.bind(this);
-  }
-
-  checkDataNull(data){
-    if (data == null){
-        return false
-    }
-    else {return true}
   }
 
   validate(values) {
@@ -32,26 +25,28 @@ class ClassroomForm extends Component {
     return errors;
   }
 
-  
   renderOption(){
-    const data_obj = this.props.data_name_course;
-    const filter = _.mapKeys(data_obj,"course");
-    // console.log(filter);
-    const list_data = Object.keys(filter);
+    const list_data = this.props.data_name_course;
     return (
         list_data.map((el,i)=>{
             return ( 
-            <option value={el} key={i}>{el}</option>)
+            <option value={el.course} key={i}>{el.course}</option>)
         })
     )
   }
 
 
-    renderForm(formProps) {
-    // console.log("Form Side");
-    // console.log(this.props.data_name_course);
+  renderMember(){
+    const list_member_in_class = this.props.initialValues.members;
+  }
 
-
+  renderTeachers(){
+    const list_teachers_in_class = this.props.initialValues.teachers;
+    const list_member_not_in_class = RemoveDuplicate(dummyUsers,list_teachers_in_class);
+    return <ClassRoom_list_teacher list_teachers={list_member_not_in_class} list_teachers_exist = {list_teachers_in_class} />
+  }
+  
+  renderForm(formProps) {
     const {
       values,
       errors,
@@ -61,19 +56,13 @@ class ClassroomForm extends Component {
       handleSubmit,
       isSubmitting,
     } = formProps;
-
-    //Values in here must be like initialValues in Component New!!
     const {
-        _class,course,_id
-      } = values;
-      
-    let _flag = true
-
+         course, _class 
+    } = values;
+    
     return (
     <Form onSubmit={handleSubmit}>
-
-    {/* Course */}
-    <FormGroup>
+      <FormGroup>
       <Label>Course</Label>
       <Input
         type='select'
@@ -91,7 +80,7 @@ class ClassroomForm extends Component {
 
 
     {/* Class */}
-    <FormGroup>
+      <FormGroup>
       <Label>Class</Label>
       <Input
         type='number'
@@ -104,12 +93,24 @@ class ClassroomForm extends Component {
       </Input>
       <div className="text-danger">{touched._class ? errors._class : ""}</div>
     </FormGroup>
-    <Button>Send Nude</Button>
-    </Form>);
+
+    {/* Query List Users */}
+    {/* <div>{this.renderTeachers()}</div> */}
+    
+
+    {/* Button */}
+    <Button className="mx-1"
+      onClick = {this.props.onCancel}
+    >Back
+    </Button>
+
+    <Button className="btn btn-info">Submit</Button>
+    </Form>
+    );
   }
 
-//   onSubmit(values, {setSubmitting, setErrors}) {
-//   }
+  // onSubmit(values, {setSubmitting, setErrors}) {
+  // }
 
   render() {
     return (
@@ -123,5 +124,4 @@ class ClassroomForm extends Component {
   }
 }
 
-
-export default ClassroomForm;
+export default ClassroomEditForm;

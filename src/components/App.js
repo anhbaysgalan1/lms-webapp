@@ -5,8 +5,11 @@ import SideBar from './SideBar';
 import Playlist from './Playlist';
 import ClassRoom from './ClassRoom';
 import Popup from './Popup';
+import UsersList from './Users';
 
-import { ROUTE_ADMIN_PLAYLIST, ROUTE_ADMIN_CLASSROOM } from './routes';
+
+import { ROUTE_ADMIN_PLAYLIST,ROUTE_ADMIN_USER } from './routes';
+import {  ROUTE_ADMIN_CLASSROOM } from './routes';
 
 import './App.css';
 
@@ -23,6 +26,11 @@ class App extends Component {
                   image: <i className="fas fa-list-ul"></i>
                 },
                 {
+                  title: "Users",
+                  href: ROUTE_ADMIN_USER,
+                  image:<i className="fas fa-list-ul"></i>
+                },
+                {
                   title:"ClassRoom",
                   href: ROUTE_ADMIN_CLASSROOM,
                   image: <i className="fas fa-list-ul"></i>
@@ -35,10 +43,14 @@ class App extends Component {
                   path={ROUTE_ADMIN_PLAYLIST}
                   component={Playlist}
                 />
-
                 <Route
                 path={ROUTE_ADMIN_CLASSROOM}
                 component={ClassRoom} />
+
+                <Route
+                path={ROUTE_ADMIN_USER}
+                component={UsersList} />
+
               </Switch>
             </div>
           </div>

@@ -6,26 +6,44 @@ import _ from 'lodash';
 //action
 import {fetchClassrooms,deleteClassroom} from '../../actions/classroom';
 //route_path
-import {ROUTE_ADMIN_CLASSROOM,ROUTE_ADMIN_CLASSROOM_NEW, ROUTE_ADMIN_CLASSROOM_DETAIL, ROUTE_ADMIN_CLASSROOM_DETAIL_ID} from '../routes';
+import {ROUTE_ADMIN_CLASSROOM,ROUTE_ADMIN_CLASSROOM_NEW, ROUTE_ADMIN_CLASSROOM_DETAIL, ROUTE_ADMIN_CLASSROOM_DETAIL_ID, ROUTE_ADMIN_CLASSROOM_NEW_COURSE} from '../routes';
 
 import { openPopup } from '../../actions/popup';
 import './index.css'
 
 class ClassRoomList extends Component{
-    componentWillMount(){
-        if (!this.props.classroomReducer){
-            this.props.fetchClassrooms();
-        }
+    constructor(props){
+        super(props)
     }
+    componentWillMount(){
+        this.props.fetchClassrooms();
+    }
+    componentDidMount(){
+        this.props.fetchClassrooms();
+    }
+    renderAddCourse(){
+        return(
+        <Button
+              className="admin-btn mr-2 text-dark"
+              onClick={() => this.props.history.push(ROUTE_ADMIN_CLASSROOM_NEW_COURSE)}
+            >
+              <i className="fas fa-plus mr-1"></i> {'  '} Add Course
+        </Button>
+        )
+    }
+
     renderAdd(){
+        // console.log(this.props.classroomReducer);
         return (
         <div className="admin-controls">
             <Button
               className="admin-btn mr-2 text-dark"
               onClick={() => this.props.history.push(ROUTE_ADMIN_CLASSROOM_NEW)}
-            >
+            >  
               <i className="fas fa-plus mr-1"></i> {'  '} Add Class
             </Button>
+            {this.renderAddCourse()}
+            
         </div>
         );
     }
@@ -35,6 +53,7 @@ class ClassRoomList extends Component{
         if (!list_ClassRoom){
             return <div>Loading...</div>
         }
+
         return(<div className="round-panel_cls">
         {
           _.values(list_ClassRoom).map((_classroom, index) => {
@@ -46,7 +65,7 @@ class ClassRoomList extends Component{
               >
                 <div className="no">{ index + 1 }</div>
                 <div className="name">{ _classroom.course }{_classroom._class}</div>
-                <div className="name2">{_classroom.teachers.length} Teachers</div>
+                {/* <div className="name2">{_classroom.teachers.length} Teachers</div> */}
                 <div className="video-count"></div>
                 <div className="controls" 
                     onClick={(event) => {
@@ -65,13 +84,12 @@ class ClassRoomList extends Component{
     }
     
     render(){
-        return (
-            <div>
-                {this.renderAdd()}
-                {this.renderList()}
-            </div>
-        );
-             
+            return (
+                <div>
+                    {this.renderAdd()}
+                    {this.renderList()}
+                </div>
+            );
     }
 }
 

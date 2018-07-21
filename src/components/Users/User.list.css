@@ -1,0 +1,40 @@
+.users-item {
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.users-item:not(:last-child) {
+  border-bottom: 1px solid #EEEEEE
+}
+
+.users-item .no {
+  flex-basis: 10%;
+  max-width: 60px;
+}
+
+.users-item .name {
+  flex-basis: 40%;
+}
+
+.users-item .user-role {
+  flex-basis: 40%;
+}
+
+.users-item .controls {
+  flex-basis: 10%;
+}
+
+.actions:hover {
+  cursor: pointer;  
+}
+
+.users-item .delete {
+  visibility: hidden;
+}
+
+.users-item:hover .delete {
+  visibility: visible;
+}
