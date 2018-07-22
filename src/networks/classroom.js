@@ -3,6 +3,12 @@ import axios from "axios";
 const link = "http://localhost:9000"
 
 
+
+export async function updateClassroomPromise(obj_class){
+    const update = await axios.put(`${link}/api/classrooms/${obj_class._id}`,obj_class)
+    return update.data.data
+}
+
 export async function deleteClassroomPromise(obj_class){
     const deleteFunc = axios.delete(`${link}/api/classrooms/${obj_class._id}`)
     return {
@@ -13,7 +19,7 @@ export async function deleteClassroomPromise(obj_class){
 
 export async function addClassroomPromise(obj_class){
     let classAdd = await axios.post(`${link}/api/classrooms`,obj_class)
-    return classAdd
+    return classAdd.data.data
 }
 
 export async function fetchClass(){

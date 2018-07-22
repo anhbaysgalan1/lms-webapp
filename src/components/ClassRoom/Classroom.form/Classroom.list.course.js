@@ -6,9 +6,6 @@ import { openPopup } from '../../../actions/popup';
 import '../index.css'
   
 class ClassroomListCourse extends Component {
-  constructor(props){
-    super(props)
-  }
   componentWillMount(){
     if (!this.props.classcourseReducer){
       this.props.FetchCourseAction()

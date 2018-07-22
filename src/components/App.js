@@ -5,7 +5,6 @@ import SideBar from './SideBar';
 import Playlist from './Playlist';
 import ClassRoom from './ClassRoom';
 import Popup from './Popup';
-import UsersList from './Users';
 
 
 import { ROUTE_ADMIN_PLAYLIST,ROUTE_ADMIN_USER } from './routes';
@@ -47,9 +46,6 @@ class App extends Component {
                 path={ROUTE_ADMIN_CLASSROOM}
                 component={ClassRoom} />
 
-                <Route
-                path={ROUTE_ADMIN_USER}
-                component={UsersList} />
 
               </Switch>
             </div>

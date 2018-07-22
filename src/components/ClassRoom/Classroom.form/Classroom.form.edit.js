@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import _ from 'lodash'
 import  { withFormik, Formik } from 'formik';
 import {Form, FormGroup, Label, Input, Button} from 'reactstrap';
-import {dummyUsers} from '../../../actions/user';
 import {RemoveDuplicate} from '../Methods';
 import ClassRoom_list_teacher from '../Classroom.form/Classroom.form.list.edit';
 
@@ -40,11 +39,11 @@ class ClassroomEditForm extends Component {
     const list_member_in_class = this.props.initialValues.members;
   }
 
-  renderTeachers(){
-    const list_teachers_in_class = this.props.initialValues.teachers;
-    const list_member_not_in_class = RemoveDuplicate(dummyUsers,list_teachers_in_class);
-    return <ClassRoom_list_teacher list_teachers={list_member_not_in_class} list_teachers_exist = {list_teachers_in_class} />
-  }
+  // renderTeachers(){
+  //   const list_teachers_in_class = this.props.initialValues.teachers;
+  //   const list_member_not_in_class = RemoveDuplicate(dummyUsers,list_teachers_in_class);
+  //   return <ClassRoom_list_teacher list_teachers={list_member_not_in_class} list_teachers_exist = {list_teachers_in_class} />
+  // }
   
   renderForm(formProps) {
     const {

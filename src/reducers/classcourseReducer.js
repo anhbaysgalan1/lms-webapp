@@ -8,9 +8,12 @@ export default function(state = null,action){
             return  _.mapKeys(action.payload.data,"_id")
 
         case UPDATE_COURSE_CLASSROOM:
-        case ADD_COURSE_CLASSROOM:
-            console.log(action.payload);
+            return {
+                ...state,
+                [action.payload._id]: action.payload
+            };
             
+        case ADD_COURSE_CLASSROOM:
             return {
             ...state,
             [action.payload._id]: action.payload

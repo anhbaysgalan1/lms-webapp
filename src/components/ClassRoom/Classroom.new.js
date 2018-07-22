@@ -27,7 +27,9 @@ class ClassroomNew extends Component{
     render(){
         // console.log("New Side");
         // console.log(Object.keys(par_data));
-
+        if (!this.state.option_courses){
+            return <div>Loading...</div>
+        }
         return <div>
         <ClassroomForm 
         initialValues = {{

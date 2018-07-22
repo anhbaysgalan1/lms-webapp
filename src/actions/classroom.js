@@ -1,4 +1,4 @@
-import { AddCourse, fetchCourse, fetchClass,addClassroomPromise,deleteClassroomPromise} from '../networks/classroom'
+import { AddCourse, fetchCourse, fetchClass,addClassroomPromise,deleteClassroomPromise,updateClassroomPromise} from '../networks/classroom'
 
 export const FETCH_CLASSROOM_ID = "FETCH_CLASSROOM_ID";
 export const ADD_COURSE_CLASSROOM = "ADD_COURSE_CLASSROOM";
@@ -28,7 +28,7 @@ export function AddClassroom(obj_add){
 export function UpdateClassroom(_class){
     return {
         type: UPDATE_CLASSROOM,
-        payload: _class
+        payload: updateClassroomPromise(_class)
     }
 }
 

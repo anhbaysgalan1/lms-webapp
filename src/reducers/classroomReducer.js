@@ -9,10 +9,15 @@ export default function(state = null,action){
             return  _.mapKeys(action.payload.data,"_id")
 
         case UPDATE_CLASSROOM:
+            return {
+                ...state,
+                [action.payload._id]: action.payload
+            };
+            
         case ADD_CLASSROOM:
             return {
             ...state,
-            [action.payload.data.data._id]: action.payload.data.data
+            [action.payload._id]: action.payload
           };
         
         case DELETE_CLASSROOM:
