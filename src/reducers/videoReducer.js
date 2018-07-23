@@ -9,7 +9,7 @@ export default function(state = null, action){
     case ADD_VIDEO:
       return action.payload.data.data._id ? action.payload.data.data : {};
     case DELETE_VIDEO:
-      return state ? _.omit(state, [action.payload.video._id]) : {};
+      return state && action.payload._id ? _.omit(state, [action.payload._id]) : {};
     case FETCH_VIDEO_DETAIL:
       return action.payload.data.data._id ? action.payload.data.data : {};
     default:

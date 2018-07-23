@@ -7,10 +7,9 @@ export default function(state = null, action){
       return _.mapKeys(action.payload.data.data, "_id");
     case ADD_USER:
     return {
-      
-        ...state,
-        [action.payload.data.data._id]: action.payload.data.data
-      };
+        [action.payload.data.data._id]: action.payload.data.data,
+        ...state
+    };
     case UPDATE_USER:
       return {
         ...state,

@@ -39,13 +39,10 @@ export function addVideo(video) {
   };
 }
 
-export function deleteVideo(video) {
-  const request = axios.delete(`${API_VIDEOS}/${video._id}`);
+export async function deleteVideo(video) {
+  await axios.delete(`${API_VIDEOS}/${video._id}`);
   return {
     type: DELETE_VIDEO,
-    payload: {
-      request,
-      video
-    }
+    payload: video
   };
 }

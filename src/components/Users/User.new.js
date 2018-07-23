@@ -27,8 +27,9 @@ class UserNew extends Component {
   }
 
   onSubmit(user) {
-    this.props.addUser(user);
+    this.props.addUser(user).then(() => {
     this.props.history.goBack();
+    });
   }
 
 }
