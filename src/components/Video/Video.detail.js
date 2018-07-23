@@ -10,7 +10,7 @@ class VideoDetail extends Component {
     super(props);
 
     this.state = {
-      loading: true
+      isLoading: true
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -20,16 +20,15 @@ class VideoDetail extends Component {
     const videoId = this.props.match.params.id;
     this.props.fetchVideoDetail(videoId)
       .then(() => {
-        this.setState({loading: false});
+        this.setState({isLoading: false});
       })
       .catch(() => {
-        this.setState({loading: false});
+        this.setState({isLoading: false});
       });
   }
 
   onSubmit(video) {
-    this.setState({loading: true});
-    console.log(this.state)
+    this.setState({isLoading: true});
     this.props.updateVideo(video)
       .then(() => {
         this.props.history.goBack();
@@ -41,12 +40,12 @@ class VideoDetail extends Component {
 
   render() {
     const videoId = this.props.match.params.id;
-    if(this.state.loading) return <div>Loading...</div>
+    if(this.state.isLoading) return <div>Loading...</div>
     else return (
       <div>
         <div className="round-panel">
           <VideoForm
-            initialValues={this.props.videoReducer[videoId]}
+            initialValues={this.props.videoReducer}
             onSubmit={this.onSubmit}
             onCancel={this.props.history.goBack}
           />

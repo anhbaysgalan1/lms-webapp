@@ -37,18 +37,6 @@ class VideoForm extends Component {
     return (
       <Form onSubmit={handleSubmit} className="video-form">
         <FormGroup>
-          <Label for="videoId">Video Id <span className="text-danger">*</span></Label>
-          <Input
-            type='text'
-            name='videoId'
-            value={videoId}
-            invalid={touched.videoId && !!errors.videoId}
-            onBlur={handleBlur}
-            onChange={handleChange}
-          />
-          <div className="text-danger">{touched.videoId ? errors.videoId : ""}</div>
-        </FormGroup>
-        <FormGroup>
           <Label for="title">Video title</Label>
           <Input
             type='text'
@@ -71,6 +59,18 @@ class VideoForm extends Component {
             onChange={handleChange}
           />
           <div className="text-danger">{touched.description ? errors.description : ""}</div>
+        </FormGroup>
+        <FormGroup>
+          <Label for="videoId">Video Id <span className="text-danger">*</span></Label>
+          <Input
+            type='text'
+            name='videoId'
+            value={videoId}
+            invalid={touched.videoId && !!errors.videoId}
+            onBlur={handleBlur}
+            onChange={handleChange}
+          />
+          <div className="text-danger">{touched.videoId ? errors.videoId : ""}</div>
         </FormGroup>
         <div className="d-flex justify-content-end">
           <Button color="secondary" onClick={this.props.onCancel} >

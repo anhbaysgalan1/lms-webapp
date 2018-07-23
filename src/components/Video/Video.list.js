@@ -12,7 +12,8 @@ import './Video.list.css';
   
 class VideoList extends Component {
   componentWillMount() {
-    if(!this.props.videoReducer) {
+    const videos = this.props.videoReducer;
+    if(!videos || videos._id) {
       this.props.fetchVideos();
     }
   }
@@ -20,7 +21,7 @@ class VideoList extends Component {
   renderVideos() {
 
     const videos = this.props.videoReducer;
-    if(!videos) return <div>Loading...</div>
+    if(!videos || videos._id) return <div>Loading...</div>
     
     return (
       <div className="round-panel">
@@ -46,7 +47,7 @@ class VideoList extends Component {
                 <div className="no">{ index + 1 }</div>
                 <div className="title">{ video.title }</div>
                 <div className="description">{ video.description.slice(0, 50) }</div>
-                <div className="url"><Link to={`https://www.youtube.com/${ video.videoId }`} target="_blank">https://youtu.be/{ video.videoId }</Link></div>
+                <div className="url"><Link to={`https://youtu.be/${ video.videoId }`} target="_blank">https://youtu.be/{ video.videoId }</Link></div>
                 <div className="controls" 
                   onClick={(event) => {
                   event.stopPropagation();
