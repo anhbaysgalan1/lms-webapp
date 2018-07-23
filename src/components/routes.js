@@ -14,3 +14,7 @@ export const ROUTE_ADMIN_USER = "/user";
 export const ROUTE_ADMIN_USER_NEW = "/user/new";
 export const ROUTE_ADMIN_USER_DETAIL = "/user/detail";
 export const ROUTE_ADMIN_USER_DETAIL_ID = "/user/detail/:id";
+export const ROUTE_ADMIN_VIDEO = "/video";
+export const ROUTE_ADMIN_VIDEO_NEW = "/video/new";
+export const ROUTE_ADMIN_VIDEO_DETAIL = "/video/detail";
+export const ROUTE_ADMIN_VIDEO_DETAIL_ID = "/video/detail/:id";

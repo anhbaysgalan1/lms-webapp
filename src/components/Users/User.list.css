@@ -1,4 +1,4 @@
-.playlist-item {
+.users-item {
   cursor: pointer;
   font-size: 1rem;
   display: flex;
@@ -6,35 +6,35 @@
   padding-bottom: 8px;
 }
 
-.playlist-item:not(:last-child) {
+.users-item:not(:last-child) {
   border-bottom: 1px solid #EEEEEE
 }
 
-.playlist-item .no {
+.users-item .no {
   flex-basis: 10%;
   max-width: 60px;
 }
 
-.playlist-item .name {
+.users-item .name {
   flex-basis: 40%;
 }
 
-.playlist-item .video-count {
+.users-item .user-role {
   flex-basis: 40%;
 }
 
-.playlist-item .controls {
+.users-item .controls {
   flex-basis: 10%;
 }
 
-.playlist-item:hover {
+.actions:hover {
   cursor: pointer;  
 }
 
-.playlist-item .delete {
+.users-item .delete {
   visibility: hidden;
 }
 
-.playlist-item:hover .delete {
+.users-item:hover .delete {
   visibility: visible;
 }

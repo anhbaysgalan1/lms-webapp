@@ -14,7 +14,7 @@ class ClassroomNewCourse extends Component {
     onSubmit(course){
         // console.log(course);
         this.props.AddCourseAction(course)
-        // this.onCancel();
+        this.onCancel();
     }
     onCancel(){
         this.props.history.goBack()
