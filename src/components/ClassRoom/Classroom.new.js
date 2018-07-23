@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import ClassroomForm from './Classroom.form/Classroom.form';
 import {fetchClassrooms,AddClassroom} from '../../actions/classroom';
 import {fetchCourse} from '../../networks/classcourse';
-import _ from 'lodash';
 
 
 class ClassroomNew extends Component{

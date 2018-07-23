@@ -1,4 +1,3 @@
-import { classroomlist } from "../actions/classroom";
 import axios from "axios";
 const link = "http://localhost:9000"
 

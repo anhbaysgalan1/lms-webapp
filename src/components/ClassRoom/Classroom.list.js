@@ -6,15 +6,12 @@ import _ from 'lodash';
 //action
 import {fetchClassrooms,deleteClassroom} from '../../actions/classroom';
 //route_path
-import {ROUTE_ADMIN_CLASSROOM,ROUTE_ADMIN_CLASSROOM_NEW, ROUTE_ADMIN_CLASSROOM_DETAIL, ROUTE_ADMIN_CLASSROOM_DETAIL_ID, ROUTE_ADMIN_CLASSROOM_NEW_COURSE} from '../routes';
+import {ROUTE_ADMIN_CLASSROOM_NEW, ROUTE_ADMIN_CLASSROOM_DETAIL, ROUTE_ADMIN_CLASSROOM_NEW_COURSE} from '../routes';
 
 import { openPopup } from '../../actions/popup';
 import './index.css'
 
 class ClassRoomList extends Component{
-    constructor(props){
-        super(props)
-    }
     componentWillMount(){
         this.props.fetchClassrooms();
     }
