@@ -52,9 +52,9 @@ class ClassroomDetail extends Component {
     }
 
     onSubmit(_class){
-        console.log(_class);
+        // console.log(_class);
         this.props.UpdateClassroom(_class);
-        this.onCancel();
+        // this.onCancel();
     }
 
     onCancel(){

@@ -5,7 +5,11 @@ const link = "http://localhost:9000"
 
 
 export async function updateClassroomPromise(obj_class){
+    console.log(obj_class);
+    
     const update = await axios.put(`${link}/api/classrooms/${obj_class._id}`,obj_class)
+    console.log(obj_class);
+    
     return update.data.data
 }
 

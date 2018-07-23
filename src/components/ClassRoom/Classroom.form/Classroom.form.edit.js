@@ -56,8 +56,12 @@ class ClassroomEditForm extends Component {
       isSubmitting,
     } = formProps;
     const {
-         course, _class 
+         course, 
+         _class, 
+         teachers, 
+         members
     } = values;
+    console.log(values);
     
     return (
     <Form onSubmit={handleSubmit}>
