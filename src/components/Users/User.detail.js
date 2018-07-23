@@ -26,8 +26,9 @@ class UserDetail extends Component {
   }
 
   onSubmit(user) {
-    this.props.updateUser(user);
-    this.props.history.goBack();
+    this.props.updateUser(user).then(() => {
+      this.props.history.goBack();
+    });
   }
 
   render() {
