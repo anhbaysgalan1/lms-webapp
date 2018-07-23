@@ -39,8 +39,7 @@ class PlayListList extends Component {
                   event.stopPropagation();
                   this.props.openPopup(() => {
                     this.props.deletePlaylist(playlist)
-                  },
-                  null);
+                  },null);
                 }}>
                   <div className="delete">
                     <i className="text-dark fas fa-trash-alt"></i>

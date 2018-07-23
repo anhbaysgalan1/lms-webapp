@@ -1,0 +1,50 @@
+.classroom-item {
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  
+  .classroom-item:not(:last-child) {
+    border-bottom: 1px solid #EEEEEE
+  }
+  
+  .classroom-item .no {
+    flex-basis: 10%;
+    max-width: 60px;
+  }
+
+  .round-panel_cls {
+    background: #FFFFFF;
+    width: 100%;
+    padding: 16px;
+    border-radius: 8px;
+  }
+  
+  .classroom-item .name {
+    flex-basis: 40%;
+  }
+  .classroom-item .name2{
+    flex-basis: 20%;
+  }
+  
+  .classroom-item .video-count {
+    flex-basis: 40%;
+  }
+  
+  .classroom-item .controls {
+    flex-basis: 10%;
+  }
+  
+  .classroom-item:hover {
+    cursor: pointer;  
+  }
+  
+  .classroom-item .delete {
+    visibility: hidden;
+  }
+  
+  .classroom-item:hover .delete {
+    visibility: visible;
+  }

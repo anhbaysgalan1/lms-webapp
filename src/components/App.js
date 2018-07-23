@@ -3,10 +3,12 @@ import { withRouter, Switch, Route } from 'react-router-dom';
 
 import SideBar from './SideBar';
 import Playlist from './Playlist';
-import UsersList from './Users';
+import ClassRoom from './ClassRoom';
 import Popup from './Popup';
 
+
 import { ROUTE_ADMIN_PLAYLIST,ROUTE_ADMIN_USER } from './routes';
+import {  ROUTE_ADMIN_CLASSROOM } from './routes';
 
 import './App.css';
 
@@ -26,6 +28,11 @@ class App extends Component {
                   title: "Users",
                   href: ROUTE_ADMIN_USER,
                   image:<i className="fas fa-list-ul"></i>
+                },
+                {
+                  title:"ClassRoom",
+                  href: ROUTE_ADMIN_CLASSROOM,
+                  image: <i className="fas fa-list-ul"></i>
                 }
               ]}
             />
@@ -36,8 +43,10 @@ class App extends Component {
                   component={Playlist}
                 />
                 <Route
-                path={ROUTE_ADMIN_USER}
-                component={UsersList} />
+                path={ROUTE_ADMIN_CLASSROOM}
+                component={ClassRoom} />
+
+
               </Switch>
             </div>
           </div>
