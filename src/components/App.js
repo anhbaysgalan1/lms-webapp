@@ -3,6 +3,7 @@ import { withRouter, Switch, Route } from 'react-router-dom';
 
 import SideBar from './SideBar';
 import Playlist from './Playlist';
+import Users from './Users';
 import ClassRoom from './ClassRoom';
 import Popup from './Popup';
 
@@ -42,6 +43,11 @@ class App extends Component {
                   path={ROUTE_ADMIN_PLAYLIST}
                   component={Playlist}
                 />
+
+                <Route
+                path={ROUTE_ADMIN_USER}
+                component={Users} />
+
                 <Route
                 path={ROUTE_ADMIN_CLASSROOM}
                 component={ClassRoom} />
