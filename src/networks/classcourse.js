@@ -1,5 +1,5 @@
 import axios from "axios";
-const link = "http://localhost:9000"
+const link = "https://test-lms-server.herokuapp.com"
 
 
 export async function fetchCourse(){

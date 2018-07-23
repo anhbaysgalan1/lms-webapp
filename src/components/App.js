@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 
 import SideBar from './SideBar';
-import Playlist from './Playlist';
 import Users from './Users';
 import ClassRoom from './ClassRoom';
 import Popup from './Popup';
+import Video from './Video';
 
 
-import { ROUTE_ADMIN_PLAYLIST,ROUTE_ADMIN_USER } from './routes';
+import { ROUTE_ADMIN_VIDEO } from './routes';
+import { ROUTE_ADMIN_USER } from './routes';
 import {  ROUTE_ADMIN_CLASSROOM } from './routes';
+
 
 import './App.css';
 
@@ -21,8 +23,8 @@ class App extends Component {
             <SideBar
               items={[
                 {
-                  title: "Playlist",
-                  href: ROUTE_ADMIN_PLAYLIST,
+                  title: "Video",
+                  href: ROUTE_ADMIN_VIDEO,
                   image: <i className="fas fa-list-ul"></i>
                 },
                 {
@@ -40,8 +42,8 @@ class App extends Component {
             <div id="app-panel">
               <Switch>
                 <Route
-                  path={ROUTE_ADMIN_PLAYLIST}
-                  component={Playlist}
+                  path={ROUTE_ADMIN_VIDEO}
+                  component={Video}
                 />
 
                 <Route
