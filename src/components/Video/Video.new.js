@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { addPlaylist } from 'actions/playlist';
-import PlaylistForm from './Playlist.form'; 
+import { addVideo } from 'actions/video';
+import VideoForm from './Video.form'; 
   
-class PlaylistNew extends Component {
+class VideoNew extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
   }
   
-  onSubmit(playlist) {
-    this.props.addPlaylist(playlist);
+  onSubmit(video) {
+    this.props.addVideo(video);
     this.props.history.goBack();
   }
 
@@ -19,10 +19,11 @@ class PlaylistNew extends Component {
     return (
       <div>
         <div className="round-panel">
-          <PlaylistForm
+          <VideoForm
             initialValues={{
-              name: "",
-              videos: []
+              title: "",
+              description: "",
+              videoId: "",
             }}
             onSubmit={this.onSubmit}
             onCancel={this.props.history.goBack}
@@ -34,4 +35,4 @@ class PlaylistNew extends Component {
 }
   
   
-export default connect(null, {addPlaylist})(PlaylistNew);
+export default connect(null, {addVideo})(VideoNew);

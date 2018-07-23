@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import playlistReducer from './playlistReducer';
+import videoReducer from './videoReducer';
 import popupReducer from './popupReducer';
 
 export default combineReducers({
-  playlistReducer,
+  videoReducer,
   popupReducer
 });
