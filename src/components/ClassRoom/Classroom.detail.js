@@ -1,13 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {classroomReducer} from '../../reducers/classroomReducer';
 
 //action
 import {fetchClassrooms, UpdateClassroom} from '../../actions/classroom';
 import {fetchClassroom_withID} from '../../networks/classroom';
-import Axios from 'axios';
 import {fetchCourse} from '../../networks/classcourse';
-import _ from 'lodash';
 import ClassroomEditForm from './Classroom.form/Classroom.form.edit';
 
 

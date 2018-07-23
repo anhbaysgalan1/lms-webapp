@@ -1,4 +1,4 @@
-import { AddCourse, fetchCourse, fetchClass,addClassroomPromise,deleteClassroomPromise,updateClassroomPromise} from '../networks/classroom'
+import {fetchClass,addClassroomPromise,deleteClassroomPromise,updateClassroomPromise} from '../networks/classroom'
 
 export const FETCH_CLASSROOM_ID = "FETCH_CLASSROOM_ID";
 export const ADD_COURSE_CLASSROOM = "ADD_COURSE_CLASSROOM";

@@ -21,10 +21,6 @@ export default function(state = null,action){
         
         case DELETE_COURSE_CLASSROOM:
             return _.omit(state,[action.payload.courseID])
-
-        
-        case FETCH_COURSE_CLASSROOM: 
-            return  _.mapKeys(action.payload.data,"_id")
             
 
         default: 

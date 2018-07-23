@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import '../index.css'
-import {ROUTE_ADMIN_USER_DETAIL,ROUTE_ADMIN_CLASSROOM_NEW_COURSE} from '../../routes';
+import {ROUTE_ADMIN_USER_DETAIL} from '../../routes';
 import { withRouter } from 'react-router';
 
 class ClassRoom_list_teacher extends Component {
-    constructor(props) {
-        super(props);
-      }
-
     userDetail(path){
         this.props.history.push(path)
     }

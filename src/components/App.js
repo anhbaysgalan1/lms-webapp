@@ -45,8 +45,7 @@ class App extends Component {
                 <Route
                 path={ROUTE_ADMIN_CLASSROOM}
                 component={ClassRoom} />
-
-
+                
               </Switch>
             </div>
           </div>
