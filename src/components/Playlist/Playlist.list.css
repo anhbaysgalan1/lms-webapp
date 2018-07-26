@@ -1,0 +1,40 @@
+.playlist-item {
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.playlist-item:not(:last-child) {
+  border-bottom: 1px solid #EEEEEE
+}
+
+.playlist-item .no {
+  flex-basis: 10%;
+  max-width: 60px;
+}
+
+.playlist-item .name {
+  flex-basis: 40%;
+}
+
+.playlist-item .video-count {
+  flex-basis: 40%;
+}
+
+.playlist-item .controls {
+  flex-basis: 10%;
+}
+
+.playlist-item:hover {
+  cursor: pointer;  
+}
+
+.playlist-item .delete {
+  visibility: hidden;
+}
+
+.playlist-item:hover .delete {
+  visibility: visible;
+}

@@ -1,0 +1,11 @@
+.playlist-form .videos .detail {
+  display: flex;
+  flex-flow: row;
+}
+
+.playlist-form .topbar {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}

@@ -6,9 +6,10 @@ import Users from './Users';
 import ClassRoom from './ClassRoom';
 import Popup from './Popup';
 import Video from './Video';
+import Playlist from './Playlist';
 
 
-import { ROUTE_ADMIN_VIDEO } from './routes';
+import { ROUTE_ADMIN_VIDEO, ROUTE_ADMIN_PLAYLIST } from './routes';
 import { ROUTE_ADMIN_USER } from './routes';
 import {  ROUTE_ADMIN_CLASSROOM } from './routes';
 
@@ -36,6 +37,11 @@ class App extends Component {
                   title:"ClassRoom",
                   href: ROUTE_ADMIN_CLASSROOM,
                   image: <i className="fas fa-list-ul"></i>
+                },
+                {
+                  title:"Playlist",
+                  href: ROUTE_ADMIN_PLAYLIST,
+                  image: <i className="fas fa-list-ul"></i>
                 }
               ]}
             />
@@ -45,6 +51,10 @@ class App extends Component {
                   path={ROUTE_ADMIN_VIDEO}
                   component={Video}
                 />
+
+                <Route
+                path={ROUTE_ADMIN_PLAYLIST}
+                component={Playlist} />
 
                 <Route
                 path={ROUTE_ADMIN_USER}
