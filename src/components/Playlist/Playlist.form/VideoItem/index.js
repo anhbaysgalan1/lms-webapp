@@ -4,7 +4,7 @@ import './index.css';
 
 export default function(props) {
   const {
-    name,
+    title,
     youtubeId,
     onDeleteClick,
     duration,
@@ -22,12 +22,12 @@ export default function(props) {
         <div className="thumbnail">
           <img
             src={`https://i.ytimg.com/vi/${youtubeId}/mqdefault.jpg`}
-            alt={`${name}`}
+            alt={`${title}`}
           />
           <span className="duration">{duration}</span>
         </div>
         <div className="brief">
-          <h5 className="title">{ name }</h5>
+          <h5 className="title">{ title }</h5>
         </div>
       </div>
       {
@@ -36,7 +36,7 @@ export default function(props) {
           <i
             className="text-secondary fas fa-times clickable"
             onClick={onDeleteClick}
-            data-toggle="tooltip" data-placement="right" title={`Remove '${name}' from '${playlistName}'`}
+            data-toggle="tooltip" data-placement="right" title={`Remove '${title}' from '${playlistName}'`}
           />
         </div>
       }

@@ -38,9 +38,12 @@ class VideoListModal extends Component {
   }
 
   searchVideo(terms) {
-    this.setState({
-      videos: _.mapKeys(searchVideo(terms), "_id")
+    searchVideo(terms).then(resultList => {
+      this.setState({
+        videos: _.mapKeys(resultList, "_id")
+      })
     })
+    .catch(err => console.log(err));
   }
 
   renderBody() {
