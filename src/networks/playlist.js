@@ -3,13 +3,14 @@ import axios from 'axios';
 import { API_PLAYLIST } from 'statics/urls';
 import { fieldsNotEmpty  } from 'utils';
 
-export async function getPlaylists() {
-  const response = await axios.get(API_PLAYLIST);
-  if (fieldsNotEmpty(response, 'data.data.rows')){
-    return response.data.data.rows;
-  } else {
-    return [];
-  }
+export function getPlaylists() {
+  return axios.get(API_PLAYLIST).then(response => {
+    if (fieldsNotEmpty(response, 'data.success', 'data.data.rows')) {
+      return response.data.data.rows;
+    } else {
+      throw "Unsuccessfull or no data";
+    }
+  });
 }
 
 export function fetchPlaylist(id) {
