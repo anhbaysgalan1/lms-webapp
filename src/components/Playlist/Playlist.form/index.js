@@ -19,8 +19,8 @@ class PlaylistForm extends Component {
 
   validate(values) {
     const errors = {};
-    if(!values.name) {
-      errors.name = "Name is required";
+    if(!values.title) {
+      errors.title = "Title is required";
     }
     return errors;
   }
@@ -36,19 +36,19 @@ class PlaylistForm extends Component {
       setFieldValue
     } = formProps;
 
-    const {name, videos} = values;
+    const {title, videos} = values;
     return (
       <Form onSubmit={handleSubmit} className="playlist-form">
         <FormGroup>
           <Input
             type='text'
-            name='name'
-            value={name}
-            invalid={touched.name && !!errors.name}
+            name='title'
+            value={title}
+            invalid={touched.title && !!errors.title}
             onBlur={handleBlur}
             onChange={handleChange}
           />
-          <div className="text-danger">{touched.name ? errors.name : ""}</div>
+          <div className="text-danger">{touched.title ? errors.title : ""}</div>
         </FormGroup>
         <FormGroup className="videos">
           <div className="topbar">
@@ -71,7 +71,7 @@ class PlaylistForm extends Component {
                           const newVideos = videos.filter((vid) => vid !== video);
                           setFieldValue("videos", newVideos);
                         }}
-                        playlistName={name}
+                        playlistName={title}
                       />
             })
           }

@@ -32,7 +32,7 @@ class PlayListList extends Component {
                 onClick={() => this.props.history.push(`${ROUTE_ADMIN_PLAYLIST_DETAIL}/${playlist._id}`)}
               >
                 <div className="no">{ index + 1 }</div>
-                <div className="name">{ playlist.name }</div>
+                <div className="name">{ playlist.title }</div>
                 <div className="video-count">{ playlist.videos.length } videos</div>
                 <div className="controls" 
                   onClick={(event) => {
