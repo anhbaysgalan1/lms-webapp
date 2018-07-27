@@ -107,7 +107,7 @@ export const dummyPlaylist = [
 export function fetchPlaylists() {
   return {
     type: FETCH_PLAYLISTS,
-    payload: getPlaylists()
+    payload: getPlaylists
   }
 }
 
