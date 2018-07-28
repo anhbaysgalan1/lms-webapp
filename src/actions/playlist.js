@@ -1,4 +1,4 @@
-import { fetchPlaylistsPromise } from '../networks/playlist';
+import { fetchPlaylistsPromise, updatePlaylistPromise, deletePlaylistPromise, addPlaylistPromise, fetchPlaylistPromise } from '../networks/playlist';
 
 export const FETCH_PLAYLISTS = "Fetch playlists";
 export const UPDATE_PLAYLIST = "Update playlist";
@@ -114,20 +114,20 @@ export function fetchPlaylists() {
 export function updatePlaylist(playlist) {
   return {
     type: UPDATE_PLAYLIST,
-    payload: playlist
+    payload: updatePlaylistPromise
   };
 }
 
 export function addPlaylist(playlist) {
   return {
     type: ADD_PLAYLIST,
-    payload: playlist
+    payload: addPlaylistPromise
   };
 }
 
 export function deletePlaylist(playlist) {
   return {
     type: DELETE_PLAYLIST,
-    payload: playlist
+    payload: deletePlaylistPromise
   };
 }

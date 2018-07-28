@@ -1,4 +1,3 @@
-import { dummyPlaylist } from "../actions/playlist";
 import axios from 'axios';
 import { API_PLAYLIST } from 'statics/urls';
 import { fieldsNotEmpty  } from 'utils';
@@ -11,17 +10,40 @@ export function fetchPlaylistsPromise() {
       throw "Unsuccessfull or no data";
     }
   });
-} 
-
-export function fetchPlaylist(id) {
-  return new Promise((resolve, reject) => {
-    const playlist = dummyPlaylist.filter((playlist) => {
-      return playlist._id === id;
-    })[0];
-    resolve(playlist);
-  }); 
 }
 
-export function searchPlaylist(terms){
-  return dummyPlaylist;
+export function fetchPlaylistPromise (id) {
+  return axios.get(`${API_PLAYLIST}/${id}`)
+    .then(response => response.data)
+    .then(responseData => {
+      if (!fieldsNotEmpty(responseData, 'success', 'data')) {
+        throw "Not success or data is empty";
+      }
+
+      return responseData.data;
+    });
+}
+
+export function searchPlaylistPromise (terms) {
+  return axios.get(`${API_PLAYLIST}?q=${terms}`)
+    .then(response => response.data)
+    .then(responseData => {
+      if (!fieldsNotEmpty(responseData, 'success', 'data')) {
+        throw "Not success or data is empty";
+      }
+
+      return responseData.data;
+    });
+}
+
+export function updatePlaylistPromise (playlist) {
+  return axios.put(`${API_PLAYLIST}/${playlist._id}`, playlist)
+}
+
+export function deletePlaylistPromise (playlist) {
+  return axios.delete(`${API_PLAYLIST}/${playlist._id}`)
+}
+
+export function addPlaylistPromise (playlist) {
+  return axios.post(`${API_PLAYLIST}`, playlist)
 }
