@@ -3,13 +3,15 @@ import axios from 'axios';
 import { API_PLAYLIST } from 'statics/urls';
 import { fieldsNotEmpty  } from 'utils';
 
-export const getPlaylistsPromise = axios.get(API_PLAYLIST).then(response => {
-  if (fieldsNotEmpty(response, 'data.success', 'data.data')) {
-    return response.data.data;
-  } else {
-    throw "Unsuccessfull or no data";
-  }
-});
+export function fetchPlaylistsPromise() {
+  return axios.get(API_PLAYLIST).then(response => {
+    if (fieldsNotEmpty(response, 'data.success', 'data.data')) {
+      return response.data.data;
+    } else {
+      throw "Unsuccessfull or no data";
+    }
+  });
+}
 
 export function fetchPlaylistPromise (id) {
   return axios.get(`${API_PLAYLIST}/${id}`)
