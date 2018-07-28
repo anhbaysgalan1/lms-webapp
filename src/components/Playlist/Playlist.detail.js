@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchPlaylist } from '../../networks/playlist';
+import { fetchPlaylistPromise } from '../../networks/playlist';
 import { updatePlaylist } from 'actions/playlist';
 import PlaylistForm from './Playlist.form';
 
@@ -16,7 +16,7 @@ class PlaylistDetail extends Component {
 
   componentWillMount() {
     const playlistId = this.props.match.params.id;
-    fetchPlaylist(playlistId).then((playlist) => {
+    fetchPlaylistPromise(playlistId).then((playlist) => {
       this.setState({
         playlist
       });
