@@ -24,8 +24,23 @@ const RemoveDuplicate = (list1,list2)=>{
     return list_unique
 }
 
+const removeItem = (list,obj)=>{
+    const mapKey = _.mapKeys(list,"_id");
+    const AfterRemoveList = _.omit(mapKey,obj._id);
+    return _.map(AfterRemoveList)
+}
+
+const All_ID_IN_LIST = (list)=>{
+    const empty = []
+    _.map(list,el=>{
+        empty.push(el._id)
+    })
+    return empty
+}
 
 
 export {
-    RemoveDuplicate,
+    RemoveDuplicate,   
+    removeItem,
+    All_ID_IN_LIST
 }

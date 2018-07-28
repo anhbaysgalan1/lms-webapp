@@ -29,6 +29,10 @@
     flex-basis: 20%;
   }
   
+  .classroom-item .name3{
+    flex-basis: 40%;
+  }
+  
   .classroom-item .video-count {
     flex-basis: 40%;
   }

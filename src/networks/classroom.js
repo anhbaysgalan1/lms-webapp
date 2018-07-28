@@ -4,11 +4,7 @@ import {API_CLASSROOM} from '../statics/urls';
 
 
 export async function updateClassroomPromise(obj_class){
-    console.log(obj_class);
-    
     const update = await axios.put(`${API_CLASSROOM}/${obj_class._id}`,obj_class)
-    console.log(obj_class);
-    
     return update.data.data
 }
 

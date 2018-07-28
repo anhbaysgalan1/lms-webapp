@@ -5,7 +5,10 @@ import {connect} from 'react-redux';
 import {fetchClassrooms, UpdateClassroom} from '../../actions/classroom';
 import {fetchClassroom_withID} from '../../networks/classroom';
 import {fetchCourse} from '../../networks/classcourse';
+import {fetchListUser} from '../../networks/user';
 import ClassroomEditForm from './Classroom.form/Classroom.form.edit';
+import _ from 'lodash';
+import {removeItem, RemoveDuplicate, All_ID_IN_LIST} from './Methods';
 
 
 
@@ -15,9 +18,15 @@ class ClassroomDetail extends Component {
         this.state = ({
             _classSelected : null,
             option_course : null,
+            list_teachers: null,
+            list_teachers_not_in_class: null,
+            list_teachers_in_class: null,
+            objectChoose: null,
         })
         this.onSubmit = this.onSubmit.bind(this);
         this.onCancel = this.onCancel.bind(this);
+        this.clickGetData = this.clickGetData.bind(this);
+        this.removeData = this.removeData.bind(this);
     }
 
     async componentWillMount(){
@@ -25,11 +34,42 @@ class ClassroomDetail extends Component {
         const classID = this.props.match.params.id;
         const fetch = await fetchClassroom_withID(classID)
         const option = await fetchCourse();
+        const get_data = await fetchListUser();
         this.setState({
             _classSelected : fetch,
-            option_course : option.data
+            option_course : option.data,
+            list_teachers: get_data.data.data
+        })
+
+        const list_Remove_Duplicate = RemoveDuplicate(this.state._classSelected.teachers,this.state.list_teachers);
+        const list_teachers_not_in_class = []
+        _.map(list_Remove_Duplicate,el=>{
+            if (el.role === 1) {
+                list_teachers_not_in_class.push(el);
+            }
+        })
+        this.setState({
+            list_teachers_not_in_class : list_teachers_not_in_class,
+            list_teachers_in_class: fetch.teachers
         })
     }
+
+
+    clickGetData(obj){        
+        this.setState({
+            list_teachers_in_class: [...this.state.list_teachers_in_class,obj],
+            list_teachers_not_in_class: removeItem(this.state.list_teachers_not_in_class,obj)
+        })
+    }
+
+    removeData(obj){
+        console.log(obj);
+        this.setState({
+            list_teachers_not_in_class: [...this.state.list_teachers_not_in_class,obj],
+            list_teachers_in_class: removeItem(this.state.list_teachers_in_class,obj)
+        })
+    }
+
     
     render(){ 
         if (!this.state._classSelected){
@@ -44,14 +84,19 @@ class ClassroomDetail extends Component {
             data_name_course = {option_course}
             onSubmit={this.onSubmit}
             onCancel={this.onCancel}
+            list_teachers_in_class = {this.state.list_teachers_in_class}
+            list_teachers_not_in_class = {this.state.list_teachers_not_in_class}
+            clickGetData = {this.clickGetData}
+            removeData = {this.removeData}
         />
         )
     }
 
     onSubmit(_class){
-        // console.log(_class);
+        const allID = All_ID_IN_LIST(this.state.list_teachers_in_class);
+        _class.teachers = allID
         this.props.UpdateClassroom(_class);
-        // this.onCancel();
+        this.onCancel();
     }
 
     onCancel(){
