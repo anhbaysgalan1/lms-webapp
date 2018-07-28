@@ -3,17 +3,17 @@ import '../../index.css'
 import {ROUTE_ADMIN_USER_DETAIL} from '../../../routes';
 import { withRouter } from 'react-router';
 
-class ClassRoomlistteacher extends Component {
+class ClassRoomlistmember extends Component {
     constructor(props){
         super(props);
         this.state = {
-            list_teachers : this.props.list_teachers
+            list_member : this.props.list_member
         }
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.list_teachers !== this.props.list_teachers){
-            this.setState({list_teachers: nextProps.list_teachers})
+        if(nextProps.list_member !== this.props.list_member){
+            this.setState({list_member: nextProps.list_member})
         }
       }
 
@@ -21,14 +21,14 @@ class ClassRoomlistteacher extends Component {
         this.props.history.push(path)
     }
     renderList(){
-        let list_teachers = this.state.list_teachers;
-        if (!list_teachers){
+        let list_member = this.state.list_member;
+        if (!list_member){
             return <div>Loading...</div>
         }
 
         return (
-            <div className="round-panel_cls">Teachers In Class{
-            list_teachers.map((member,index)=>{
+            <div className="round-panel_cls">Members In Class{
+            list_member.map((member,index)=>{
                 return(            
                     <div 
                     className="classroom-item"
@@ -65,4 +65,4 @@ class ClassRoomlistteacher extends Component {
 }
   
   
-export default withRouter(ClassRoomlistteacher);
+export default withRouter(ClassRoomlistmember);

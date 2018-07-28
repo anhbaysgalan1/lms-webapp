@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import _ from 'lodash'
-import  { withFormik, Formik } from 'formik';
+import  { Formik } from 'formik';
 import {Form, FormGroup, Label, Input, Button} from 'reactstrap';
-import ClassRoom_list_teacher from '../Classroom.form/Classroom.AddTeachers_Members/Classroom.form.list.teachers';
-import ClassRoom_list_teacher_not_in from '../Classroom.form/Classroom.AddTeachers_Members/Classroom.form.list.teachers.not.in';
+import ClassRoomlistteacher from '../Classroom.form/Classroom.AddTeachers_Members/Classroom.form.list.teachers';
+import ClassRoomlistteachernotin from '../Classroom.form/Classroom.AddTeachers_Members/Classroom.form.list.teachers.not.in';
+import ClassRoomlistmember from '../Classroom.form/Classroom.AddTeachers_Members/Classroom.form.list.member';
+import ClassRoomlistmembernotin from '../Classroom.form/Classroom.AddTeachers_Members/Classroom.form.list.member.not.in';
 import { withRouter } from 'react-router';
 
 
@@ -14,8 +15,11 @@ class ClassroomEditForm extends Component {
     this.renderForm = this.renderForm.bind(this);
     this.state = {
       show_add : false,
+      show_add_mem: false,
       list_teachers_not_in_class : this.props.list_teachers_not_in_class,
       list_teachers_in_class : this.props.list_teachers_in_class,
+      list_member_in_class: this.props.list_member_in_class,
+      list_member_not_in_class: this.props.list_member_not_in_class,
     }
   }
 
@@ -31,6 +35,18 @@ class ClassroomEditForm extends Component {
         list_teachers_not_in_class: nextProps.list_teachers_not_in_class
       })
     }
+
+    if (nextProps.list_member_in_class !== this.props.list_member_in_class){
+      this.setState({
+        list_member_in_class: nextProps.list_member_in_class
+      })
+    }
+
+    if (nextProps.list_member_not_in_class !== this.props.list_member_not_in_class){
+      this.setState({
+        list_member_not_in_class: nextProps.list_member_not_in_class
+      })
+    }
   }
 
   buttonAdd(){
@@ -39,10 +55,22 @@ class ClassroomEditForm extends Component {
             className="admin-btn mr-2 text-dark"
             onClick={()=>{
               this.state.show_add ? this.setState({show_add : false}) : this.setState({show_add : true})
-              this.setState({test_test : 3})
             }}
           >
             <i className="fas fa-plus mr-1"></i> {this.state.show_add ? "Close" : "Add Teachers into Class"}
+      </Button>
+      )
+  }
+
+  buttonAddMem(){
+    return(
+      <Button
+            className="admin-btn mr-2 text-dark"
+            onClick={()=>{
+              this.state.show_add_mem ? this.setState({show_add_mem : false}) : this.setState({show_add_mem : true})
+            }}
+          >
+            <i className="fas fa-plus mr-1"></i> {this.state.show_add_mem ? "Close" : "Add Members into Class"}
       </Button>
       )
   }
@@ -69,16 +97,19 @@ class ClassroomEditForm extends Component {
   }
 
   renderTeachersNotInClass(){
-    return <ClassRoom_list_teacher_not_in list_teachers={this.state.list_teachers_not_in_class} clickGetData={this.props.clickGetData} />
+    return <ClassRoomlistteachernotin list_teachers={this.state.list_teachers_not_in_class} clickGetData={this.props.clickGetData} />
   }
 
   renderTeachers(){
-    return <ClassRoom_list_teacher list_teachers={this.state.list_teachers_in_class} removeData={this.props.removeData} />    
+    return <ClassRoomlistteacher list_teachers={this.state.list_teachers_in_class} removeData={this.props.removeData} />    
   }
 
+  renderMemberNotInClass(){
+    return <ClassRoomlistmembernotin list_member={this.state.list_member_not_in_class} clickGetData={this.props.clickGetData} />
+  }
 
   renderMember(){
-    const list_member_in_class = this.props.initialValues.members;
+    return <ClassRoomlistmember list_member={this.state.list_member_in_class} removeData={this.props.removeData} />
   }
   
   renderForm(formProps) {
@@ -89,14 +120,15 @@ class ClassroomEditForm extends Component {
       handleChange,
       handleBlur,
       handleSubmit,
-      isSubmitting,
+      // isSubmitting,
     } = formProps;
     const {
          course, 
          _class
     } = values;
 
-    if (!this.state.list_teachers_not_in_class || !this.state.list_teachers_in_class){
+    if (!this.state.list_teachers_not_in_class || !this.state.list_teachers_in_class ||
+        !this.state.list_member_in_class || !this.state.list_member_not_in_class){
         return <div>Loading...</div>
     }
     // this.setState({
@@ -143,7 +175,9 @@ class ClassroomEditForm extends Component {
     <div id="listTeachers" className="mb-3">{this.renderTeachers()}</div>
     <div id="listTeachersNotIn" className="mb-3" style={{display: this.state.show_add ? "block" : "none"}}>{this.renderTeachersNotInClass()}</div>
     
-
+    <div className="d-flex justify-content-end">{this.buttonAddMem()}</div>
+    <div className="mb-3">{this.renderMember()}</div>
+    <div className="mb-3" style={{display: this.state.show_add_mem ? "block" : "none"}}>{this.renderMemberNotInClass()}</div>
     {/* Button */}
     <Button className="mx-1"
       onClick = {this.props.onCancel}

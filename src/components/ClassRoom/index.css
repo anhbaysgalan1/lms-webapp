@@ -30,7 +30,8 @@
   }
   
   .classroom-item .name3{
-    flex-basis: 40%;
+    flex-basis: 10%;
+    margin-left: 4%;
   }
   
   .classroom-item .video-count {

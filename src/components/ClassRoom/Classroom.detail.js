@@ -21,6 +21,9 @@ class ClassroomDetail extends Component {
             list_teachers: null,
             list_teachers_not_in_class: null,
             list_teachers_in_class: null,
+            list_member: null,
+            list_member_in_class: null,
+            list_member_not_in_class: null,
             objectChoose: null,
         })
         this.onSubmit = this.onSubmit.bind(this);
@@ -38,36 +41,64 @@ class ClassroomDetail extends Component {
         this.setState({
             _classSelected : fetch,
             option_course : option.data,
-            list_teachers: get_data.data.data
+            list_teachers: get_data.data.data,
+            list_member: get_data.data.data,
         })
 
-        const list_Remove_Duplicate = RemoveDuplicate(this.state._classSelected.teachers,this.state.list_teachers);
+        const list_Remove_Duplicate_teachers = RemoveDuplicate(this.state._classSelected.teachers,this.state.list_teachers);
+        const list_Remove_Duplicate_mem = RemoveDuplicate(this.state._classSelected.members,this.state.list_member)
         const list_teachers_not_in_class = []
-        _.map(list_Remove_Duplicate,el=>{
+        const list_member_not_in_class = [] 
+        _.map(list_Remove_Duplicate_teachers,el=>{
             if (el.role === 1) {
                 list_teachers_not_in_class.push(el);
             }
         })
+        _.map(list_Remove_Duplicate_mem,el=>{
+            if (el.role === 0) {
+                list_member_not_in_class.push(el)
+            }
+        })
         this.setState({
             list_teachers_not_in_class : list_teachers_not_in_class,
-            list_teachers_in_class: fetch.teachers
+            list_teachers_in_class: fetch.teachers,
+
+            list_member_not_in_class: list_member_not_in_class,
+            list_member_in_class: fetch.members,
         })
     }
 
 
-    clickGetData(obj){        
-        this.setState({
-            list_teachers_in_class: [...this.state.list_teachers_in_class,obj],
-            list_teachers_not_in_class: removeItem(this.state.list_teachers_not_in_class,obj)
-        })
+    clickGetData(obj){      
+        if (obj.role === 1){
+            this.setState({
+                list_teachers_in_class: [...this.state.list_teachers_in_class,obj],
+                list_teachers_not_in_class: removeItem(this.state.list_teachers_not_in_class,obj)
+            })
+        }
+        else if (obj.role === 0 ){
+            this.setState({
+                list_member_in_class: [...this.state.list_member_in_class,obj],
+                list_member_not_in_class: removeItem(this.state.list_member_not_in_class,obj)
+            })
+        }
+        
     }
 
     removeData(obj){
-        console.log(obj);
-        this.setState({
-            list_teachers_not_in_class: [...this.state.list_teachers_not_in_class,obj],
-            list_teachers_in_class: removeItem(this.state.list_teachers_in_class,obj)
-        })
+        if (obj.role === 1){
+            this.setState({
+                list_teachers_not_in_class: [...this.state.list_teachers_not_in_class,obj],
+                list_teachers_in_class: removeItem(this.state.list_teachers_in_class,obj)
+            })
+        }
+        else if (obj.role === 0){
+            this.setState({
+                list_member_not_in_class: [...this.state.list_member_not_in_class,obj],
+                list_member_in_class: removeItem(this.state.list_member_in_class,obj)
+            })
+        }
+        
     }
 
     
@@ -84,8 +115,13 @@ class ClassroomDetail extends Component {
             data_name_course = {option_course}
             onSubmit={this.onSubmit}
             onCancel={this.onCancel}
+
             list_teachers_in_class = {this.state.list_teachers_in_class}
             list_teachers_not_in_class = {this.state.list_teachers_not_in_class}
+
+            list_member_in_class = {this.state.list_member_in_class}
+            list_member_not_in_class = {this.state.list_member_not_in_class}
+
             clickGetData = {this.clickGetData}
             removeData = {this.removeData}
         />
@@ -93,8 +129,10 @@ class ClassroomDetail extends Component {
     }
 
     onSubmit(_class){
-        const allID = All_ID_IN_LIST(this.state.list_teachers_in_class);
-        _class.teachers = allID
+        const allID_Teachers = All_ID_IN_LIST(this.state.list_teachers_in_class);
+        const allID_Members = All_ID_IN_LIST(this.state.list_member_in_class);
+        _class.teachers = allID_Teachers;
+        _class.members = allID_Members;
         this.props.UpdateClassroom(_class);
         this.onCancel();
     }

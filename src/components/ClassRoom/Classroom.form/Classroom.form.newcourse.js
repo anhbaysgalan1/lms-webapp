@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import  { withFormik, Formik } from 'formik';
+import  { Formik } from 'formik';
 import {Form, FormGroup, Label, Input, Button} from 'reactstrap';
 
 
@@ -26,7 +26,7 @@ class ClassroomFormNewCourse extends Component {
       handleChange,
       handleBlur,
       handleSubmit,
-      isSubmitting,
+      // isSubmitting,
     } = formProps;
 
     const {
