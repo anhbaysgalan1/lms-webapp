@@ -42,6 +42,13 @@ export function updatePlaylistPromise (playlist) {
 
 export function deletePlaylistPromise (playlist) {
   return axios.delete(`${API_PLAYLIST}/${playlist._id}`)
+              .then(response => {
+                if (response.status == 204) {
+                  return playlist;
+                } else {
+                  throw "Deletion was unsuccessful";
+                }
+              });
 }
 
 export function addPlaylistPromise (playlist) {
