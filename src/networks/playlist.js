@@ -46,4 +46,12 @@ export function deletePlaylistPromise (playlist) {
 
 export function addPlaylistPromise (playlist) {
   return axios.post(`${API_PLAYLIST}`, playlist)
+    .then(response => response.data)
+    .then(responseData => {
+      if (!fieldsNotEmpty(responseData, 'success', 'data')) {
+        throw "Not success or data is empty";
+      }
+
+      return responseData.data;
+    });
 }

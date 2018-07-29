@@ -29,7 +29,7 @@ class PlayListList extends Component {
               <div 
                 className="playlist-item"
                 key={playlist._id}
-                onClick={() => this.props.history.push(`${ROUTE_ADMIN_PLAYLIST_DETAIL}/${playlist.id}`)}
+                onClick={() => this.props.history.push(`${ROUTE_ADMIN_PLAYLIST_DETAIL}/${playlist._id}`)}
               >
                 <div className="no">{ index + 1 }</div>
                 <div className="name">{ playlist.title }</div>

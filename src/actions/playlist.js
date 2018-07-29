@@ -114,20 +114,20 @@ export function fetchPlaylists() {
 export function updatePlaylist(playlist) {
   return {
     type: UPDATE_PLAYLIST,
-    payload: updatePlaylistPromise
+    payload: updatePlaylistPromise(playlist)
   };
 }
 
 export function addPlaylist(playlist) {
   return {
     type: ADD_PLAYLIST,
-    payload: addPlaylistPromise
+    payload: addPlaylistPromise(playlist)
   };
 }
 
 export function deletePlaylist(playlist) {
   return {
     type: DELETE_PLAYLIST,
-    payload: deletePlaylistPromise
+    payload: deletePlaylistPromise(playlist)
   };
 }

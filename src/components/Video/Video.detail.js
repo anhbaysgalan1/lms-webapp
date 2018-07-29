@@ -17,7 +17,7 @@ class VideoDetail extends Component {
   }
 
   componentWillMount() {
-    const videoId = this.props.match.params.id;
+    const videoId = this.props.match.params._id;
     this.props.fetchVideoDetail(videoId)
       .then(() => {
         this.setState({isLoading: false});
@@ -39,7 +39,7 @@ class VideoDetail extends Component {
   }
 
   render() {
-    const videoId = this.props.match.params.id;
+    const videoId = this.props.match.params._id;
     if(this.state.isLoading) return <div>Loading...</div>
     else return (
       <div>
