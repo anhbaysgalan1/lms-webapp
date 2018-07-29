@@ -21,7 +21,7 @@ class PlaylistNew extends Component {
         <div className="round-panel">
           <PlaylistForm
             initialValues={{
-              name: "",
+              title: "",
               videos: []
             }}
             onSubmit={this.onSubmit}
