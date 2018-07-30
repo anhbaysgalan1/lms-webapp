@@ -22,5 +22,8 @@
     "build": "cross-env NODE_PATH=src react-scripts build",
     "test": "cross-env NODE_PATH=src react-scripts test --env=jsdom",
     "eject": "cross-env NODE_PATH=src react-scripts eject"
+  },
+  "devDependencies": {
+    "eslint": "^5.2.0"
   }
 }
