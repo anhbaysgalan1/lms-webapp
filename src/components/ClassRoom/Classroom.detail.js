@@ -82,7 +82,6 @@ class ClassroomDetail extends Component {
                 list_member_not_in_class: removeItem(this.state.list_member_not_in_class,obj)
             })
         }
-        
     }
 
     removeData(obj){
