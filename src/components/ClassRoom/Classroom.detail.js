@@ -8,7 +8,7 @@ import {fetchCourse} from '../../networks/classcourse';
 import {fetchListUser} from '../../networks/user';
 import ClassroomEditForm from './Classroom.form/Classroom.form.edit';
 import _ from 'lodash';
-import {removeItem, RemoveDuplicate, allIDinList} from './Methods';
+import {removeItem, RemoveDuplicate, allIDinList} from '../../utils';
 
 
 
