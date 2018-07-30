@@ -13,10 +13,19 @@ import './index.css'
 
 class ClassRoomList extends Component{
     componentWillMount(){
-        this.props.fetchClassrooms();
+        try {
+            this.props.fetchClassrooms();
+        } catch (error) {
+            console.log(error);
+        }
+        
     }
     componentDidMount(){
-        this.props.fetchClassrooms();
+        try {
+            this.props.fetchClassrooms();
+        } catch (error) {
+            console.log(error);
+        }
     }
     renderAddCourse(){
         return(

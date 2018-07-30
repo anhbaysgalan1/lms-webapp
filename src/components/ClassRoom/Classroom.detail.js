@@ -25,6 +25,7 @@ class ClassroomDetail extends Component {
             list_member_in_class: null,
             list_member_not_in_class: null,
             objectChoose: null,
+            isSubmitting: false,
         })
         this.onSubmit = this.onSubmit.bind(this);
         this.onCancel = this.onCancel.bind(this);
@@ -33,39 +34,43 @@ class ClassroomDetail extends Component {
     }
 
     async componentWillMount(){
-        this.props.fetchClassrooms();
-        const classID = this.props.match.params.id;
-        const fetch = await fetchClassroom_withID(classID)
-        const option = await fetchCourse();
-        const get_data = await fetchListUser();
-        this.setState({
-            _classSelected : fetch,
-            option_course : option.data,
-            list_teachers: get_data.data.data,
-            list_member: get_data.data.data,
-        })
+        try {
+            this.props.fetchClassrooms();
+            const classID = this.props.match.params.id;
+            const fetch = await fetchClassroom_withID(classID)
+            const option = await fetchCourse();
+            const get_data = await fetchListUser();
+            this.setState({
+                _classSelected : fetch,
+                option_course : option.data,
+                list_teachers: get_data.data.data,
+                list_member: get_data.data.data,
+            })
 
-        const list_Remove_Duplicate_teachers = RemoveDuplicate(this.state._classSelected.teachers,this.state.list_teachers);
-        const list_Remove_Duplicate_mem = RemoveDuplicate(this.state._classSelected.members,this.state.list_member)
-        const list_teachers_not_in_class = []
-        const list_member_not_in_class = [] 
-        _.map(list_Remove_Duplicate_teachers,el=>{
-            if (el.role === 1) {
-                list_teachers_not_in_class.push(el);
-            }
-        })
-        _.map(list_Remove_Duplicate_mem,el=>{
-            if (el.role === 0) {
-                list_member_not_in_class.push(el)
-            }
-        })
-        this.setState({
-            list_teachers_not_in_class : list_teachers_not_in_class,
-            list_teachers_in_class: fetch.teachers,
+            const list_Remove_Duplicate_teachers = RemoveDuplicate(this.state._classSelected.teachers,this.state.list_teachers);
+            const list_Remove_Duplicate_mem = RemoveDuplicate(this.state._classSelected.members,this.state.list_member)
+            const list_teachers_not_in_class = []
+            const list_member_not_in_class = [] 
+            _.map(list_Remove_Duplicate_teachers,el=>{
+                if (el.role === 1) {
+                    list_teachers_not_in_class.push(el);
+                }
+            })
+            _.map(list_Remove_Duplicate_mem,el=>{
+                if (el.role === 0) {
+                    list_member_not_in_class.push(el)
+                }
+            })
+            this.setState({
+                list_teachers_not_in_class : list_teachers_not_in_class,
+                list_teachers_in_class: fetch.teachers,
 
-            list_member_not_in_class: list_member_not_in_class,
-            list_member_in_class: fetch.members,
-        })
+                list_member_not_in_class: list_member_not_in_class,
+                list_member_in_class: fetch.members,
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
 
 
@@ -108,8 +113,11 @@ class ClassroomDetail extends Component {
         const classSelected = this.state._classSelected;
         const option_course = this.state.option_course;
         
-        return (    
-        <ClassroomEditForm 
+        return (<div>
+        {this.state.isSubmitting 
+        ?<div>Submiting...</div>
+
+        :<ClassroomEditForm 
             initialValues={classSelected}
             data_name_course = {option_course}
             onSubmit={this.onSubmit}
@@ -123,7 +131,8 @@ class ClassroomDetail extends Component {
 
             clickGetData = {this.clickGetData}
             removeData = {this.removeData}
-        />
+        />}
+        </div>
         )
     }
 
@@ -132,8 +141,12 @@ class ClassroomDetail extends Component {
         const allID_Members = allIDinList(this.state.list_member_in_class);
         _class.teachers = allID_Teachers;
         _class.members = allID_Members;
-        this.props.UpdateClassroom(_class);
-        this.onCancel();
+        this.props.UpdateClassroom(_class).then(()=>{
+            this.setState({
+                isSubmitting: true
+            })
+            this.onCancel();
+        });
     }
 
     onCancel(){

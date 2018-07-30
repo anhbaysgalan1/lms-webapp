@@ -10,17 +10,23 @@ class ClassroomNew extends Component{
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
         this.state = ({
-            option_courses : null
+            option_courses : null,
+            isSubmitting: false
         })
     }
     async componentWillMount(){
-        const fetchData = await fetchCourse()
-        if (!this.props.classroomReducer){
-            this.props.fetchClassrooms(); 
+        try {
+            const fetchData = await fetchCourse()
+            if (!this.props.classroomReducer){
+                this.props.fetchClassrooms(); 
+            }
+            this.setState({
+                option_courses: fetchData.data
+            })
+        } catch (error) {
+            console.log(error);
         }
-        this.setState({
-            option_courses: fetchData.data
-        })
+        
     }
 
     render(){
@@ -30,7 +36,10 @@ class ClassroomNew extends Component{
             return <div>Loading...</div>
         }
         return <div>
-        <ClassroomForm 
+        {this.state.isSubmitting 
+        ? <div>Submitting....</div>
+
+        : <ClassroomForm 
         initialValues = {{
             course : "",
             _class : "",
@@ -40,14 +49,19 @@ class ClassroomNew extends Component{
         data_name_course = {this.state.option_courses}
         onSubmit={this.onSubmit}
         onCancel={this.props.history.goBack}
-        /> 
+        />}
+        
         </div>
     }
     onSubmit(_class){
-        console.log("After Submit");
-        console.log(_class);
-        this.props.AddClassroom(_class);
-        this.props.history.goBack();
+        this.props.AddClassroom(_class).then(
+            ()=>{
+                this.setState({
+                    isSubmitting: true
+                });
+                this.props.history.goBack();
+            }
+        );
     }
 }
 
