@@ -8,7 +8,7 @@ import {fetchCourse} from '../../networks/classcourse';
 import {fetchListUser} from '../../networks/user';
 import ClassroomEditForm from './Classroom.form/Classroom.form.edit';
 import _ from 'lodash';
-import {removeItem, RemoveDuplicate, All_ID_IN_LIST} from './Methods';
+import {removeItem, RemoveDuplicate, allIDinList} from './Methods';
 
 
 
@@ -128,8 +128,8 @@ class ClassroomDetail extends Component {
     }
 
     onSubmit(_class){
-        const allID_Teachers = All_ID_IN_LIST(this.state.list_teachers_in_class);
-        const allID_Members = All_ID_IN_LIST(this.state.list_member_in_class);
+        const allID_Teachers = allIDinList(this.state.list_teachers_in_class);
+        const allID_Members = allIDinList(this.state.list_member_in_class);
         _class.teachers = allID_Teachers;
         _class.members = allID_Members;
         this.props.UpdateClassroom(_class);

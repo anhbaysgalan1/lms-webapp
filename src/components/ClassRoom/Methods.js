@@ -30,7 +30,7 @@ const removeItem = (list,obj)=>{
     return _.map(AfterRemoveList)
 }
 
-const All_ID_IN_LIST = (list)=>{
+const allIDinList = (list)=>{
     const empty = []
     _.map(list,el=>{
         empty.push(el._id)
@@ -42,5 +42,5 @@ const All_ID_IN_LIST = (list)=>{
 export {
     RemoveDuplicate,   
     removeItem,
-    All_ID_IN_LIST
+    allIDinList
 }

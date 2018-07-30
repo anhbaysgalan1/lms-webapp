@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {FetchCourseAction, DeleteCourseAction} from '../../../actions/classcourse';
+import {FetchCourseAction, DeleteCourseAction} from '../../../../actions/classcourse';
 import _ from 'lodash';
-import { openPopup } from '../../../actions/popup';
-import '../index.css'
+import { openPopup } from '../../../../actions/popup';
+import '../../index.css'
   
 class ClassroomListCourse extends Component {
   componentWillMount(){

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import ClassroomFormNewCourse from './Classroom.form/Classroom.form.newcourse';
-import {AddCourseAction, FetchCourseAction, } from '../../actions/classcourse';
+import {AddCourseAction, FetchCourseAction, } from '../../../actions/classcourse';
 import {connect} from 'react-redux';
-import ClassroomListCourse from './Classroom.form/Classroom.list.course';
+import ClassroomFormNewCourse from './ClassroomCourse.form/Classroom.form.newcourse';
+import ClassroomListCourse from './ClassroomCourse.form/Classroom.list.course';
   
 class ClassroomNewCourse extends Component {
     constructor(props){
