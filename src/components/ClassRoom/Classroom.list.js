@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button} from 'reactstrap';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import _ from 'lodash' ;
 
 //action
 import {fetchClassrooms,deleteClassroom} from '../../actions/classroom';
@@ -17,6 +17,7 @@ class ClassRoomList extends Component{
 			this.props.fetchClassrooms();
 		} catch (error) {
 			console.log(error);
+			
 		}
         
 	}

@@ -30,8 +30,6 @@ class ClassroomNew extends Component{
 	}
 
 	render(){
-		// console.log("New Side");
-		// console.log(Object.keys(par_data));
 		if (!this.state.option_courses){
 			return <div>Loading...</div>;
 		}
@@ -54,11 +52,11 @@ class ClassroomNew extends Component{
 		</div>;
 	}
 	onSubmit(_class){
+		this.setState({
+			isSubmitting: true
+		});
 		this.props.AddClassroom(_class).then(
 			()=>{
-				this.setState({
-					isSubmitting: true
-				});
 				this.props.history.goBack();
 			}
 		);

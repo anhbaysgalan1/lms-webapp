@@ -141,10 +141,10 @@ class ClassroomDetail extends Component {
 		const allID_Members = allIDinList(this.state.list_member_in_class);
 		_class.teachers = allID_Teachers;
 		_class.members = allID_Members;
+		this.setState({
+			isSubmitting: true
+		});
 		this.props.UpdateClassroom(_class).then(()=>{
-			this.setState({
-				isSubmitting: true
-			});
 			this.onCancel();
 		});
 	}
