@@ -1,4 +1,4 @@
-export const ROOT_URL = "http://localhost:9000";
+export const ROOT_URL = "https://tk-lms.herokuapp.com";
 export const API_URL = `${ROOT_URL}/api`;
 
 export const API_USER = `${API_URL}/users`;
