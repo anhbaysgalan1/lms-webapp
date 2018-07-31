@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import _ from 'lodash'
-import  { withFormik, Formik } from 'formik';
+import  { Formik } from 'formik';
 import {Form, FormGroup, Label, Input, Button} from 'reactstrap';
 
 
@@ -55,7 +54,7 @@ class ClassroomForm extends Component {
       handleChange,
       handleBlur,
       handleSubmit,
-      isSubmitting,
+      // isSubmitting,
     } = formProps;
 
     //Values in here must be like initialValues in Component New!!
@@ -63,9 +62,7 @@ class ClassroomForm extends Component {
       course, _class 
       } = values;
     // console.log(_class);
-    
-    let _flag = true
-
+  
     return (
     <Form onSubmit={handleSubmit}>
 
