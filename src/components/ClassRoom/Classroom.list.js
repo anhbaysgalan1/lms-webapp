@@ -63,8 +63,10 @@ Add Class
     const PropsHistory = _.get(this.props, 'history');
     if (!classroomReducer) {
       return (
-        <div>
-Loading...
+        <div className="d-flex justify-content-center">
+          {/* eslint-disable global-require */}
+          <img alt="" src={require('../../statics/loader.gif')} />
+          {/* eslint-enable global-require */}
         </div>
       );
     }
