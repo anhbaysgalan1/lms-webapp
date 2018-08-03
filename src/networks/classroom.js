@@ -26,7 +26,7 @@ export async function fetchClass(){
     return data_get.data
 }
 
-export async function fetchClassroom_withID(id) {
+export async function fetchClassroomWithID(id) {
     let data_get = await axios.get(`${API_CLASSROOM}/${id}`);
     return data_get.data.data
 }
