@@ -22,5 +22,13 @@
     "build": "cross-env NODE_PATH=src react-scripts build",
     "test": "cross-env NODE_PATH=src react-scripts test --env=jsdom",
     "eject": "cross-env NODE_PATH=src react-scripts eject"
+  },
+  "devDependencies": {
+    "@types/prop-types": "^15.5.4",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.10.0"
   }
 }

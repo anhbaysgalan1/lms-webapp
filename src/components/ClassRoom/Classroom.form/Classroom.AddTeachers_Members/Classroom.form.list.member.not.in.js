@@ -1,70 +1,95 @@
 import React, { Component } from 'react';
-import '../../index.css'
-import {ROUTE_ADMIN_USER_DETAIL} from '../../../routes';
+import '../../index.css';
+import _ from 'lodash';
+/* eslint-disable */
 import { withRouter } from 'react-router';
+/* eslint-enable */
+import { ROUTE_ADMIN_USER_DETAIL } from '../../../routes';
 
 class ClassRoomlistmembernotin extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            list_member : this.props.list_member
-        }
+  constructor(props) {
+    super(props);
+    const listMember = _.get(this.props, 'list_member');
+    this.state = {
+      listMemberState: listMember,
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const nextPropsListMember = _.get(nextProps, 'list_member');
+    const curPropsListMember = _.get(this.props, 'list_member');
+    if (nextPropsListMember !== curPropsListMember) {
+      this.setState({ listMemberState: nextPropsListMember });
+    }
+  }
+
+  userDetail(path) {
+    const PropsHistory = _.get(this.props, 'history');
+    PropsHistory.push(path);
+  }
+
+  renderList() {
+    const listMemberState = _.get(this.state, 'listMemberState');
+    const clickGetData = _.get(this.props, 'clickGetData');
+    if (!listMemberState) {
+      return (
+        <div>
+    Loading...
+        </div>
+      );
     }
 
-    userDetail(path){
-        this.props.history.push(path)
-    }
-
-    componentWillReceiveProps(nextProps){
-        if(nextProps.list_member !== this.props.list_member){
-            this.setState({list_member: nextProps.list_member})
-        }
-    }
-
-    renderList(){
-        let list_member = this.state.list_member;
-        if (!list_member){
-            return <div>Loading...</div>
-        }
-
-        return (
-            <div className="round-panel_cls">Members List{
-            list_member.map((member,index)=>{
-                return(            
-                    <div 
+    return (
+      <div className="round-panel_cls">
+    Members In Class
+        {
+                listMemberState.map((member, index) => (
+                  <div
                     className="classroom-item"
+                    onKeyDown={() => {}}
+                    role="presentation"
                     key={member._id}
-                    onClick={() => this.userDetail(`${ROUTE_ADMIN_USER_DETAIL}/${member._id}`)}
-                    >
-                    <div className="no">{ index + 1 }</div>
-                    <div className="name">{ member.username }</div>
-                    <div className="name2">{member.email}</div>
-                    <div className="video-count"></div>
-                        <div className="controls" 
-                            onClick={(event) => {
-                                event.stopPropagation();
-                                this.props.clickGetData(member);
-                                }}>
-                        <div className="delete">
-                            <i className=" text-dark fas fa-check"></i>
-                        </div>
+                    onClick={() => (this.userDetail(`${ROUTE_ADMIN_USER_DETAIL}/${member._id}`))}
+                  >
+                    <div className="no">
+                      { index + 1 }
                     </div>
-                </div>
-                )
-            })
-        }</div>
-        )
-    }
+                    <div className="name">
+                      { member.username }
+                    </div>
+                    <div className="name2">
+                      {member.email}
+                    </div>
+                    <div className="video-count" />
+                    <div
+                      className="controls"
+                      onKeyDown={() => {}}
+                      role="presentation"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        clickGetData(member);
+                      }}
+                    >
+                      <div className="delete">
+                        <i className="text-dark fas fa-check" />
+                      </div>
+                    </div>
+                  </div>
+                ))
+            }
 
-    render() {
-        return (
-            <div>
-                {this.renderList()}
-                {/* {this.renderListTeacherExist()} */}
-            </div>
-        );
-    }
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <div>
+        {this.renderList()}
+      </div>
+    );
+  }
 }
-  
-  
+
+
 export default withRouter(ClassRoomlistmembernotin);
