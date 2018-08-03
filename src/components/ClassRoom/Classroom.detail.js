@@ -155,11 +155,15 @@ class ClassroomDetail extends Component {
       listMemberNotInClass,
 
     } = this.state;
+    console.log(this.props);
+    
     const classSelected = _classSelected;
     if (!classSelected) {
       return (
-        <div>
-          Loading....
+        <div className="d-flex justify-content-center">
+          {/* eslint-disable global-require */}
+          <img alt="" src={require('../../statics/loader.gif')} />
+          {/* eslint-enable global-require */}
         </div>
       );
     }
@@ -168,8 +172,10 @@ class ClassroomDetail extends Component {
       <div>
         {isSubmitting
           ? (
-            <div>
-  Submiting...
+            <div className="d-flex justify-content-center">
+            {/* eslint-disable global-require */}
+            <img alt="" src={require('../../statics/loader.gif')} />
+            {/* eslint-enable global-require */}
             </div>
           )
 

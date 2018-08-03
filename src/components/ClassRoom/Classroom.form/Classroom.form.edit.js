@@ -201,8 +201,10 @@ class ClassroomEditForm extends Component {
     if (!listTeachersNotInClass || !listTeachersInClass
         || !listMemberInClass || !listMemberNotInClass) {
       return (
-        <div>
-          Loading...
+        <div className="d-flex justify-content-center">
+          {/* eslint-disable global-require */}
+          <img alt="" src={require('../../../statics/loader.gif')} />
+          {/* eslint-enable global-require */}
         </div>
       );
     }

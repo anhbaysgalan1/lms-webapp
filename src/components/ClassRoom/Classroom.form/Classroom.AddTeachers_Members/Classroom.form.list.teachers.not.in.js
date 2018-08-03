@@ -33,15 +33,19 @@ class ClassRoomlistteachernotin extends Component {
     const clickGetData = _.get(this.props, 'clickGetData');
     if (!listMemberState) {
       return (
-        <div>
-        Loading...
+        <div className="d-flex justify-content-center">
+          {/* eslint-disable global-require */}
+          <img alt="" src={require('../../../../statics/loader.gif')} />
+          {/* eslint-enable global-require */}
         </div>
       );
     }
 
     return (
       <div className="round-panel_cls">
-        Members In Class
+        <p className="rounded font-weight-bold text-primary pl-2">
+          List Teachers Not In Class
+        </p>
         {
                     listMemberState.map((member, index) => (
                       <div
