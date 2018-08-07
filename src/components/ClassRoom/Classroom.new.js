@@ -52,8 +52,10 @@ class ClassroomNew extends Component {
     return (
       <div>
         {isSubmitting ? (
-          <div>
-        Submitting....
+          <div className="d-flex justify-content-center">
+            {/* eslint-disable global-require */}
+            <img alt="" src={require('../../statics/loader.gif')} />
+            {/* eslint-enable global-require */}
           </div>
         )
           : (

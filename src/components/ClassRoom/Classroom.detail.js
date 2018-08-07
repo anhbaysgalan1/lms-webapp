@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 // action
 import _ from 'lodash';
 import { fetchClassrooms, UpdateClassroom } from '../../actions/classroom';
-import { fetchClassroomWithID } from '../../networks/classroom';
+import { fetchClassroomWithID, fetchPlaylists } from '../../networks/classroom';
 import { fetchCourse } from '../../networks/classcourse';
 import { fetchListUser } from '../../networks/user';
 import ClassroomEditForm from './Classroom.form/Classroom.form.edit';
-import { removeItem, RemoveDuplicate, allIDinList } from '../../utils';
+import {
+  removeItem, RemoveDuplicate, allIDinList,
+} from '../../utils';
 
 
 class ClassroomDetail extends Component {
@@ -23,12 +25,17 @@ class ClassroomDetail extends Component {
       listMember: null,
       listMemberInClass: null,
       listMemberNotInClass: null,
+      listPlaylist: null,
+      listPlaylistInClass: null,
+      listPlaylistNotInClass: null,
+      listPlayListsContainPlaylist: null,
       isSubmitting: false,
     });
     this.onSubmit = this.onSubmit.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.clickGetData = this.clickGetData.bind(this);
     this.removeData = this.removeData.bind(this);
+    this.clickToUnlock = this.clickToUnlock.bind(this);
   }
 
   async componentWillMount() {
@@ -40,13 +47,21 @@ class ClassroomDetail extends Component {
       const fetch = await fetchClassroomWithID(classID);
       const option = await fetchCourse();
       const getData = await fetchListUser();
+      const getPlaylist = await fetchPlaylists();
+      const listPlaylistInClass = [];
+      _.map(fetch.playlists, (el) => {
+        listPlaylistInClass.push(el.playlist);
+      });
+
       this.setState({
         _classSelected: fetch,
         option_course: option.data,
         listTeachers: getData.data.data,
         listMember: getData.data.data,
+        listPlaylist: getPlaylist,
+        listPlayListsContainPlaylist: fetch.playlists,
+        listPlaylistInClass,
       });
-
       const classSelectedTeachers = _.get(this.state, '_classSelected.teachers');
       const classListTeachers = _.get(this.state, 'listTeachers');
       const classSelectedMembers = _.get(this.state, '_classSelected.members');
@@ -55,6 +70,7 @@ class ClassroomDetail extends Component {
       const listRemoveDuplicateMem = RemoveDuplicate(classSelectedMembers, classListMembers);
       const listTeachersNotInClass = [];
       const listMemberNotInClass = [];
+
       _.map(listRemoveDuplicateteachers, (el) => {
         if (el.role === 1) {
           listTeachersNotInClass.push(el);
@@ -65,12 +81,18 @@ class ClassroomDetail extends Component {
           listMemberNotInClass.push(el);
         }
       });
+
+      const { listPlaylist } = this.state;
+      const listRemoveDuplicatePlaylist = RemoveDuplicate(listPlaylistInClass, listPlaylist);
+      const listPlaylistNotInClass = listRemoveDuplicatePlaylist;
       this.setState({
         listTeachersNotInClass,
         listTeachersInClass: fetch.teachers,
 
         listMemberNotInClass,
         listMemberInClass: fetch.members,
+
+        listPlaylistNotInClass,
       });
     } catch (error) {
       /* eslint-disable */
@@ -85,15 +107,21 @@ class ClassroomDetail extends Component {
 
   onSubmit(objClass) {
     const obj = objClass;
+    
+    
     const {
       listTeachersInClass,
       listMemberInClass,
+      listPlayListsContainPlaylist,
     } = this.state;
+
     const ActionUpdateClassroom = _.get(this.props, 'UpdateClassroom');
     const allIDTeachers = allIDinList(listTeachersInClass);
     const allIDMembers = allIDinList(listMemberInClass);
+    // const allIDPlaylists = listPlaylistInClass;
     obj.teachers = allIDTeachers;
     obj.members = allIDMembers;
+    obj.playlists = listPlayListsContainPlaylist;
     this.setState({
       isSubmitting: true,
     });
@@ -102,47 +130,94 @@ class ClassroomDetail extends Component {
     });
   }
 
+  clickToUnlock(objPlaylists){
+    const {
+      listPlayListsContainPlaylist
+    } = this.state;
+    let flag = objPlaylists.unlock;
+    flag = flag ? false : true
+    _.map(listPlayListsContainPlaylist,(el)=>{
+      if (el._id === objPlaylists._id) {
+        el.unlock = flag
+      }
+    })
+    this.setState({
+      listPlayListsContainPlaylist: listPlayListsContainPlaylist
+    })
+    return listPlayListsContainPlaylist
+  }
 
-  clickGetData(obj) {
+  //choose = 1 => List Teachers - Members
+  //choose = 2 => Playlist
+  clickGetData(obj,choose) {
     const {
       listTeachersInClass,
       listTeachersNotInClass,
       listMemberInClass,
       listMemberNotInClass,
+      listPlayListsContainPlaylist,
+      listPlaylistNotInClass
     } = this.state;
-    if (obj.role === 1) {
-      this.setState({
-        listTeachersInClass: [...listTeachersInClass, obj],
-        listTeachersNotInClass: removeItem(listTeachersNotInClass, obj),
-      });
-    } else if (obj.role === 0) {
-      this.setState({
-        listMemberInClass: [...listMemberInClass, obj],
-        listMemberNotInClass: removeItem(listMemberNotInClass, obj),
-      });
+    
+    if (choose === 1){
+      if (obj.role === 1) {
+        this.setState({
+          listTeachersInClass: [...listTeachersInClass, obj],
+          listTeachersNotInClass: removeItem(listTeachersNotInClass, obj),
+        });
+      } else if (obj.role === 0) {
+        this.setState({
+          listMemberInClass: [...listMemberInClass, obj],
+          listMemberNotInClass: removeItem(listMemberNotInClass, obj),
+        });
+      }
     }
+    else if (choose === 2){
+      let data = {
+        _id: obj._id,
+        unlock: false,
+        playlist: obj
+      }
+      this.setState({
+        listPlayListsContainPlaylist: [...listPlayListsContainPlaylist, data],
+        listPlaylistNotInClass: removeItem(listPlaylistNotInClass,obj)
+      })
+    }
+    
   }
 
-  removeData(obj) {
+  //choose = 1 => List Teachers - Members
+  //choose = 2 => Playlist
+  removeData(obj, choose) {
     const {
       listTeachersInClass,
       listTeachersNotInClass,
       listMemberInClass,
       listMemberNotInClass,
+      listPlayListsContainPlaylist,
+      listPlaylistNotInClass,
     } = this.state;
-    if (obj.role === 1) {
-      this.setState({
-        listTeachersNotInClass: [...listTeachersNotInClass, obj],
-        listTeachersInClass: removeItem(listTeachersInClass, obj),
-      });
-    } else if (obj.role === 0) {
-      this.setState({
-        listMemberNotInClass: [...listMemberNotInClass, obj],
-        listMemberInClass: removeItem(listMemberInClass, obj),
-      });
+    if (choose === 1){
+      if (obj.role === 1) {
+        this.setState({
+          listTeachersNotInClass: [...listTeachersNotInClass, obj],
+          listTeachersInClass: removeItem(listTeachersInClass, obj),
+        });
+      } else if (obj.role === 0) {
+        this.setState({
+          listMemberNotInClass: [...listMemberNotInClass, obj],
+          listMemberInClass: removeItem(listMemberInClass, obj),
+        });
+      }
     }
+    else if (choose === 2){
+      this.setState({
+        listPlaylistNotInClass: [...listPlaylistNotInClass, obj.playlist],
+        listPlayListsContainPlaylist: removeItem(listPlayListsContainPlaylist,obj)
+      })
+    }
+    
   }
-
 
   render() {
     const {
@@ -153,9 +228,11 @@ class ClassroomDetail extends Component {
       listTeachersInClass,
       listMemberInClass,
       listMemberNotInClass,
+      // listPlaylistInClass,
+      listPlaylistNotInClass,
+      listPlayListsContainPlaylist,
 
     } = this.state;
-    console.log(this.props);
     
     const classSelected = _classSelected;
     if (!classSelected) {
@@ -192,14 +269,24 @@ class ClassroomDetail extends Component {
               listMemberInClass={listMemberInClass}
               listMemberNotInClass={listMemberNotInClass}
 
+              // listPlaylistInClass={listPlaylistInClass}
+              listPlaylistNotInClass={listPlaylistNotInClass}
+
               clickGetData={this.clickGetData}
               removeData={this.removeData}
+              clickToUnlock={this.clickToUnlock}
+
+              listPlayListsContainPlaylist={listPlayListsContainPlaylist}
+
+
             />
           )}
       </div>
     );
   }
 }
+
+
 
 // ________________________________________
 function MapsReducer({ classroomReducer }) {

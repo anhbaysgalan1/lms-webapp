@@ -101,6 +101,10 @@ _.values(classroomReducer).map((_classroom, index) => (
       {' '}
       Members
     </div>
+    <div className="name3">
+      {_classroom.playlists.length > 1 ? `${_classroom.playlists.length} Playlists` : `${_classroom.playlists.length} Playlist` }
+      {' '}
+    </div>
     <div className="video-count" />
     <div
       className="controls"

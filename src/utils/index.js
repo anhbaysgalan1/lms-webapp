@@ -1,106 +1,113 @@
 import _ from 'lodash';
 
-export function deEmpty(x, defaultValue="") {
-  return x ? x : defaultValue;
+export function deEmpty(x, defaultValue = '') {
+  return x || defaultValue;
 }
 
 export function stripHTML(html) {
-  return html.replace(/<\/?[^>]+(>|$)/g, "").trim() ;
+  return html.replace(/<\/?[^>]+(>|$)/g, '').trim();
 }
 
-export function elipsis(text, maxLength=100) {
-  if(text.length > maxLength) {
-    return text.substring(0, maxLength) + "...";
-  } else {
-    return text;
+export function elipsis(text, maxLength = 100) {
+  if (text.length > maxLength) {
+    return `${text.substring(0, maxLength)}...`;
   }
+  return text;
 }
 
 export function tryGet(obj, key, defaultValue) {
-  if(obj[key]) return obj[key];
+  if (obj[key]) return obj[key];
   return defaultValue;
 }
 
 
 export function checkFields(obj, paths) {
-  if (typeof(paths) === 'string') {
+  if (typeof (paths) === 'string') {
     return _.get(obj, paths) && true;
   }
-  else {
-    return paths.reduce((currentCheck, path) => {
-      return _.get(obj, path) && currentCheck;
-    }, true);
-  }
+
+  return paths.reduce((currentCheck, path) => _.get(obj, path) && currentCheck, true);
 }
 
 export function fieldsNotEmpty(obj, ...paths) {
-  if (typeof(paths) === 'string') {
+  if (typeof (paths) === 'string') {
     return _.get(obj, paths) && true;
   }
-  else {
-    return paths.reduce((currentCheck, path) => {
-      return _.get(obj, path) && currentCheck;
-    }, true);
-  }
+
+  return paths.reduce((currentCheck, path) => _.get(obj, path) && currentCheck, true);
 }
 
 export function plainText(text) {
-  var unicodeText = text;
+  let unicodeText = text;
 
   unicodeText = unicodeText.toLowerCase();
-  unicodeText = unicodeText.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a");
-  unicodeText = unicodeText.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e");
-  unicodeText = unicodeText.replace(/ì|í|ị|ỉ|ĩ/g,"i");
-  unicodeText = unicodeText.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o");
-  unicodeText = unicodeText.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u");
-  unicodeText = unicodeText.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y");
-  unicodeText = unicodeText.replace(/đ/g,"d");
-  unicodeText = unicodeText.replace(/!|@|\$|%|\^|\*|∣|\+|=|<|>|\?|\/|,|\.|:|'|"|&|#|\[|\]|~/g,"-");
-  unicodeText = unicodeText.replace(/-+-/g,"-");  //thay thế 2- thành 1-
-  unicodeText = unicodeText.replace(/^-+|-+$/g,"");  //cắt bỏ ký tự - ở đầu và cuối chuỗi
+  unicodeText = unicodeText.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, 'a');
+  unicodeText = unicodeText.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, 'e');
+  unicodeText = unicodeText.replace(/ì|í|ị|ỉ|ĩ/g, 'i');
+  unicodeText = unicodeText.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, 'o');
+  unicodeText = unicodeText.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, 'u');
+  unicodeText = unicodeText.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, 'y');
+  unicodeText = unicodeText.replace(/đ/g, 'd');
+  unicodeText = unicodeText.replace(/!|@|\$|%|\^|\*|∣|\+|=|<|>|\?|\/|,|\.|:|'|"|&|#|\[|\]|~/g, '-');
+  unicodeText = unicodeText.replace(/-+-/g, '-'); // thay thế 2- thành 1-
+  unicodeText = unicodeText.replace(/^-+|-+$/g, ''); // cắt bỏ ký tự - ở đầu và cuối chuỗi
 
   return unicodeText.trim().toLowerCase();
 }
 
 export function validateEmail(email) {
-  var re = /^(([^<>()[\].,;:\s@"]+(.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
+  const re = /^(([^<>()[\].,;:\s@"]+(.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 }
 
-export const RemoveDuplicate = (list1,list2)=>{
-    //Nối 2 list lại với nhau
-    const JoinList = _.concat(list1,list2);
-    //Sắp xếp tăng dần theo _id
-    const sortJoinList = _.sortBy(JoinList,(obj)=>{return obj._id});
-    //List dùng để lưu _id trùng
-    const list_id_duplicate = []
-    //Xử lý nếu gặp trùng thì đút _id vào List trên
-    for (let i = 0 ; i < sortJoinList.length -1 ; i++){
-        if(_.isEqual(sortJoinList[i],sortJoinList[i+1])){
-          list_id_duplicate.push(sortJoinList[i]._id);
-        }
+export const RemoveDuplicate = (list1, list2) => {
+  // Nối 2 list lại với nhau
+  const JoinList = _.concat(list1, list2);
+  
+  // Sắp xếp tăng dần theo _id
+  const sortJoinList = _.sortBy(JoinList, obj => obj._id);
+  
+  // List dùng để lưu _id trùng
+  const list_id_duplicate = [];
+  // Xử lý nếu gặp trùng thì đút _id vào List trên
+  for (let i = 0; i < sortJoinList.length - 1; i += 1) {
+    if (_.isEqual(sortJoinList[i], sortJoinList[i + 1])) {
+      list_id_duplicate.push(sortJoinList[i]._id);
     }
-    //List đã bỏ các obj trung lặp
-    const list_unique = _.sortedUniqBy(sortJoinList,(el)=>{return el._id})
-    
-    _.map(list_id_duplicate,(index)=>{
-      // Query theo ID => tìm ID 
-      const removeIndex = list_unique.map((item)=>{return item._id}).indexOf(index)
-      list_unique.splice(removeIndex,1);
-    });
-    return list_unique
-}
+  }
+  
+  // List đã bỏ các obj trung lặp
+  const list_unique = _.sortedUniqBy(sortJoinList, el => el._id);
+  _.map(list_id_duplicate, (index) => {
+    // Query theo ID => tìm ID
+    const removeIndex = list_unique.map(item => item._id).indexOf(index);
+    list_unique.splice(removeIndex, 1);
+  });
+  // console.log(list_unique);
+  return list_unique;
+};
 
-export const removeItem = (list,obj)=>{
-    const mapKey = _.mapKeys(list,"_id");
-    const AfterRemoveList = _.omit(mapKey,obj._id);
-    return _.map(AfterRemoveList)
-}
+export const RemoveItemInTwoList = (list1, list2) => {
+  const empty = [];
+  const JoinList = _.concat(list1, list2);
+  for (let i = 0; i < JoinList.length - 1; i += 1) {
+    if (JoinList[i] !== JoinList[i + 1]) {
+      empty.push(JoinList[i]);
+    }
+  }
+  return empty;
+};
 
-export const allIDinList = (list)=>{
-    const empty = []
-    _.map(list,el=>{
-        empty.push(el._id)
-    })
-    return empty
-}
+export const removeItem = (list, obj) => {
+  const mapKey = _.mapKeys(list, '_id');
+  const AfterRemoveList = _.omit(mapKey, obj._id);
+  return _.map(AfterRemoveList);
+};
+
+export const allIDinList = (list) => {
+  const empty = [];
+  _.map(list, (el) => {
+    empty.push(el._id);
+  });
+  return empty;
+};

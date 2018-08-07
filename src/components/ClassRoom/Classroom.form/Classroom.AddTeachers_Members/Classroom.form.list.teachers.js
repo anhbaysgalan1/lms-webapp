@@ -71,7 +71,7 @@ class ClassRoomlistteacher extends Component {
                       role="presentation"
                       onClick={(event) => {
                         event.stopPropagation();
-                        removeData(member);
+                        removeData(member, 1);
                       }}
                     >
                       <div className="delete">

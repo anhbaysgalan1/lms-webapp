@@ -11,6 +11,8 @@ import ClassRoomlistteacher from './Classroom.AddTeachers_Members/Classroom.form
 import ClassRoomlistteachernotin from './Classroom.AddTeachers_Members/Classroom.form.list.teachers.not.in';
 import ClassRoomlistmember from './Classroom.AddTeachers_Members/Classroom.form.list.member';
 import ClassRoomlistmembernotin from './Classroom.AddTeachers_Members/Classroom.form.list.member.not.in';
+import ClassRoomPlaylist from './Classroom.Playlists/Classroom.Playlists';
+import ClassRoomPlaylistNotIn from './Classroom.Playlists/Classroom.PlaylistsNotIn';
 
 
 class ClassroomEditForm extends Component {
@@ -33,14 +35,19 @@ class ClassroomEditForm extends Component {
     const PropslistMemberNotInClass = _.get(this.props, 'listMemberNotInClass');
     const PropslistTeachersInClass = _.get(this.props, 'listTeachersInClass');
     const PropslistTeachersNotInClass = _.get(this.props, 'listTeachersNotInClass');
+    const PropslistPlaylistInClass = _.get(this.props, 'listPlaylistInClass');
+    const PropslistPlaylistNotInClass = _.get(this.props, 'listPlaylistNotInClass')
 
     this.state = {
       show_add: false,
       show_add_mem: false,
+      show_add_playlist: false,
       listTeachersNotInClass: PropslistTeachersNotInClass,
       listTeachersInClass: PropslistTeachersInClass,
       listMemberInClass: PropslistMemberInClass,
       listMemberNotInClass: PropslistMemberNotInClass,
+      listPlaylistInClass: PropslistPlaylistInClass,
+      listPlaylistNotInClass: PropslistPlaylistNotInClass
     };
   }
 
@@ -74,6 +81,22 @@ class ClassroomEditForm extends Component {
     if (NextPropslistMemberNotInClass !== PropsMemberNotInClass) {
       this.setState({
         listMemberNotInClass: NextPropslistMemberNotInClass,
+      });
+    }
+
+    const NextPropslistPlaylistInClass = _.get(nextProps, 'listPlaylistInClass');
+    const PropsPlaylistInClass = _.get(this.props, 'listPlaylistInClass');
+    const NextPropslistPlaylistNotInClass = _.get(nextProps, 'listPlaylistNotInClass');
+    const PropsPlaylistNotInClass = _.get(this.props, 'listPlaylistNotInClass');
+    if (NextPropslistPlaylistInClass !== PropsPlaylistInClass) {
+      this.setState({
+        listPlaylistInClass: NextPropslistPlaylistInClass,
+      });
+    }
+
+    if (NextPropslistPlaylistNotInClass !== PropsPlaylistNotInClass) {
+      this.setState({
+        listPlaylistNotInClass: NextPropslistPlaylistNotInClass,
       });
     }
   }
@@ -114,6 +137,26 @@ class ClassroomEditForm extends Component {
         <i className={ShowAddMem ? 'fas fa-minus' : 'fas fa-plus mr-1'} />
         {' '}
         {ShowAddMem ? 'Close' : 'Add Members into Class'}
+      </Button>
+    );
+  }
+
+  buttonAddPlaylist() {
+    const { show_add_playlist: showAddPlaylist } = this.state;
+    return (
+      <Button
+        className="admin-btn mr-2 text-dark"
+        onClick={() => {
+          if (showAddPlaylist) {
+            this.setState({ show_add_playlist: false });
+          } else {
+            this.setState({ show_add_playlist: true });
+          }
+        }}
+      >
+        <i className={showAddPlaylist ? 'fas fa-minus' : 'fas fa-plus mr-1'} />
+        {' '}
+        {showAddPlaylist ? 'Close' : 'Add Playlists into Class'}
       </Button>
     );
   }
@@ -173,6 +216,26 @@ class ClassroomEditForm extends Component {
     );
   }
 
+  renderPlaylist(){
+    const listPlaylist = _.get(this.props, 'listPlayListsContainPlaylist');
+    const clickToUnlock = _.get(this.props, 'clickToUnlock');
+    const removeData = _.get(this.props, 'removeData');
+    return (
+      <ClassRoomPlaylist list_playlist={listPlaylist} 
+      clickToUnlock={clickToUnlock} 
+      removeData={removeData} />
+    );
+  }
+
+  renderPlaylistNotIn(){
+    const listPlaylist = _.get(this.state, 'listPlaylistNotInClass')
+    const clickGetData = _.get(this.props, 'clickGetData');
+    const removeData = _.get(this.props, 'removeData');
+    return (
+      <ClassRoomPlaylistNotIn list_playlist={listPlaylist} clickGetData={clickGetData} removeData={removeData} />
+    );
+  }
+
   renderForm(formProps) {
     const {
       values,
@@ -195,6 +258,7 @@ class ClassroomEditForm extends Component {
       listMemberNotInClass,
       show_add: showAdd,
       show_add_mem: showAddMem,
+      show_add_playlist: showAddPlaylist,
     } = this.state;
 
     const onCancel = _.get(this.props, 'onCancel');
@@ -272,6 +336,16 @@ Class
         </div>
         <div className="mb-3" style={{ display: showAddMem ? 'block' : 'none' }}>
           {this.renderMemberNotInClass()}
+        </div>
+        {/* Render Playlists */}
+        <div className="d-flex justify-content-end">
+        {this.buttonAddPlaylist()}
+        </div>
+        <div className="mb-3">
+        {this.renderPlaylist()}
+        </div>
+        <div className="mb-3" style={{ display: showAddPlaylist ? 'block' : 'none' }}>
+        {this.renderPlaylistNotIn()}
         </div>
         {/* Button */}
         <Button
