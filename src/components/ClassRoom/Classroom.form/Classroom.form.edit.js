@@ -156,7 +156,7 @@ class ClassroomEditForm extends Component {
       >
         <i className={showAddPlaylist ? 'fas fa-minus' : 'fas fa-plus mr-1'} />
         {' '}
-        {showAddPlaylist ? 'Close' : 'Add Playlists into Class'}
+        {showAddPlaylist ? 'Collapse' : 'Extend' }
       </Button>
     );
   }

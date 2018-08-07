@@ -50,7 +50,7 @@ class ClassRoomPlaylist extends Component {
           listPlaylistState.map((el, index) => (
 
             <div
-              className={el.unlock ? 'classroom-item alert alert-success' : 'classroom-item alert alert-danger'}
+              className={el.unlock ? 'classroom-item' : 'bg-gray classroom-item opacity-lock font-weight-light bg-light text-muted'}
               onKeyDown={() => {}}
               role="presentation"
               key={el._id}
@@ -68,7 +68,7 @@ class ClassRoomPlaylist extends Component {
               </div>
               <div className="video-count" />
               <div
-                className="controls"
+                className="controls not-opacity"
                 onKeyDown={() => {}}
                 role="presentation"
                 onClick={(event) => {
@@ -76,8 +76,8 @@ class ClassRoomPlaylist extends Component {
                   clickToUnlock(el);
                 }}
               >
-                <div className="delete">
-                  <i className={el.unlock ? 'text-dark fas fa-lock' : 'text-dark fas fa-lock-open'} />
+                <div className="delete ">
+                  <i className={el.unlock ? 'text-dark fas fa-lock-open' : 'text-dark fas fa-lock'} />
                 </div>
               </div>
               <div

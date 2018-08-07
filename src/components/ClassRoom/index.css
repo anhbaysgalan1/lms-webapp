@@ -41,6 +41,7 @@
   .classroom-item .controls {
     flex-basis: 5%;
     margin-left: 1%;
+    opacity: 1;
   }
   
   .classroom-item:hover {
@@ -53,4 +54,12 @@
   
   .classroom-item:hover .delete {
     visibility: visible;
+  }
+
+  .not-opacity{
+    opacity: 1;
+  }
+
+  .opacity-lock{
+    opacity: 1;
   }
