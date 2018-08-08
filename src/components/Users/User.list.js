@@ -1,76 +1,101 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, } from 'reactstrap';
+import { Button } from 'reactstrap';
 import _ from 'lodash';
+/* eslint-disable */
+import PropTypes from 'prop-types';
+/* eslint-enable */
+import { fetchUsers, deleteUser } from '../../actions/user';
+import { openPopup } from '../../actions/popup';
+import { ROUTE_ADMIN_USER_NEW, ROUTE_ADMIN_USER_DETAIL } from '../routes';
 
-import { fetchUsers, deleteUser} from "actions/user";
-import { openPopup } from 'actions/popup';
-import { ROUTE_ADMIN_USER_NEW, ROUTE_ADMIN_USER_DETAIL } from "../routes";
-
-import "./User.list.css";
+import './User.list.css';
 
 class UserList extends Component {
-
-  componentWillMount(){
-    if(!this.props.usersReducer) {
-      this.props.fetchUsers();
+  componentWillMount() {
+    const usersReducer = _.get(this.props, 'usersReducer');
+    const ActionfetchUsers = _.get(this.props, 'fetchUsers');
+    if (!usersReducer) {
+      ActionfetchUsers();
     }
   }
 
-  
 
   renderUsers() {
-    const users = this.props.usersReducer;
-    const role = ["student", "teacher"]
-    if(!users)
-    {
-      return <div>Loading...</div>
+    const users = _.get(this.props, 'usersReducer');
+    const ActionopenPopup = _.get(this.props, 'openPopup');
+    const ActiondeleteUser = _.get(this.props, 'deleteUser');
+    const role = ['student', 'teacher'];
+    const { history } = this.props;
+    if (!users) {
+      return (
+        <div>
+Loading...
+        </div>
+      );
     }
     return (
       <div className="round-panel">
         {
-          _.values(users).map((users, index) => {
-            return (
-              <div 
+          _.values(users).map((userS, index) => (
+            <div
               className="users-item"
-              key={index}
-              onClick={() => this.props.history.push(`${ROUTE_ADMIN_USER_DETAIL}/${users._id}`)}
-              >
-              <div className="no">{index + 1}</div>
-              <div className="name"> {users.username} </div>
-              <div className="name"> {users.email} </div>
-              <div className="user-role">{role[users.role]}</div>
-              <div className="controls"
+              key={userS._id}
+              role="presentation"
+              onClick={() => history.push(`${ROUTE_ADMIN_USER_DETAIL}/${userS._id}`)}
+            >
+              <div className="no">
+                {index + 1}
+              </div>
+              <div className="name">
+                {' '}
+                {userS.username}
+                {' '}
+              </div>
+              <div className="name">
+                {' '}
+                {userS.email}
+                {' '}
+              </div>
+              <div className="user-role">
+                {role[userS.role]}
+              </div>
+              <div
+                className="controls"
+                role="presentation"
                 onClick={(event) => {
                   event.stopPropagation();
-                  this.props.openPopup(()=>{
-                    this.props.deleteUser(users._id)
+                  ActionopenPopup(() => {
+                    ActiondeleteUser(userS._id);
                   }, null);
-                }}>
-              <div className="delete">
-                <i className="text-dark fas fa-trash-alt"></i>
+                }}
+              >
+                <div className="delete">
+                  <i className="text-dark fas fa-trash-alt" />
+                </div>
               </div>
-              </div>
-              </div>
-            )
-          })
+            </div>
+          ))
         }
 
       </div>
-    ); 
+    );
   }
 
 
-
-  
   renderControls() {
-    return(
+    const { history } = this.props;
+    return (
       <div className="admin-controls">
         <Button
-        className="admin-btn mr-2 text-dark"
-        onClick={() => this.props.history.push(ROUTE_ADMIN_USER_NEW)}
+          className="admin-btn mr-2 text-dark"
+          onClick={() => history.push(ROUTE_ADMIN_USER_NEW)}
         >
-          <i className="fas fa-plus mr-1"></i> {'  '} Add User
+          <i className="fas fa-plus mr-1" />
+          {' '}
+          {'  '}
+          {' '}
+Add User
 
         </Button>
       </div>
@@ -87,6 +112,13 @@ class UserList extends Component {
   }
 }
 
+UserList.propTypes = {
+  history: PropTypes.shape({
+    length: PropTypes.number,
+    action: PropTypes.string,
+  }).isRequired,
+};
+
 function mapReducerProps({ usersReducer }) {
   return { usersReducer };
 }
@@ -94,10 +126,7 @@ function mapReducerProps({ usersReducer }) {
 const actions = {
   fetchUsers,
   deleteUser,
-  openPopup
-}
+  openPopup,
+};
 
 export default connect(mapReducerProps, actions)(UserList);
-
-
-
