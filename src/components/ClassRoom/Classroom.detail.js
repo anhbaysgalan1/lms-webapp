@@ -4,11 +4,14 @@ import { connect } from 'react-redux';
 // action
 import _ from 'lodash';
 import { fetchClassrooms, UpdateClassroom } from '../../actions/classroom';
-import { fetchClassroomWithID } from '../../networks/classroom';
+import { fetchClassroomWithID, fetchPlaylists } from '../../networks/classroom';
 import { fetchCourse } from '../../networks/classcourse';
 import { fetchListUser } from '../../networks/user';
 import ClassroomEditForm from './Classroom.form/Classroom.form.edit';
-import { removeItem, RemoveDuplicate, allIDinList } from '../../utils';
+import {
+  removeItem, RemoveDuplicate, allIDinList,
+} from '../../utils';
+
 
 
 class ClassroomDetail extends Component {
