@@ -28,13 +28,13 @@ class ClassroomNew extends Component {
     });
   }
 
-  onSubmit(_class) {
+  onSubmit(classroom) {
     const ActionAddClassroom = _.get(this.props, 'AddClassroom');
     const PropsHistory = _.get(this.props, 'history');
     this.setState({
       isSubmitting: true,
     });
-    ActionAddClassroom(_class).then(
+    ActionAddClassroom(classroom).then(
       () => {
         PropsHistory.goBack();
       },
@@ -69,7 +69,7 @@ class ClassroomNew extends Component {
             <ClassroomForm
               initialValues={{
                 course: '',
-                _class: '',
+                classroom: '',
                 teachers: [],
                 members: [],
               }}

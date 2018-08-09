@@ -91,7 +91,7 @@ _.values(classroomReducer).map((_classroom, index) => (
     <div className="name">
       { _classroom.course }
       {/* eslint-disable */}
-      { _classroom._class }
+      { _classroom.classroom }
     </div>
     <div className="name2">
       {_classroom.teachers ? _classroom.teachers.length : 0 }
