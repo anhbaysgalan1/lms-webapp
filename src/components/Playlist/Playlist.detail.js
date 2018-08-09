@@ -15,7 +15,7 @@ class PlaylistDetail extends Component {
   }
 
   componentWillMount() {
-    const playlistId = this.props.match.params.id;
+    const playlistId = this.props.match.params._id;
     fetchPlaylistPromise(playlistId).then((playlist) => {
       this.setState({
         playlist
