@@ -19,8 +19,8 @@ class ClassroomEditForm extends Component {
   static validate(values) {
     const errors = {};
     /* eslint-disable */
-    if (!values._class) {
-      errors._class = 'Name is required!';
+    if (!values.classroom) {
+      errors.classroom = 'Name is required!';
     }
     if (values.course === '') {
       errors.course = 'Choose Your Course!';
@@ -248,7 +248,7 @@ class ClassroomEditForm extends Component {
     } = formProps;
     const {
       course,
-      _class,
+      classroom,
     } = values;
 
     const {
@@ -305,15 +305,15 @@ Class
           </Label>
           <Input
             type="number"
-            name="_class"
+            name="classroom"
             onBlur={handleBlur}
             onChange={handleChange}
-            value={_class}
+            value={classroom}
             /* eslint-disable */
-            invalid={touched._class && !!errors._class}
+            invalid={touched.classroom && !!errors.classroom}
           />
           <div className="text-danger">
-            {touched._class ? errors._class : ''}
+            {touched.classroom ? errors.classroom : ''}
           </div>
         </FormGroup>
 

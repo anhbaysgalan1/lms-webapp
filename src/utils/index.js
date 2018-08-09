@@ -115,7 +115,7 @@ export const allIDinList = (list) => {
 export const JointCourseAndName = (list) =>{
   const empty = [];
   _.map(list,(el)=>{
-    const joinString = el.course + el._class;
+    const joinString = el.course + el.classroom;
     empty.push(joinString);
   });
   return empty;

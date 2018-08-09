@@ -19,6 +19,7 @@ class ClassroomFormNewCourse extends Component {
     if (!values.newcourse) {
       errors.newcourse = 'New Course can\'t be blank!';
     }
+    
     _.map(fetchCourseData, (el) => {
       if (values.newcourse.toLowerCase() === el.toLowerCase()) {
         errors.duplicate = 'This Course has been existed!';
@@ -60,7 +61,6 @@ New Course
             invalid={touched.newcourse && !!errors.newcourse && errors.flag}
           />
           <div className="text-danger">
-            {console.log(errors)}
             {touched.newcourse ? errors.newcourse : ''}
             {errors.flag ? errors.duplicate : ''}
           </div>
