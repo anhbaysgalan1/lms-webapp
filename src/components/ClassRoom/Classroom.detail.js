@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 // action
 import _ from 'lodash';
 import { fetchClassrooms, UpdateClassroom } from '../../actions/classroom';
-import { fetchClassroomWithID, fetchPlaylists } from '../../networks/classroom';
+import { fetchClassroomWithID, fetchPlaylists, fetchClass } from '../../networks/classroom';
 import { fetchCourse } from '../../networks/classcourse';
 import { fetchListUser } from '../../networks/user';
 import ClassroomEditForm from './Classroom.form/Classroom.form.edit';
 import {
-  removeItem, RemoveDuplicate, allIDinList,
+  removeItem, RemoveDuplicate, allIDinList, JointCourseAndName,
 } from '../../utils';
 
 
@@ -17,6 +17,7 @@ class ClassroomDetail extends Component {
   constructor(props) {
     super(props);
     this.state = ({
+      dataFetch: null,
       _classSelected: null,
       option_course: null,
       listTeachers: null,
@@ -40,6 +41,7 @@ class ClassroomDetail extends Component {
 
   async componentWillMount() {
     try {
+      const fetchData = await fetchClass();
       const PropsFetchClassrooms = _.get(this.props, 'fetchClassrooms');
       const idGet = _.get(this.props, 'match.params.id');
       PropsFetchClassrooms();
@@ -54,6 +56,7 @@ class ClassroomDetail extends Component {
       });
 
       this.setState({
+        dataFetch: fetchData.data,
         _classSelected: fetch,
         option_course: option.data,
         listTeachers: getData.data.data,
@@ -231,10 +234,11 @@ class ClassroomDetail extends Component {
       // listPlaylistInClass,
       listPlaylistNotInClass,
       listPlayListsContainPlaylist,
-
+      dataFetch
     } = this.state;
     
     const classSelected = _classSelected;
+    const ListCourseAndName = JointCourseAndName(dataFetch);
     if (!classSelected) {
       return (
         <div className="d-flex justify-content-center">
@@ -278,6 +282,7 @@ class ClassroomDetail extends Component {
 
               listPlayListsContainPlaylist={listPlayListsContainPlaylist}
 
+              ListCourseAndName={ListCourseAndName}
 
             />
           )}

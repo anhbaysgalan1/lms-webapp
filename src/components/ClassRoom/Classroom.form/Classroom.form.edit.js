@@ -16,28 +16,17 @@ import ClassRoomPlaylistNotIn from './Classroom.Playlists/Classroom.PlaylistsNot
 
 
 class ClassroomEditForm extends Component {
-  static validate(values) {
-    const errors = {};
-    /* eslint-disable */
-    if (!values.classroom) {
-      errors.classroom = 'Name is required!';
-    }
-    if (values.course === '') {
-      errors.course = 'Choose Your Course!';
-    }
-    return errors;
-  }
-
   constructor(props) {
     super(props);
     this.renderForm = this.renderForm.bind(this);
+    this.validate = this.validate.bind(this);
     const PropslistMemberInClass = _.get(this.props, 'listMemberInClass');
     const PropslistMemberNotInClass = _.get(this.props, 'listMemberNotInClass');
     const PropslistTeachersInClass = _.get(this.props, 'listTeachersInClass');
     const PropslistTeachersNotInClass = _.get(this.props, 'listTeachersNotInClass');
     const PropslistPlaylistInClass = _.get(this.props, 'listPlaylistInClass');
-    const PropslistPlaylistNotInClass = _.get(this.props, 'listPlaylistNotInClass')
-
+    const PropslistPlaylistNotInClass = _.get(this.props, 'listPlaylistNotInClass');
+    const PropsListCourseAndName = _.get(this.props, 'ListCourseAndName');
     this.state = {
       show_add: false,
       show_add_mem: false,
@@ -47,7 +36,8 @@ class ClassroomEditForm extends Component {
       listMemberInClass: PropslistMemberInClass,
       listMemberNotInClass: PropslistMemberNotInClass,
       listPlaylistInClass: PropslistPlaylistInClass,
-      listPlaylistNotInClass: PropslistPlaylistNotInClass
+      listPlaylistNotInClass: PropslistPlaylistNotInClass,
+      ListCourseAndName: PropsListCourseAndName,
     };
   }
 
@@ -100,6 +90,27 @@ class ClassroomEditForm extends Component {
       });
     }
   }
+  /* eslint-disable */
+  validate(values) {
+    const { ListCourseAndName } = this.state;
+    const currentClass = this.props.initialValues.course + this.props.initialValues.classroom;
+    const errors = {};
+    if (!values.classroom) {
+      errors.classroom = 'Name is required!';
+    }
+    if (values.course === '') {
+      errors.course = 'Choose Your Course!';
+    }
+    _.map(ListCourseAndName,el=>{
+      let stringDuplicate = values.course + values.classroom
+      if (stringDuplicate !== currentClass && stringDuplicate === el){
+        errors.duplicate = 'This class have been existed!';
+        errors.flag = true
+      }
+    })
+    return errors;
+  }
+  /* eslint-enable */
 
   buttonAdd() {
     const { show_add: ShowAdd } = this.state;
@@ -216,23 +227,29 @@ class ClassroomEditForm extends Component {
     );
   }
 
-  renderPlaylist(){
+  renderPlaylist() {
     const listPlaylist = _.get(this.props, 'listPlayListsContainPlaylist');
     const clickToUnlock = _.get(this.props, 'clickToUnlock');
     const removeData = _.get(this.props, 'removeData');
     return (
-      <ClassRoomPlaylist list_playlist={listPlaylist} 
-      clickToUnlock={clickToUnlock} 
-      removeData={removeData} />
+      <ClassRoomPlaylist
+        list_playlist={listPlaylist}
+        clickToUnlock={clickToUnlock}
+        removeData={removeData}
+      />
     );
   }
 
-  renderPlaylistNotIn(){
-    const listPlaylist = _.get(this.state, 'listPlaylistNotInClass')
+  renderPlaylistNotIn() {
+    const listPlaylist = _.get(this.state, 'listPlaylistNotInClass');
     const clickGetData = _.get(this.props, 'clickGetData');
     const removeData = _.get(this.props, 'removeData');
     return (
-      <ClassRoomPlaylistNotIn list_playlist={listPlaylist} clickGetData={clickGetData} removeData={removeData} />
+      <ClassRoomPlaylistNotIn
+        list_playlist={listPlaylist}
+        clickGetData={clickGetData}
+        removeData={removeData}
+      />
     );
   }
 
@@ -310,10 +327,11 @@ Class
             onChange={handleChange}
             value={classroom}
             /* eslint-disable */
-            invalid={touched.classroom && !!errors.classroom}
+            invalid={touched.classroom && !!errors.classroom && errors.flag}
           />
           <div className="text-danger">
             {touched.classroom ? errors.classroom : ''}
+            {errors.flag ? errors.duplicate : ''}
           </div>
         </FormGroup>
 
