@@ -111,3 +111,20 @@ export const allIDinList = (list) => {
   });
   return empty;
 };
+
+export const JointCourseAndName = (list) =>{
+  const empty = [];
+  _.map(list,(el)=>{
+    const joinString = el.course + el._class;
+    empty.push(joinString);
+  });
+  return empty;
+}
+
+export const ListStringCourse = (list) =>{
+  const empty = [];
+  _.map(list,(el)=>{
+    empty.push(el.course)
+  })
+  return empty;
+}

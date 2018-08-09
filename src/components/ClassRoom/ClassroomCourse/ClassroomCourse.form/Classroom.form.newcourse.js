@@ -7,19 +7,28 @@ import {
 
 
 class ClassroomFormNewCourse extends Component {
-  static validate(values) {
+  constructor(props) {
+    super(props);
+    this.validate = this.validate.bind(this);
+    this.renderForm = this.renderForm.bind(this);
+  }
+  /* eslint-disable */
+  validate(values) {
     const errors = {};
+    const { fetchCourseData } = this.props;
     if (!values.newcourse) {
       errors.newcourse = 'New Course can\'t be blank!';
     }
+    _.map(fetchCourseData, (el) => {
+      if (values.newcourse.toLowerCase() === el.toLowerCase()) {
+        errors.duplicate = 'This Course has been existed!';
+        errors.flag = true;
+      }
+    });
     return errors;
   }
 
-  constructor(props) {
-    super(props);
-    this.renderForm = this.renderForm.bind(this);
-  }
-
+  /* eslint-enable */
   renderForm(formProps) {
     const {
       values,
@@ -48,10 +57,12 @@ New Course
             value={newcourse}
             onBlur={handleBlur}
             onChange={handleChange}
-            invalid={touched.newcourse && !!errors.newcourse}
+            invalid={touched.newcourse && !!errors.newcourse && errors.flag}
           />
           <div className="text-danger">
+            {console.log(errors)}
             {touched.newcourse ? errors.newcourse : ''}
+            {errors.flag ? errors.duplicate : ''}
           </div>
         </FormGroup>
 
@@ -76,12 +87,11 @@ Add
 
   render() {
     const initialValues = _.get(this.props, 'initialValues');
-    const validate = _.get(this.props, 'validate');
     const onSubmit = _.get(this.props, 'onSubmit');
     return (
       <Formik
         initialValues={initialValues}
-        validate={validate}
+        validate={this.validate}
         onSubmit={onSubmit}
         render={this.renderForm}
       />

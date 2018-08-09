@@ -5,9 +5,16 @@ import {
   Form, FormGroup, Label, Input, Button,
 } from 'reactstrap';
 
-  /*eslint-disable */
 class ClassroomForm extends Component {
-  static validate(values) {
+  constructor(props) {
+    super(props);
+    this.renderForm = this.renderForm.bind(this);
+    this.validate = this.validate.bind(this);
+  }
+
+  /*eslint-disable */
+   validate(values) {
+    const ListCourseAndName = this.props.ListCourseAndName;
     const errors = {};
     if (!values._class) {
       errors._class = 'Name is required!';
@@ -15,14 +22,18 @@ class ClassroomForm extends Component {
     if (values.course === '') {
       errors.course = 'Choose Your Course!';
     }
+    let flag = false
+    _.map(ListCourseAndName,el=>{
+      let stringDuplicate = values.course + values._class
+      if (stringDuplicate === el){
+        errors.duplicate = 'This class have been existed!';
+        errors.flag = true
+      }
+    })
+
     return errors;
   }
   /* eslint-enable */
-
-  constructor(props) {
-    super(props);
-    this.renderForm = this.renderForm.bind(this);
-  }
 
   renderForm(formProps) {
     // console.log("Form Side");
@@ -84,10 +95,11 @@ class ClassroomForm extends Component {
             onBlur={handleBlur}
             onChange={handleChange}
             value={_class}
-            invalid={touched._class && !!errors._class}
+            invalid={touched._class && !!errors._class && !!errors.flag}
           />
           <div className="text-danger">
             {touched._class ? errors._class : ''}
+            {errors.flag ? errors.duplicate : ''}
           </div>
         </FormGroup>
 

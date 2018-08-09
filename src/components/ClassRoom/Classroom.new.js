@@ -4,6 +4,8 @@ import _ from 'lodash';
 import ClassroomForm from './Classroom.form/Classroom.form';
 import { fetchClassrooms, AddClassroom } from '../../actions/classroom';
 import { fetchCourse } from '../../networks/classcourse';
+import { fetchClass } from '../../networks/classroom';
+import { JointCourseAndName } from '../../utils';
 
 
 class ClassroomNew extends Component {
@@ -13,12 +15,15 @@ class ClassroomNew extends Component {
     this.state = ({
       optionCourses: null,
       isSubmitting: false,
+      dataFetch: null,
     });
   }
 
   async componentWillMount() {
     const fetchData = await fetchCourse();
+    const dataFetch = await fetchClass();
     this.setState({
+      dataFetch: dataFetch.data,
       optionCourses: fetchData.data,
     });
   }
@@ -40,6 +45,8 @@ class ClassroomNew extends Component {
     const optionCourses = _.get(this.state, 'optionCourses');
     const PropsHistory = _.get(this.props, 'history');
     const isSubmitting = _.get(this.state, 'isSubmitting');
+    const { dataFetch } = this.state;
+    const ListCourseAndName = JointCourseAndName(dataFetch);
     if (!optionCourses) {
       return (
         <div className="d-flex justify-content-center">
@@ -66,6 +73,7 @@ class ClassroomNew extends Component {
                 teachers: [],
                 members: [],
               }}
+              ListCourseAndName={ListCourseAndName}
               data_name_course={optionCourses}
               onSubmit={this.onSubmit}
               onCancel={PropsHistory.goBack}
