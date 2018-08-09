@@ -53,7 +53,8 @@ class ClassRoomlistteacher extends Component {
                     onKeyDown={() => {}}
                     role="presentation"
                     key={member._id}
-                    onClick={() => (this.userDetail(`${ROUTE_ADMIN_USER_DETAIL}/${member._id}`))}
+                    onClick={() => {}}
+                    // (this.userDetail(`${ROUTE_ADMIN_USER_DETAIL}/${member._id}`)
                   >
                     <div className="no">
                       { index + 1 }
