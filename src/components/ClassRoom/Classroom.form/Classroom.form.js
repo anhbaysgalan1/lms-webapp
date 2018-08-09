@@ -17,7 +17,7 @@ class ClassroomForm extends Component {
     const ListCourseAndName = this.props.ListCourseAndName;
     const errors = {};
     if (!values._class) {
-      errors._class = 'Name is required!';
+      errors._class = 'Cant Be Blank!!';
     }
     if (values.course === '') {
       errors.course = 'Choose Your Course!';
