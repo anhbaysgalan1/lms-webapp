@@ -75,7 +75,7 @@ class ClassRoomPlaylistNotIn extends Component {
                 }}
               >
                 <div className="delete">
-                  <i className="text-dark fas fa-check" />
+                  <i className="text-dark fas fa-plus" />
                 </div>
               </div>
             </div>
