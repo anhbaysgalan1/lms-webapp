@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-import { fetchUserById } from "../../networks/user";
-import { updateUser } from "actions/user";
+import _ from 'lodash';
+import { updateUser } from '../../actions/user';
+import { fetchUserById } from '../../networks/user';
 import UserDetailForm from './User.detail.form';
-  
-  
+/* eslint-disable */
+import PropTypes from 'prop-types';
+/* eslint-enable */
+
 class UserDetail extends Component {
   constructor(props) {
     super(props);
@@ -16,38 +18,58 @@ class UserDetail extends Component {
   }
 
   componentWillMount() {
-    const user = this.props.match.params.id;
-    fetchUserById(user).then((user) => {
-      
+    const { match } = this.props;
+    const useR = match.params.id;
+    fetchUserById(useR).then((user) => {
       this.setState({
-        user
+        user,
       });
-    })
+    });
   }
 
   onSubmit(user) {
-    this.props.updateUser(user).then(() => {
-      this.props.history.goBack();
+    const { history } = this.props;
+    const ActionUpdateUser = _.get(this.props, 'updateUser');
+    ActionUpdateUser(user).then(() => {
+      history.goBack();
     });
   }
 
   render() {
-    if(!this.state.user) {
-      return <div>Loading...</div>
+    const { user } = this.state;
+    const { history } = this.props;
+    if (!user) {
+      return (
+        <div>
+Loading...
+        </div>
+      );
     }
     return (
       <div>
         <div>
-          <UserDetailForm 
-          initialValues={this.state.user.data.data}
-          onSubmit={this.onSubmit}
-          onCacel={this.props.history.goback}
+          <UserDetailForm
+            initialValues={user.data.data}
+            onSubmit={this.onSubmit}
+            onCacel={history.goback}
           />
         </div>
       </div>
     );
   }
 }
-  
-  
+
+UserDetail.propTypes = {
+  history: PropTypes.shape({
+    length: PropTypes.number,
+    action: PropTypes.string,
+  }).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
+};
+
+
 export default connect(null, { updateUser })(UserDetail);
