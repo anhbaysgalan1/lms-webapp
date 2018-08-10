@@ -5,6 +5,7 @@ import popupReducer from './popupReducer';
 import playlistReducer from './playlistReducer';
 import classroomReducer from './classroomReducer';
 import classcourseReducer from './classcourseReducer';
+import authReducer from './authReducer';
 
 export default combineReducers({
   classroomReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   usersReducer,
   videoReducer,
   popupReducer,
-  playlistReducer
+  playlistReducer,
+  authReducer,
 });
