@@ -12,6 +12,7 @@ class ClassroomForm extends Component {
     this.validate = this.validate.bind(this);
   }
 
+
   /*eslint-disable */
    validate(values) {
     const ListCourseAndName = this.props.ListCourseAndName;

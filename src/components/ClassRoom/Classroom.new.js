@@ -16,6 +16,8 @@ class ClassroomNew extends Component {
       optionCourses: null,
       isSubmitting: false,
       dataFetch: null,
+      session: null,
+      a: null,
     });
   }
 
@@ -29,12 +31,21 @@ class ClassroomNew extends Component {
   }
 
   onSubmit(classroom) {
+    const obj_class = classroom;
     const ActionAddClassroom = _.get(this.props, 'AddClassroom');
     const PropsHistory = _.get(this.props, 'history');
+    const { optionCourses } = this.state;
     this.setState({
       isSubmitting: true,
     });
-    ActionAddClassroom(classroom).then(
+    let flag = true;
+    _.map(optionCourses, (choose) => {
+      if (flag && obj_class.course === choose.course) {
+        obj_class.session = choose.session;
+        flag = false;
+      }
+    });
+    ActionAddClassroom(obj_class).then(
       () => {
         PropsHistory.goBack();
       },
@@ -72,6 +83,7 @@ class ClassroomNew extends Component {
                 classroom: '',
                 teachers: [],
                 members: [],
+                session: 0,
               }}
               ListCourseAndName={ListCourseAndName}
               data_name_course={optionCourses}

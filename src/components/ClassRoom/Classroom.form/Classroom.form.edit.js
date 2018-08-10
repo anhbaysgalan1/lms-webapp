@@ -101,6 +101,9 @@ class ClassroomEditForm extends Component {
     if (values.course === '') {
       errors.course = 'Choose Your Course!';
     }
+    if (values.session === ''){
+      errors.session = 'Session cant be Blank!'
+    }
     _.map(ListCourseAndName,el=>{
       let stringDuplicate = values.course + values.classroom
       if (stringDuplicate !== currentClass && stringDuplicate === el){
@@ -266,6 +269,7 @@ class ClassroomEditForm extends Component {
     const {
       course,
       classroom,
+      session,
     } = values;
 
     const {
@@ -335,6 +339,26 @@ Class
           </div>
         </FormGroup>
 
+        {/* Session */}
+
+        <FormGroup>
+          <Label>
+Session
+          </Label>
+          <Input
+            type="number"
+            name="session"
+            onBlur={handleBlur}
+            onChange={handleChange}
+            value={session}
+            /* eslint-disable */
+            invalid={touched.session && !!errors.session}
+          />
+          <div className="text-danger">
+            {touched.classroom ? errors.session : ''}
+          </div>
+        </FormGroup>
+
         {/* Query List Users */}
         <div className="d-flex justify-content-end">
           {this.buttonAdd()}
@@ -366,6 +390,7 @@ Class
         {this.renderPlaylistNotIn()}
         </div>
         {/* Button */}
+        <div className="d-flex justify-content-end">
         <Button
           className="mx-1"
           onClick={onCancel}
@@ -376,6 +401,7 @@ Back
         <Button className="btn btn-info">
 Submit
         </Button>
+        </div>
       </Form>
     );
   }

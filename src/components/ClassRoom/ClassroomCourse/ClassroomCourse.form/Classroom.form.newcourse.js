@@ -19,9 +19,13 @@ class ClassroomFormNewCourse extends Component {
     if (!values.newcourse) {
       errors.newcourse = 'New Course can\'t be blank!';
     }
+
+    if (!values.session) {
+      errors.session = 'Session can\'t be blank!';
+    }
     
     _.map(fetchCourseData, (el) => {
-      if (values.newcourse.toLowerCase() === el.toLowerCase()) {
+      if (values.newcourse === el) {
         errors.duplicate = 'This Course has been existed!';
         errors.flag = true;
       }
@@ -42,7 +46,7 @@ class ClassroomFormNewCourse extends Component {
     } = formProps;
 
     const {
-      newcourse,
+      newcourse, session,
     } = values;
 
     const onCancel = _.get(this.props, 'onCancel');
@@ -63,6 +67,23 @@ New Course
           <div className="text-danger">
             {touched.newcourse ? errors.newcourse : ''}
             {errors.flag ? errors.duplicate : ''}
+          </div>
+        </FormGroup>
+
+        <FormGroup>
+          <Label>
+Number Session
+          </Label>
+          <Input
+            type="number"
+            name="session"
+            value={session}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            invalid={touched.session && !!errors.session}
+          />
+          <div className="text-danger">
+            {touched.session ? errors.session : ''}
           </div>
         </FormGroup>
 
