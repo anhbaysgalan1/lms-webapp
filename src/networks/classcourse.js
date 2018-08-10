@@ -1,6 +1,8 @@
 import axios from "axios";
 import {API_CLASSROOM_COURSE} from '../statics/urls';
 
+axios.defaults.validateStatus = status => status < 500;
+axios.defaults.withCredentials = true;
 
 export async function fetchCourse(){
     let data_get = await axios.get(API_CLASSROOM_COURSE);

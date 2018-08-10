@@ -1,5 +1,4 @@
 import axios from 'axios';
-import _ from 'lodash';
 
 import { API_AUTH } from 'statics/urls';
 
@@ -21,6 +20,14 @@ export function login(username, password) {
   return {
     type: LOGIN,
     payload: request.then(tokenInterceptor),
+  };
+}
+
+export function logout() {
+  const request = axios.get(`${API_AUTH}/signout`);
+  return {
+    type: LOGOUT,
+    payload: request,
   };
 }
 

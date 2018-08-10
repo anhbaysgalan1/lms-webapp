@@ -1,7 +1,8 @@
 import axios from "axios";
 import {API_CLASSROOM} from '../statics/urls';
 
-
+axios.defaults.validateStatus = status => status < 500;
+axios.defaults.withCredentials = true;
 
 export async function updateClassroomPromise(obj_class){
     console.log(obj_class);

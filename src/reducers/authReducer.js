@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import {
-  LOGIN, CHECK_AUTH,
+  LOGIN, CHECK_AUTH, LOGOUT,
 } from '../actions/auth';
 
 export default function (state = null, action) {
@@ -19,6 +19,8 @@ export default function (state = null, action) {
       return success ? { ...state, user: data, errMsg: null }
         : { ...state, user: null, errMsg: null };
     }
+    case LOGOUT:
+      return null;
     default:
       return state;
   }
