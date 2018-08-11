@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import { connect } from 'react-redux';
 import { Formik } from 'formik';
 import {
   Form, FormGroup, Label, Input, Button,
 } from 'reactstrap';
+import { FetchCourseAction } from '../../../../actions/classcourse';
+import { ListStringCourse } from '../../../../utils';
 
 
 class ClassroomFormNewCourse extends Component {
@@ -12,10 +15,27 @@ class ClassroomFormNewCourse extends Component {
     this.validate = this.validate.bind(this);
     this.renderForm = this.renderForm.bind(this);
   }
+
+  componentWillMount() {
+    const classcourseReducer = _.get(this.props, 'classcourseReducer');
+    const PropsFetchCourseAction = _.get(this.props, 'FetchCourseAction');
+    if (!classcourseReducer) {
+      PropsFetchCourseAction();
+    }
+  }
+
+  componentDidMount() {
+    const classcourseReducer = _.get(this.props, 'classcourseReducer');
+    const PropsFetchCourseAction = _.get(this.props, 'FetchCourseAction');
+    if (!classcourseReducer) {
+      PropsFetchCourseAction();
+    }
+  }
   /* eslint-disable */
   validate(values) {
     const errors = {};
-    const { fetchCourseData } = this.props;
+    const { classcourseReducer } = this.props;
+    const ListCourse = ListStringCourse(classcourseReducer);
     if (!values.newcourse) {
       errors.newcourse = 'New Course can\'t be blank!';
     }
@@ -23,9 +43,9 @@ class ClassroomFormNewCourse extends Component {
     if (!values.session) {
       errors.session = 'Session can\'t be blank!';
     }
-    
-    _.map(fetchCourseData, (el) => {
-      if (values.newcourse === el) {
+    // fetchCourseData
+    _.map(ListCourse, (el) => {
+      if (values.newcourse.toUpperCase() === el.toUpperCase()) {
         errors.duplicate = 'This Course has been existed!';
         errors.flag = true;
       }
@@ -120,4 +140,12 @@ Add
   }
 }
 
-export default ClassroomFormNewCourse;
+function mapReducerProps({ classcourseReducer }) {
+  return { classcourseReducer };
+}
+
+const actions = {
+  FetchCourseAction,
+};
+
+export default connect(mapReducerProps, actions)(ClassroomFormNewCourse);

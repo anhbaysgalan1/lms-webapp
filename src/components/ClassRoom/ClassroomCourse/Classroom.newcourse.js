@@ -55,7 +55,7 @@ class ClassroomNewCourse extends Component {
           fetchCourseData={fetchCourseData}
           initialValues={{
             newcourse: '',
-            session: 0,
+            session: '',
           }}
         />
         <ClassroomListCourse />
