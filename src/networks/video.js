@@ -1,15 +1,10 @@
 import _ from 'lodash';
 import axios from 'axios';
 import { API_VIDEO } from 'statics/urls';
-import { dummyPlaylist } from 'actions/playlist';
 import { plainText, fieldsNotEmpty } from 'utils';
 
 axios.defaults.validateStatus = status => status < 500;
 axios.defaults.withCredentials = true;
-
-const videos = _.flatten(dummyPlaylist.map((playlist) => {
-  return playlist.videos;
-}));
 
 export function searchVideo(terms) {
   const searchUrl = `${API_VIDEO}?q=${terms}`;
