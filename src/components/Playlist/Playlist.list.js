@@ -113,6 +113,9 @@ const actions = {
   openPopupAction: openPopup,
 };
 
+PlayListList.defaultProps = {
+  playlistReducer: null,
+};
 
 PlayListList.propTypes = {
   playlistReducer: PropTypes.shape({
@@ -121,7 +124,7 @@ PlayListList.propTypes = {
       title: PropTypes.string.isRequired,
       videos: PropTypes.array.isRequired,
     }),
-  }).isRequired,
+  }),
   history: PropTypes.shape({
     goBack: PropTypes.func.isRequired,
   }).isRequired,
