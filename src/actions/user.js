@@ -1,4 +1,4 @@
-import { fetchListUser } from '../networks/user';
+import { fetchListUser } from 'networks/user';
 import {addUser as addUserPromise} from 'networks/user';
 import {deleteUser as deleteUserPromise} from 'networks/user';
 import {updateUser as updateUserPromise} from 'networks/user';
@@ -7,8 +7,6 @@ export const FETCH_USER = "Fetch user";
 export const ADD_USER = "Add user";
 export const UPDATE_USER = "Update user";
 export const DELETE_USER = "Delete user";
-
-  
 
 export function fetchUsers(){
   return {

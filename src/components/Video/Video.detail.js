@@ -1,53 +1,68 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { updateVideo, fetchVideoDetail } from 'actions/video';
 import VideoForm from './Video.form';
 
-class VideoDetail extends Component {
+class VideoDetail extends PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      isLoading: true
+      isLoading: true,
     };
 
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentWillMount() {
-    const videoId = this.props.match.params._id;
-    this.props.fetchVideoDetail(videoId)
+    const videoId = _.get(this.props, 'match.params.id');
+    const actionFetchVideoDetail = _.get(this.props, 'fetchVideoDetail');
+
+    actionFetchVideoDetail(videoId)
       .then(() => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       })
       .catch(() => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       });
   }
 
   onSubmit(video) {
-    this.setState({isLoading: true});
-    this.props.updateVideo(video)
+    this.setState({ isLoading: true });
+    const actionUpdateVideo = _.get(this.props, 'updateVideo');
+    const history = _.get(this.props, 'history');
+
+    actionUpdateVideo(video)
       .then(() => {
-        this.props.history.goBack();
+        history.goBack();
       })
       .catch(() => {
-        this.props.history.goBack();
+        history.goBack();
       });
   }
 
   render() {
-    const videoId = this.props.match.params._id;
-    if(this.state.isLoading) return <div>Loading...</div>
-    else return (
+    const { isLoading } = this.state;
+    const videoReducer = _.get(this.props, 'videoReducer');
+    const history = _.get(this.props, 'history');
+
+    if (isLoading) {
+      return (
+        <div>
+          Loading...
+        </div>
+      );
+    }
+
+    return (
       <div>
         <div className="round-panel">
           <VideoForm
-            initialValues={this.props.videoReducer}
+            initialValues={videoReducer}
             onSubmit={this.onSubmit}
-            onCancel={this.props.history.goBack}
+            onCancel={history.goBack}
           />
         </div>
       </div>
@@ -61,8 +76,7 @@ function mapReducerProps({ videoReducer }) {
 
 const actions = {
   updateVideo,
-  fetchVideoDetail
-}
+  fetchVideoDetail,
+};
 
-  
 export default connect(mapReducerProps, actions)(VideoDetail);

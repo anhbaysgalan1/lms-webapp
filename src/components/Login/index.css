@@ -1,0 +1,28 @@
+.signin {
+  height: 100vh;
+  width: 100vw;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+}
+
+.signin .form-check-input {
+  position: relative;
+  margin: 0 5px;
+  width: 15px;
+  height: 15px;
+}
+
+.signin label.checkbox {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.signin .invalid-feedback {
+  font-size: 1rem;
+}

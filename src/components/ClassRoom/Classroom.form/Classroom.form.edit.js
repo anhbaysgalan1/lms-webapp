@@ -16,28 +16,17 @@ import ClassRoomPlaylistNotIn from './Classroom.Playlists/Classroom.PlaylistsNot
 
 
 class ClassroomEditForm extends Component {
-  static validate(values) {
-    const errors = {};
-    /* eslint-disable */
-    if (!values._class) {
-      errors._class = 'Name is required!';
-    }
-    if (values.course === '') {
-      errors.course = 'Choose Your Course!';
-    }
-    return errors;
-  }
-
   constructor(props) {
     super(props);
     this.renderForm = this.renderForm.bind(this);
+    this.validate = this.validate.bind(this);
     const PropslistMemberInClass = _.get(this.props, 'listMemberInClass');
     const PropslistMemberNotInClass = _.get(this.props, 'listMemberNotInClass');
     const PropslistTeachersInClass = _.get(this.props, 'listTeachersInClass');
     const PropslistTeachersNotInClass = _.get(this.props, 'listTeachersNotInClass');
     const PropslistPlaylistInClass = _.get(this.props, 'listPlaylistInClass');
-    const PropslistPlaylistNotInClass = _.get(this.props, 'listPlaylistNotInClass')
-
+    const PropslistPlaylistNotInClass = _.get(this.props, 'listPlaylistNotInClass');
+    const PropsListCourseAndName = _.get(this.props, 'ListCourseAndName');
     this.state = {
       show_add: false,
       show_add_mem: false,
@@ -47,7 +36,8 @@ class ClassroomEditForm extends Component {
       listMemberInClass: PropslistMemberInClass,
       listMemberNotInClass: PropslistMemberNotInClass,
       listPlaylistInClass: PropslistPlaylistInClass,
-      listPlaylistNotInClass: PropslistPlaylistNotInClass
+      listPlaylistNotInClass: PropslistPlaylistNotInClass,
+      ListCourseAndName: PropsListCourseAndName,
     };
   }
 
@@ -100,6 +90,30 @@ class ClassroomEditForm extends Component {
       });
     }
   }
+  /* eslint-disable */
+  validate(values) {
+    const { ListCourseAndName } = this.state;
+    const currentClass = this.props.initialValues.course + this.props.initialValues.classroom;
+    const errors = {};
+    if (!values.classroom) {
+      errors.classroom = 'Name is required!';
+    }
+    if (values.course === '') {
+      errors.course = 'Choose Your Course!';
+    }
+    if (values.session === ''){
+      errors.session = 'Session cant be Blank!'
+    }
+    _.map(ListCourseAndName,el=>{
+      let stringDuplicate = values.course + values.classroom
+      if (stringDuplicate !== currentClass && stringDuplicate === el){
+        errors.duplicate = 'This class have been existed!';
+        errors.flag = true
+      }
+    })
+    return errors;
+  }
+  /* eslint-enable */
 
   buttonAdd() {
     const { show_add: ShowAdd } = this.state;
@@ -216,23 +230,29 @@ class ClassroomEditForm extends Component {
     );
   }
 
-  renderPlaylist(){
+  renderPlaylist() {
     const listPlaylist = _.get(this.props, 'listPlayListsContainPlaylist');
     const clickToUnlock = _.get(this.props, 'clickToUnlock');
     const removeData = _.get(this.props, 'removeData');
     return (
-      <ClassRoomPlaylist list_playlist={listPlaylist} 
-      clickToUnlock={clickToUnlock} 
-      removeData={removeData} />
+      <ClassRoomPlaylist
+        list_playlist={listPlaylist}
+        clickToUnlock={clickToUnlock}
+        removeData={removeData}
+      />
     );
   }
 
-  renderPlaylistNotIn(){
-    const listPlaylist = _.get(this.state, 'listPlaylistNotInClass')
+  renderPlaylistNotIn() {
+    const listPlaylist = _.get(this.state, 'listPlaylistNotInClass');
     const clickGetData = _.get(this.props, 'clickGetData');
     const removeData = _.get(this.props, 'removeData');
     return (
-      <ClassRoomPlaylistNotIn list_playlist={listPlaylist} clickGetData={clickGetData} removeData={removeData} />
+      <ClassRoomPlaylistNotIn
+        list_playlist={listPlaylist}
+        clickGetData={clickGetData}
+        removeData={removeData}
+      />
     );
   }
 
@@ -248,7 +268,8 @@ class ClassroomEditForm extends Component {
     } = formProps;
     const {
       course,
-      _class,
+      classroom,
+      session,
     } = values;
 
     const {
@@ -305,15 +326,36 @@ Class
           </Label>
           <Input
             type="number"
-            name="_class"
+            name="classroom"
             onBlur={handleBlur}
             onChange={handleChange}
-            value={_class}
+            value={classroom}
             /* eslint-disable */
-            invalid={touched._class && !!errors._class}
+            invalid={touched.classroom && !!errors.classroom && errors.flag}
           />
           <div className="text-danger">
-            {touched._class ? errors._class : ''}
+            {touched.classroom ? errors.classroom : ''}
+            {errors.flag ? errors.duplicate : ''}
+          </div>
+        </FormGroup>
+
+        {/* Session */}
+
+        <FormGroup>
+          <Label>
+Session
+          </Label>
+          <Input
+            type="number"
+            name="session"
+            onBlur={handleBlur}
+            onChange={handleChange}
+            value={session}
+            /* eslint-disable */
+            invalid={touched.session && !!errors.session}
+          />
+          <div className="text-danger">
+            {touched.classroom ? errors.session : ''}
           </div>
         </FormGroup>
 
@@ -348,6 +390,7 @@ Class
         {this.renderPlaylistNotIn()}
         </div>
         {/* Button */}
+        <div className="d-flex justify-content-end">
         <Button
           className="mx-1"
           onClick={onCancel}
@@ -358,6 +401,7 @@ Back
         <Button className="btn btn-info">
 Submit
         </Button>
+        </div>
       </Form>
     );
   }

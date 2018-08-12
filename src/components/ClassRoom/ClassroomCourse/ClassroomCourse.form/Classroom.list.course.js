@@ -32,8 +32,9 @@ class ClassroomListCourse extends Component {
            <div className="name">
              { course.course }
              {/* eslint-disable */}
-             { course._class }
+             { course.classroom }
            </div>
+           <div className="name2">{ course.session }</div>
            {/* <div className="name2">{course.teachers.length} Teachers</div> */}
            <div className="video-count" />
            <div

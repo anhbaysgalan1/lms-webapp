@@ -9,73 +9,112 @@ import { openPopup } from 'actions/popup';
 import { ROUTE_ADMIN_VIDEO_NEW, ROUTE_ADMIN_VIDEO_DETAIL } from '../routes';
 
 import './Video.list.css';
-  
+
 class VideoList extends Component {
   componentWillMount() {
-    const videos = this.props.videoReducer;
-    if(!videos || videos._id) {
-      this.props.fetchVideos();
+    const videos = _.get(this.props, 'videoReducer');
+    const fetchVideosAction = _.get(this.props, 'fetchVideos');
+
+    if (!videos || videos._id) {
+      fetchVideosAction();
     }
   }
 
   renderVideos() {
+    const videos = _.get(this.props, 'videoReducer');
+    const openPopupAction = _.get(this.props, 'openPopup');
+    const deleteVideoAction = _.get(this.props, 'deleteVideo');
+    const history = _.get(this.props, 'history');
 
-    const videos = this.props.videoReducer;
-    if(!videos || videos._id) return <div>Loading...</div>
-    
+    if (!videos || videos._id) {
+      return (
+        <div>
+          Loading...
+        </div>
+      );
+    }
+
     return (
       <div className="round-panel">
         <div className="video-item header">
-          <div className="no">#</div>
-          <div className="title">Title</div>
-          <div className="description">Description</div>
-          <div className="url">Video Url</div>
+          <div className="no">
+            #
+          </div>
+          <div className="title">
+            Title
+          </div>
+          <div className="description">
+            Description
+          </div>
+          <div className="url">
+            Video Url
+          </div>
           <div className="controls">
             <div className="delete">
-              <i className="text-dark fas fa-trash-alt"></i>
+              <i className="text-dark fas fa-trash-alt" />
             </div>
           </div>
         </div>
         {
-          _.values(videos).map((video, index) => {
-            return (
-              <div 
-                className="video-item"
-                key={video._id}
-                onClick={() => this.props.history.push(`${ROUTE_ADMIN_VIDEO_DETAIL}/${video._id}`)}
-              >
-                <div className="no">{ index + 1 }</div>
-                <div className="title">{ video.title }</div>
-                <div className="description">{ video.description.slice(0, 50) }</div>
-                <div className="url"><Link to={`https://youtu.be/${ video.videoId }`} target="_blank">https://youtu.be/{ video.videoId }</Link></div>
-                <div className="controls" 
-                  onClick={(event) => {
+          _.values(videos).map((video, index) => (
+            <div
+              role="button"
+              tabIndex={index}
+              className="video-item"
+              key={video._id}
+              onClick={() => history.push(`${ROUTE_ADMIN_VIDEO_DETAIL}/${video._id}`)}
+              onKeyPress={() => {}}
+            >
+              <div className="no">
+                { index + 1 }
+              </div>
+              <div className="title">
+                { video.title }
+              </div>
+              <div className="description">
+                { video.description ? video.description.slice(0, 50) : '' }
+              </div>
+              <div className="url">
+                <Link to={`https://youtu.be/${video.videoId}`} target="_blank">
+                  https://youtu.be/
+                  { video.videoId }
+                </Link>
+              </div>
+              <div
+                role="button"
+                tabIndex={index}
+                className="controls"
+                onKeyPress={() => {}}
+                onClick={(event) => {
                   event.stopPropagation();
-                  this.props.openPopup(() => {
-                    this.props.deleteVideo(video)
+                  openPopupAction(() => {
+                    deleteVideoAction(video);
                   },
                   null);
-                }}>
-                  <div className="delete">
-                    <i className="text-dark fas fa-trash-alt"></i>
-                  </div>
+                }}
+              >
+                <div className="delete">
+                  <i className="text-dark fas fa-trash-alt" />
                 </div>
               </div>
-            );
-          })
+            </div>
+          ))
         }
       </div>
     );
   }
 
   renderControls() {
+    const history = _.get(this.props, 'history');
     return (
       <div className="admin-controls">
         <Button
           className="admin-btn mr-2 text-dark"
-          onClick={() => this.props.history.push(ROUTE_ADMIN_VIDEO_NEW)}
+          onClick={() => history.push(ROUTE_ADMIN_VIDEO_NEW)}
         >
-          <i className="fas fa-plus mr-1"></i> {'  '} Add video
+          <i className="fas fa-plus mr-1" />
+          {'  '}
+          Add video
         </Button>
       </div>
     );
@@ -98,7 +137,7 @@ function mapReducerProps({ videoReducer }) {
 const actions = {
   fetchVideos,
   deleteVideo,
-  openPopup
-}
-  
+  openPopup,
+};
+
 export default connect(mapReducerProps, actions)(VideoList);

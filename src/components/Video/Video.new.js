@@ -1,48 +1,56 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import { addVideo } from 'actions/video';
-import VideoForm from './Video.form'; 
-  
+import VideoForm from './Video.form';
+
 class VideoNew extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isLoading: false
-    }
+      isLoading: false,
+    };
 
     this.onSubmit = this.onSubmit.bind(this);
   }
-  
+
   onSubmit(video) {
+    const addVideoAction = _.get(this.props, 'addVideo');
+    const history = _.get(this.props, 'history');
     this.setState({ isLoading: true });
-    this.props.addVideo(video)
+    addVideoAction(video)
       .then(() => {
-        this.props.history.goBack();
+        history.goBack();
       });
   }
 
   render() {
+    const isLoading = _.get(this.state, 'isLoading');
+    const history = _.get(this.props, 'history');
     return (
-      this.state.isLoading ? <div>Loading....</div> : (
+      isLoading ? (
+        <div>
+          Loading....
+        </div>
+      ) : (
         <div>
           <div className="round-panel">
             <VideoForm
               initialValues={{
-                title: "",
-                description: "",
-                videoId: "",
+                title: '',
+                description: '',
+                videoId: '',
               }}
               onSubmit={this.onSubmit}
-              onCancel={this.props.history.goBack}
+              onCancel={history.goBack}
             />
           </div>
         </div>
-      ) 
+      )
     );
   }
 }
-  
-  
-export default connect(null, {addVideo})(VideoNew);
+
+export default connect(null, { addVideo })(VideoNew);

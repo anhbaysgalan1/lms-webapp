@@ -5,24 +5,36 @@ import {
   Form, FormGroup, Label, Input, Button,
 } from 'reactstrap';
 
-  /*eslint-disable */
 class ClassroomForm extends Component {
-  static validate(values) {
+  constructor(props) {
+    super(props);
+    this.renderForm = this.renderForm.bind(this);
+    this.validate = this.validate.bind(this);
+  }
+
+
+  /*eslint-disable */
+   validate(values) {
+    const ListCourseAndName = this.props.ListCourseAndName;
     const errors = {};
-    if (!values._class) {
-      errors._class = 'Name is required!';
+    if (!values.classroom) {
+      errors.classroom = 'Cant Be Blank!!';
     }
     if (values.course === '') {
       errors.course = 'Choose Your Course!';
     }
+    let flag = false
+    _.map(ListCourseAndName,el=>{
+      let stringDuplicate = values.course + values.classroom
+      if (stringDuplicate === el){
+        errors.duplicate = 'This class have been existed!';
+        errors.flag = true
+      }
+    })
+
     return errors;
   }
   /* eslint-enable */
-
-  constructor(props) {
-    super(props);
-    this.renderForm = this.renderForm.bind(this);
-  }
 
   renderForm(formProps) {
     // console.log("Form Side");
@@ -41,9 +53,9 @@ class ClassroomForm extends Component {
 
     // Values in here must be like initialValues in Component New!!
     const {
-      course, _class,
+      course, classroom,
     } = values;
-    // console.log(_class);
+    // console.log(classroom);
     const onCancel = _.get(this.props, 'onCancel');
 
     return (
@@ -80,14 +92,15 @@ class ClassroomForm extends Component {
           </Label>
           <Input
             type="number"
-            name="_class"
+            name="classroom"
             onBlur={handleBlur}
             onChange={handleChange}
-            value={_class}
-            invalid={touched._class && !!errors._class}
+            value={classroom}
+            invalid={touched.classroom && !!errors.classroom && !!errors.flag}
           />
           <div className="text-danger">
-            {touched._class ? errors._class : ''}
+            {touched.classroom ? errors.classroom : ''}
+            {errors.flag ? errors.duplicate : ''}
           </div>
         </FormGroup>
 

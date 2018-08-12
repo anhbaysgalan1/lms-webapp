@@ -4,6 +4,9 @@ import { API_VIDEO } from 'statics/urls';
 import { dummyPlaylist } from 'actions/playlist';
 import { plainText, fieldsNotEmpty } from 'utils';
 
+axios.defaults.validateStatus = status => status < 500;
+axios.defaults.withCredentials = true;
+
 const videos = _.flatten(dummyPlaylist.map((playlist) => {
   return playlist.videos;
 }));

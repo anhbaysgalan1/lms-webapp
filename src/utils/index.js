@@ -25,7 +25,6 @@ export function checkFields(obj, paths) {
   if (typeof (paths) === 'string') {
     return _.get(obj, paths) && true;
   }
-
   return paths.reduce((currentCheck, path) => _.get(obj, path) && currentCheck, true);
 }
 
@@ -33,7 +32,6 @@ export function fieldsNotEmpty(obj, ...paths) {
   if (typeof (paths) === 'string') {
     return _.get(obj, paths) && true;
   }
-
   return paths.reduce((currentCheck, path) => _.get(obj, path) && currentCheck, true);
 }
 
@@ -48,15 +46,15 @@ export function plainText(text) {
   unicodeText = unicodeText.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, 'u');
   unicodeText = unicodeText.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, 'y');
   unicodeText = unicodeText.replace(/đ/g, 'd');
-  unicodeText = unicodeText.replace(/!|@|\$|%|\^|\*|∣|\+|=|<|>|\?|\/|,|\.|:|'|"|&|#|\[|\]|~/g, '-');
-  unicodeText = unicodeText.replace(/-+-/g, '-'); // thay thế 2- thành 1-
+  unicodeText = unicodeText.replace(/!|@|\$|%|\^|\*|∣|\+|=|<|>|\?|\/|,|\.|:|'|'|&|#|\[|\]|~/g, '-');
+  unicodeText = unicodeText.replace(/-+-/g, '-'); //  thay thế 2- thành 1-
   unicodeText = unicodeText.replace(/^-+|-+$/g, ''); // cắt bỏ ký tự - ở đầu và cuối chuỗi
 
   return unicodeText.trim().toLowerCase();
 }
 
 export function validateEmail(email) {
-  const re = /^(([^<>()[\].,;:\s@"]+(.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
+  const re = /^(([^<>()[\].,;:\s@']+(.[^<>()[\].,;:\s@']+)*)|('.+'))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 }
 
@@ -111,3 +109,20 @@ export const allIDinList = (list) => {
   });
   return empty;
 };
+
+export const JointCourseAndName = (list) =>{
+  const empty = [];
+  _.map(list,(el)=>{
+    const joinString = el.course + el.classroom;
+    empty.push(joinString);
+  });
+  return empty;
+}
+
+export const ListStringCourse = (list) =>{
+  const empty = [];
+  _.map(list,(el)=>{
+    empty.push(el.course)
+  })
+  return empty;
+}

@@ -72,8 +72,10 @@ Add Class
     }
 
     return (
-      <div className="round-panel_cls">
-        {
+      <div>
+        {this.renderAdd()}
+        <div className="round-panel_cls">
+          {
 _.values(classroomReducer).map((_classroom, index) => (
   <div
     className="classroom-item"
@@ -89,7 +91,7 @@ _.values(classroomReducer).map((_classroom, index) => (
     <div className="name">
       { _classroom.course }
       {/* eslint-disable */}
-      { _classroom._class }
+      { _classroom.classroom }
     </div>
     <div className="name2">
       {_classroom.teachers ? _classroom.teachers.length : 0 }
@@ -124,13 +126,13 @@ _.values(classroomReducer).map((_classroom, index) => (
 ))
   }
       </div>
+      </div>
     );
   }
 
   render() {
     return (
       <div>
-        {this.renderAdd()}
         {this.renderList()}
       </div>
     );
