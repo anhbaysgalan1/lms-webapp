@@ -1,37 +1,50 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { addPlaylist } from 'actions/playlist';
-import PlaylistForm from './Playlist.form'; 
-  
+import PlaylistForm from './Playlist.form';
+
 class PlaylistNew extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
   }
-  
+
   onSubmit(playlist) {
-    this.props.addPlaylist(playlist);
-    this.props.history.goBack();
+    const { addPlaylistAction, history } = this.props;
+    addPlaylistAction(playlist);
+    history.goBack();
   }
 
   render() {
+    const { history } = this.props;
     return (
       <div>
         <div className="round-panel">
           <PlaylistForm
             initialValues={{
-              title: "",
-              videos: []
+              title: '',
+              videos: [],
             }}
             onSubmit={this.onSubmit}
-            onCancel={this.props.history.goBack}
+            onCancel={history.goBack}
           />
         </div>
       </div>
     );
   }
 }
-  
-  
-export default connect(null, {addPlaylist})(PlaylistNew);
+
+PlaylistNew.propTypes = {
+  history: PropTypes.shape({
+    goBack: PropTypes.func.isRequired,
+  }).isRequired,
+  addPlaylistAction: PropTypes.func.isRequired,
+};
+
+const actions = {
+  addPlaylistAction: addPlaylist,
+};
+
+export default connect(null, actions)(PlaylistNew);
