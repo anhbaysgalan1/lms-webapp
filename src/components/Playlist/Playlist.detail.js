@@ -1,42 +1,48 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { fetchPlaylistPromise } from '../../networks/playlist';
 import { updatePlaylist } from 'actions/playlist';
+import SimpleLoading from '../SimpleLoading';
+import { fetchPlaylistPromise } from '../../networks/playlist';
 import PlaylistForm from './Playlist.form';
 
 class PlaylistDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      playlist: null
+      playlist: null,
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentWillMount() {
-    const playlistId = this.props.match.params.id;
+    const { match } = this.props;
+    const playlistId = match.params._id;
     fetchPlaylistPromise(playlistId).then((playlist) => {
       this.setState({
-        playlist
+        playlist,
       });
-    })
+    });
   }
 
   onSubmit(playlist) {
-    this.props.updatePlaylist(playlist);
-    this.props.history.goBack();
+    const { updatePlaylistAction, history } = this.props;
+    updatePlaylistAction(playlist);
+    history.goBack();
   }
 
   render() {
-    if(!this.state.playlist) return <div>Loading...</div>
+    const { playlist } = this.state;
+    const { history } = this.props;
+    if (!playlist) { return <SimpleLoading />; }
     return (
       <div>
         <div className="round-panel">
           <PlaylistForm
-            initialValues={this.state.playlist}
+            initialValues={playlist}
             onSubmit={this.onSubmit}
-            onCancel={this.props.history.goBack}
+            onCancel={history.goBack}
           />
         </div>
       </div>
@@ -44,5 +50,20 @@ class PlaylistDetail extends Component {
   }
 }
 
-  
-export default connect(null, {updatePlaylist})(PlaylistDetail);
+PlaylistDetail.propTypes = {
+  updatePlaylistAction: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
+  history: PropTypes.shape({
+    goBack: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+const actions = {
+  updatePlaylistAction: updatePlaylist,
+};
+
+export default connect(null, actions)(PlaylistDetail);
