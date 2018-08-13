@@ -101,7 +101,7 @@ Back
 
         </Button>
         <Button className="btn btn-info ">
-Add
+Edit
         </Button>
 
       </Form>
