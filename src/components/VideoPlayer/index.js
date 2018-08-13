@@ -38,7 +38,7 @@ const VideoPlayer = (props) => {
     >
       <ModalBody>
         <div
-          className="close-btn bg-primary"
+          className="close-btn bg-secondary"
           onClick={closeVideoPlayerAction}
           role="presentation"
         >
