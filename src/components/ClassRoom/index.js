@@ -5,7 +5,7 @@ import ClassroomList from './Classroom.list';
 import ClassroomNew from './Classroom.new';
 import ClassroomDetail from './Classroom.detail';
 import ClassroomNewCourse from './ClassroomCourse/Classroom.newcourse';
-import ClassroomDetailCourse from './ClassroomCourse/ClassroomCourse.form/Classroom.detail.course';
+import ClassroomDetailCourse from './ClassroomCourse/Classroom.detail.course';
 
 import {
   ROUTE_ADMIN_CLASSROOM,
