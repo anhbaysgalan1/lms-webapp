@@ -14,6 +14,11 @@ export async function fetchCourseWithID(id) {
     return data_get.data.data;
   }
 
+export async function updateCourse(objCourse) {
+    const update = await axios.put(`${API_CLASSROOM_COURSE}/${objCourse._id}`, objCourse);
+    return update.data.data;
+}
+
 export async function AddCourse(Course){
     let data_to_post = {course: Course.newcourse, session: Course.session};
     let post = await axios.post(API_CLASSROOM_COURSE,data_to_post)

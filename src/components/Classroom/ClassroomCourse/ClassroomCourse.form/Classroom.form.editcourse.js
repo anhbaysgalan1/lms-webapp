@@ -1,39 +1,45 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Formik } from 'formik';
 import {
   Form, FormGroup, Label, Input, Button,
 } from 'reactstrap';
-import { fetchCourseWithID } from '../../../../networks/classcourse';
+import { ListStringCourse } from '../../../../utils';
 
-class ClassroomDetailCourse extends Component {
+
+class ClassroomFormEditCourse extends Component {
   constructor(props) {
     super(props);
-    // this.onSubmit = this.onSubmit.bind(this);
-    this.state = ({
-      fetchDataCourse: null,
+    this.validate = this.validate.bind(this);
+    this.renderForm = this.renderForm.bind(this);
+  }
+
+  componentWillMount() {
+  }
+  /* eslint-disable */
+  validate(values) {
+    const errors = {};
+    const { DataCourse, initialValues } = this.props;
+    const CurrentCourse = initialValues.course;
+    const ListCourse = ListStringCourse(DataCourse);
+    if (!values.course) {
+      errors.course = 'New Course can\'t be blank!';
+    }
+
+    if (!values.session) {
+      errors.session = 'Session can\'t be blank!';
+    }
+    // fetchCourseData
+    _.map(ListCourse, (el) => {
+      if (CurrentCourse.toUpperCase() !== values.course.toUpperCase() && values.course.toUpperCase() === el.toUpperCase()) {
+        errors.duplicate = 'This Course has been existed!';
+        errors.flag = true;
+      }
     });
+    return errors;
   }
 
-  async componentWillMount() {
-    const { match } = this.props;
-    const ID = match.params.id;
-    const fetchDataCourse = await fetchCourseWithID(ID);
-    this.setState({
-      fetchDataCourse,
-    });
-    console.log(this.state.fetchDataCourse);
-  }
-
-  static onSubmit() {
-    console.log('asdasd');
-  }
-
-  SomeMethod() {
-    this.onSubmit();
-  }
-
+  /* eslint-enable */
   renderForm(formProps) {
     const {
       values,
@@ -46,7 +52,7 @@ class ClassroomDetailCourse extends Component {
     } = formProps;
 
     const {
-      newcourse, session,
+      course, session,
     } = values;
 
     const onCancel = _.get(this.props, 'onCancel');
@@ -54,12 +60,12 @@ class ClassroomDetailCourse extends Component {
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <Label>
-Name Course
+New Course
           </Label>
           <Input
             type="text"
-            name="newcourse"
-            value={newcourse}
+            name="course"
+            value={course}
             onBlur={handleBlur}
             onChange={handleChange}
             invalid={touched.newcourse && !!errors.newcourse && errors.flag}
@@ -72,7 +78,7 @@ Name Course
 
         <FormGroup>
           <Label>
-Session
+Number Session
           </Label>
           <Input
             type="number"
@@ -86,6 +92,7 @@ Session
             {touched.session ? errors.session : ''}
           </div>
         </FormGroup>
+
         <Button
           className="mx-1"
           onClick={onCancel}
@@ -103,29 +110,17 @@ Add
   }
 
   render() {
-    const { fetchDataCourse } = this.state;
-    console.log(this.SomeMethod);
+    const initialValues = _.get(this.props, 'initialValues');
+    const onSubmit = _.get(this.props, 'onSubmit');
     return (
-      // <Formik
-      //   initialValues={fetchDataCourse}
-      //   // validate={this.validate}
-      //   // onSubmit={this.onSubmit}
-      //   render={this.renderForm}
-      // />
-      <div>
-Hello
-      </div>
+      <Formik
+        initialValues={initialValues}
+        validate={this.validate}
+        onSubmit={onSubmit}
+        render={this.renderForm}
+      />
     );
   }
 }
 
-ClassroomDetailCourse.propTypes = {
-  match: PropTypes.shape({
-    path: PropTypes.string,
-    url: PropTypes.string,
-    isExact: PropTypes.bool,
-  }).isRequired,
-};
-
-
-export default ClassroomDetailCourse;
+export default ClassroomFormEditCourse;

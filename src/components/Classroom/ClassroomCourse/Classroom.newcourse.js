@@ -38,6 +38,7 @@ class ClassroomNewCourse extends Component {
 
   render() {
     const { fetchCourseData } = this.state;
+    const PropsHistory = _.get(this.props, 'history');
     if (!fetchCourseData) {
       return (
         <div className="d-flex justify-content-center">
@@ -58,7 +59,9 @@ class ClassroomNewCourse extends Component {
             session: '',
           }}
         />
-        <ClassroomListCourse />
+        <ClassroomListCourse
+          PropsHistory={PropsHistory}
+        />
       </div>
     );
   }

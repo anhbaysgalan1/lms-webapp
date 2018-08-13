@@ -18,13 +18,18 @@ class ClassroomListCourse extends Component {
     const listCourse = _.get(this.props, 'classcourseReducer');
     const ActionPopup = _.get(this.props, 'openPopup');
     const ActionDeleteCourse = _.get(this.props, 'DeleteCourseAction');
+    const PropsHistory = _.get(this.props, 'PropsHistory');
     return (
       <div className="round-panel_cls mt-4">
         {
        _.values(listCourse).map((course, index) => (
          <div
            className="classroom-item"
+           role="button"
+           tabIndex="-1"
            key={course._id}
+           onClick={() => { PropsHistory.push(`course/detail/${course._id}`); }}
+           onKeyPress={() => {}}
          >
            <div className="no">
              { index + 1 }
