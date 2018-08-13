@@ -18,10 +18,9 @@
 
 .close-btn {
   color: #FFFF;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 6px;
+  padding-right: 6px;
   position: absolute;
-  border-radius: 2px;
   top: -12px;
   left: 670px;
   cursor: pointer;

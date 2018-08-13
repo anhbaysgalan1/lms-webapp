@@ -42,7 +42,7 @@ const VideoPlayer = (props) => {
           onClick={closeVideoPlayerAction}
           role="presentation"
         >
-          X
+          <i className="fas fa-times" />
         </div>
         { renderPlayer(videoId) }
       </ModalBody>
