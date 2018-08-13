@@ -7,7 +7,7 @@ import { checkAuth } from 'actions/auth';
 
 import SideBar from './SideBar';
 import Users from './Users';
-import ClassRoom from './ClassRoom';
+import Classroom from './Classroom';
 import Popup from './Popup';
 import Video from './Video';
 import Playlist from './Playlist';
@@ -46,7 +46,7 @@ class App extends Component {
                   image: <i className="fas fa-list-ul" />,
                 },
                 {
-                  title: 'ClassRoom',
+                  title: 'Classroom',
                   href: ROUTE_ADMIN_CLASSROOM,
                   image: <i className="fas fa-list-ul" />,
                 },
@@ -73,7 +73,7 @@ class App extends Component {
                 />
                 <Route
                   path={ROUTE_ADMIN_CLASSROOM}
-                  component={ClassRoom}
+                  component={Classroom}
                 />
               </Switch>
             </div>
