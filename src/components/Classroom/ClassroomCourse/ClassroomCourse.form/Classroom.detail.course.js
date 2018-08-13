@@ -27,7 +27,11 @@ class ClassroomDetailCourse extends Component {
   }
 
   static onSubmit() {
-    console.log("asdasd");
+    console.log('asdasd');
+  }
+
+  SomeMethod() {
+    this.onSubmit();
   }
 
   renderForm(formProps) {
@@ -100,7 +104,7 @@ Add
 
   render() {
     const { fetchDataCourse } = this.state;
-    console.log(ClassroomDetailCourse.onSubmit);
+    console.log(this.SomeMethod);
     return (
       // <Formik
       //   initialValues={fetchDataCourse}
@@ -108,7 +112,9 @@ Add
       //   // onSubmit={this.onSubmit}
       //   render={this.renderForm}
       // />
-      <div>Hello</div>
+      <div>
+Hello
+      </div>
     );
   }
 }
