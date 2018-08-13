@@ -12,6 +12,8 @@ export default function (state = null, action) {
       return _.mapKeys(action.payload, '_id');
     case UPDATE_PLAYLIST:
     case ADD_PLAYLIST:
+      console.log("UPDATE");
+      console.log(action.payload);
       return {
         ...state,
         [action.payload._id]: action.payload,

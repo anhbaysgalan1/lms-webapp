@@ -17,11 +17,14 @@ export function fetchPlaylists() {
   };
 }
 
-export function updatePlaylist(playlist) {
-  return {
-    type: UPDATE_PLAYLIST,
-    payload: updatePlaylistPromise(playlist),
-  };
+export async function updatePlaylist(playlist) {
+  return ((dispatch) => {
+    updatePlaylistPromise(playlist)
+      .then(response => dispatch({
+        type: UPDATE_PLAYLIST,
+        payload: response.data,
+      }));
+  });
 }
 
 export function addPlaylist(playlist) {

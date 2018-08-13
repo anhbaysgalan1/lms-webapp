@@ -48,6 +48,8 @@ class PlayListList extends Component {
 
     if (!playlists) return <SimpleLoading />;
 
+    console.log(playlists);
+
     return (
       <div className="round-panel">
         {
