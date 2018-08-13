@@ -72,7 +72,9 @@ class PlaylistForm extends Component {
           <VideoListModal
             isOpen={videolistModalOpen}
             toggle={() => this.setState({ videolistModalOpen: false })}
-            onOK={newVideos => setFieldValue('videos', _.unionBy(videos, newVideos, '_id"'))}
+            onOK={(newVideos) => {
+              setFieldValue('videos', _.unionBy(videos, newVideos, '_id'));
+            }}
           />
           {
             videos.map((video, index) => (
