@@ -6,7 +6,7 @@ import './index.css';
 const playlistItem = (props) => {
   const {
     title,
-    youtubeId,
+    videoId,
     onDeleteClick,
     duration,
     playlistName,
@@ -26,7 +26,7 @@ const playlistItem = (props) => {
       <div className="content">
         <div className="thumbnail">
           <img
-            src={`https://i.ytimg.com/vi/${youtubeId}/mqdefault.jpg`}
+            src={`https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`}
             alt={`${title}`}
           />
           <span className="duration">
@@ -60,7 +60,7 @@ const playlistItem = (props) => {
 
 playlistItem.propTypes = {
   title: PropTypes.func.isRequired,
-  youtubeId: PropTypes.string.isRequired,
+  videoId: PropTypes.string.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
   duration: PropTypes.string.isRequired,
   playlistName: PropTypes.string.isRequired,

@@ -1,0 +1,28 @@
+
+.modal-content {
+  display: flex;
+  justify-content: center;
+  border-width: 0px;
+  border-color: transparent !important;
+}
+
+.modal-body {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-sm, .modal-dialog {
+  max-width: 100%;
+  width: 680px;
+}
+
+.close-btn {
+  color: #FFFF;
+  padding-left: 8px;
+  padding-right: 8px;
+  position: absolute;
+  border-radius: 2px;
+  top: -12px;
+  left: 670px;
+  cursor: pointer;
+}
