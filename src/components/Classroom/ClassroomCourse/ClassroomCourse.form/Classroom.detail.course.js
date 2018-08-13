@@ -10,7 +10,7 @@ import { fetchCourseWithID } from '../../../../networks/classcourse';
 class ClassroomDetailCourse extends Component {
   constructor(props) {
     super(props);
-    // this.onSubmit = this.onSubmit.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
     this.state = ({
       fetchDataCourse: null,
     });
@@ -26,12 +26,8 @@ class ClassroomDetailCourse extends Component {
     console.log(this.state.fetchDataCourse);
   }
 
-  static onSubmit() {
+  onSubmit() {
     console.log('asdasd');
-  }
-
-  SomeMethod() {
-    this.onSubmit();
   }
 
   renderForm(formProps) {
@@ -104,7 +100,6 @@ Add
 
   render() {
     const { fetchDataCourse } = this.state;
-    console.log(this.SomeMethod);
     return (
       // <Formik
       //   initialValues={fetchDataCourse}
