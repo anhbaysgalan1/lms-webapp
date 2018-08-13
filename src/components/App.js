@@ -12,6 +12,7 @@ import Popup from './Popup';
 import Video from './Video';
 import Playlist from './Playlist';
 import Login from './Login';
+import VideoPlayer from './VideoPlayer';
 
 import {
   ROUTE_ADMIN_VIDEO, ROUTE_ADMIN_PLAYLIST, ROUTE_ADMIN_USER, ROUTE_ADMIN_CLASSROOM,
@@ -56,6 +57,10 @@ class App extends Component {
                   image: <i className="fas fa-list-ul" />,
                 },
               ]}
+            />
+            <VideoPlayer
+              isOpen
+              videoId="f_LgWgzCPnQ"
             />
             <div id="app-panel">
               <Switch>

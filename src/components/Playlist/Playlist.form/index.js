@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import {
@@ -10,6 +11,7 @@ import {
 } from 'reactstrap';
 
 import './index.css';
+import { openVideoPlayer } from 'actions/videoPlayer';
 import VideoItem from './VideoItem';
 import VideoListModal from './VideoList.modal';
 
@@ -43,7 +45,7 @@ class PlaylistForm extends Component {
 
     const { title, videos } = values;
     const { videolistModalOpen } = this.state;
-    const { onCancel } = this.props;
+    const { onCancel, openVideoPlayerAction } = this.props;
     return (
       <Form onSubmit={handleSubmit} className="playlist-form">
         <FormGroup>
@@ -86,7 +88,9 @@ class PlaylistForm extends Component {
                   const newVideos = videos.filter(vid => vid !== video);
                   setFieldValue('videos', newVideos);
                 }}
+                onClick={() => openVideoPlayerAction(video.videoId)}
                 playlistName={title}
+                {...video}
               />))
           }
         </FormGroup>
@@ -125,6 +129,11 @@ PlaylistForm.propTypes = {
     title: PropTypes.string.isRequired,
     videos: PropTypes.array.isRequired,
   }).isRequired,
+  openVideoPlayerAction: PropTypes.func.isRequired,
 };
 
-export default PlaylistForm;
+const actions = {
+  openVideoPlayerAction: openVideoPlayer,
+};
+
+export default connect(null, actions)(PlaylistForm);
