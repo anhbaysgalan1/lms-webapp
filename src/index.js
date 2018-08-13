@@ -18,5 +18,6 @@ ReactDOM.render(
         <App />
       </div>
     </BrowserRouter>
-  </Provider>
-  , document.getElementById('root'));
+  </Provider>,
+  document.getElementById('root'),
+);

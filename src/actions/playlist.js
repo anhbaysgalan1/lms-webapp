@@ -17,7 +17,7 @@ export function fetchPlaylists() {
   };
 }
 
-export async function updatePlaylist(playlist) {
+export function updatePlaylist(playlist) {
   return ((dispatch) => {
     updatePlaylistPromise(playlist)
       .then(response => dispatch({

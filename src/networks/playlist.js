@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { API_PLAYLIST } from 'statics/urls';
 import { fieldsNotEmpty } from 'utils';
-import { relativeTimeThreshold } from '../../node_modules/moment';
 
 axios.defaults.validateStatus = status => status < 500;
 axios.defaults.withCredentials = true;
