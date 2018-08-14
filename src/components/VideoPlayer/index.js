@@ -53,7 +53,7 @@ const VideoPlayer = (props) => {
 VideoPlayer.propTypes = {
   videoPlayerReducer: PropTypes.shape({
     isOpen: PropTypes.bool.isRequired,
-    videoId: PropTypes.func.isRequired,
+    videoId: PropTypes.string.isRequired,
   }).isRequired,
   closeVideoPlayerAction: PropTypes.func.isRequired,
 };

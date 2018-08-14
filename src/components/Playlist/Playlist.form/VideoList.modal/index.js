@@ -9,7 +9,7 @@ import _ from 'lodash';
 
 import PropTypes from 'prop-types';
 import SearchBar from 'components/SearchBar';
-import { searchVideo } from 'networks/video';
+import searchVideo from 'networks/video';
 
 import VideoItem from '../VideoItem';
 

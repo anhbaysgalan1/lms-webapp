@@ -58,15 +58,26 @@ const playlistItem = (props) => {
   );
 };
 
+playlistItem.defaultProps = {
+  title: null,
+  videoId: null,
+  onDeleteClick: null,
+  duration: null,
+  playlistName: null,
+  disableDelete: null,
+  onClick: null,
+  selected: null,
+};
+
 playlistItem.propTypes = {
-  title: PropTypes.func.isRequired,
-  videoId: PropTypes.string.isRequired,
-  onDeleteClick: PropTypes.func.isRequired,
-  duration: PropTypes.string.isRequired,
-  playlistName: PropTypes.string.isRequired,
-  disableDelete: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired,
-  selected: PropTypes.bool.isRequired,
+  title: PropTypes.string,
+  videoId: PropTypes.string,
+  onDeleteClick: PropTypes.func,
+  duration: PropTypes.string,
+  playlistName: PropTypes.string,
+  disableDelete: PropTypes.bool,
+  onClick: PropTypes.func,
+  selected: PropTypes.bool,
 };
 
 export default playlistItem;

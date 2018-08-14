@@ -61,28 +61,28 @@ export function validateEmail(email) {
 export const RemoveDuplicate = (list1, list2) => {
   // Nối 2 list lại với nhau
   const JoinList = _.concat(list1, list2);
-  
+
   // Sắp xếp tăng dần theo _id
   const sortJoinList = _.sortBy(JoinList, obj => obj._id);
-  
+
   // List dùng để lưu _id trùng
-  const list_id_duplicate = [];
+  const listIdDuplicate = [];
   // Xử lý nếu gặp trùng thì đút _id vào List trên
   for (let i = 0; i < sortJoinList.length - 1; i += 1) {
     if (_.isEqual(sortJoinList[i], sortJoinList[i + 1])) {
-      list_id_duplicate.push(sortJoinList[i]._id);
+      listIdDuplicate.push(sortJoinList[i]._id);
     }
   }
-  
+
   // List đã bỏ các obj trung lặp
-  const list_unique = _.sortedUniqBy(sortJoinList, el => el._id);
-  _.map(list_id_duplicate, (index) => {
+  const listUnique = _.sortedUniqBy(sortJoinList, el => el._id);
+  _.map(listIdDuplicate, (index) => {
     // Query theo ID => tìm ID
-    const removeIndex = list_unique.map(item => item._id).indexOf(index);
-    list_unique.splice(removeIndex, 1);
+    const removeIndex = listUnique.map(item => item._id).indexOf(index);
+    listUnique.splice(removeIndex, 1);
   });
-  // console.log(list_unique);
-  return list_unique;
+  // console.log(listUnique);
+  return listUnique;
 };
 
 export const RemoveItemInTwoList = (list1, list2) => {
@@ -110,19 +110,19 @@ export const allIDinList = (list) => {
   return empty;
 };
 
-export const JointCourseAndName = (list) =>{
+export const JointCourseAndName = (list) => {
   const empty = [];
-  _.map(list,(el)=>{
+  _.map(list, (el) => {
     const joinString = el.course + el.classroom;
     empty.push(joinString);
   });
   return empty;
-}
+};
 
-export const ListStringCourse = (list) =>{
+export const ListStringCourse = (list) => {
   const empty = [];
-  _.map(list,(el)=>{
-    empty.push(el.course)
-  })
+  _.map(list, (el) => {
+    empty.push(el.course);
+  });
   return empty;
-}
+};

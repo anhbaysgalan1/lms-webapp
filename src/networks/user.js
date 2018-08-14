@@ -1,39 +1,34 @@
 import axios from 'axios';
-import {API_USER} from 'statics/urls'
+import { API_USER } from 'statics/urls';
 
 axios.defaults.validateStatus = status => status < 500;
 axios.defaults.withCredentials = true;
 
 
 export async function fetchUserById(id) {
-  const userID = axios.get(`${API_USER}/${id}`);
-  return await userID
-  
+  const userID = await axios.get(`${API_USER}/${id}`);
+  return userID;
 }
 
-export async function fetchListUser(){
-    let listUser = axios.get(API_USER);
-    return await listUser
+export async function fetchListUser() {
+  const listUser = await axios.get(API_USER);
+  return listUser;
 }
 
 export async function addUser(user) {
-  let userAdd =  axios.post(API_USER, user);
-  return await userAdd
-
+  const userAdd = await axios.post(API_USER, user);
+  return userAdd;
 }
 
 export async function updateUser(user) {
-  let userUpdate = axios.put(`${API_USER}/${user._id}`, user)
-  return await userUpdate
+  const userUpdate = await axios.put(`${API_USER}/${user._id}`, user);
+  return userUpdate;
 }
 
 export async function deleteUser(id) {
-  let userDel = axios.delete(`${API_USER}/${id}`);
+  const userDel = await axios.delete(`${API_USER}/${id}`);
   return {
-    userDel: await userDel,
-    userId: id
-  }
+    userDel,
+    userId: id,
+  };
 }
-
-
-

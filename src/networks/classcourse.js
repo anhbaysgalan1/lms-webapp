@@ -1,34 +1,34 @@
-import axios from "axios";
+import axios from 'axios';
 import { API_CLASSROOM_COURSE } from '../statics/urls';
 
 axios.defaults.validateStatus = status => status < 500;
 axios.defaults.withCredentials = true;
 
-export async function fetchCourse(){
-    let data_get = await axios.get(API_CLASSROOM_COURSE);
-    return data_get.data
+export async function fetchCourse() {
+  const dataGet = await axios.get(API_CLASSROOM_COURSE);
+  return dataGet.data;
 }
 
 export async function fetchCourseWithID(id) {
-    const data_get = await axios.get(`${API_CLASSROOM_COURSE}/${id}`);
-    return data_get.data.data;
-  }
+  const dataGet = await axios.get(`${API_CLASSROOM_COURSE}/${id}`);
+  return dataGet.data.data;
+}
 
 export async function updateCourse(objCourse) {
-    const update = await axios.put(`${API_CLASSROOM_COURSE}/${objCourse._id}`, objCourse);
-    return update.data.data;
+  const update = await axios.put(`${API_CLASSROOM_COURSE}/${objCourse._id}`, objCourse);
+  return update.data.data;
 }
 
-export async function AddCourse(Course){
-    let data_to_post = {course: Course.newcourse, session: Course.session};
-    let post = await axios.post(API_CLASSROOM_COURSE,data_to_post)
-    return post.data.data
+export async function AddCourse(Course) {
+  const dataToPost = { course: Course.newcourse, session: Course.session };
+  const post = await axios.post(API_CLASSROOM_COURSE, dataToPost);
+  return post.data.data;
 }
 
-export async function DeleteCourse(course){
-    const deleteFunc = axios.delete(`${API_CLASSROOM_COURSE}/${course._id}`)
-    return {
-        courseID : course._id,
-        deleteFunc : await deleteFunc
-    }
+export async function DeleteCourse(course) {
+  const deleteFunc = axios.delete(`${API_CLASSROOM_COURSE}/${course._id}`);
+  return {
+    courseID: course._id,
+    deleteFunc: await deleteFunc,
+  };
 }

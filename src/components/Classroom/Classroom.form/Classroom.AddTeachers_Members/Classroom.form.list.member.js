@@ -4,7 +4,6 @@ import '../../index.css';
 import { withRouter } from 'react-router';
 /* eslint-enable */
 import _ from 'lodash';
-import { ROUTE_ADMIN_USER_DETAIL } from '../../../routes';
 
 class ClassRoomlistmember extends Component {
   constructor(props) {

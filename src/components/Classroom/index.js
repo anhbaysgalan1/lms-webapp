@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
 
 import ClassroomList from './Classroom.list';
@@ -15,20 +15,18 @@ import {
   ROUTE_ADMIN_CLASSROOM_DETAIL_COURSE_ID,
 } from '../routes';
 
-class ClassRoom extends Component {
-  render() {
-    return (
-      <div className="h-100">
-        <Switch>
-          <Route path={ROUTE_ADMIN_CLASSROOM_DETAIL_COURSE_ID} component={ClassroomDetailCourse} />
-          <Route path={ROUTE_ADMIN_CLASSROOM_NEW_COURSE} component={ClassroomNewCourse} />
-          <Route path={ROUTE_ADMIN_CLASSROOM_NEW} component={ClassroomNew} />
-          <Route path={ROUTE_ADMIN_CLASSROOM_DETAIL_ID} component={ClassroomDetail} />
-          <Route path={ROUTE_ADMIN_CLASSROOM} component={ClassroomList} />
-        </Switch>
-      </div>
-    );
-  }
+function Classroom() {
+  return (
+    <div className="h-100">
+      <Switch>
+        <Route path={ROUTE_ADMIN_CLASSROOM_DETAIL_COURSE_ID} component={ClassroomDetailCourse} />
+        <Route path={ROUTE_ADMIN_CLASSROOM_NEW_COURSE} component={ClassroomNewCourse} />
+        <Route path={ROUTE_ADMIN_CLASSROOM_NEW} component={ClassroomNew} />
+        <Route path={ROUTE_ADMIN_CLASSROOM_DETAIL_ID} component={ClassroomDetail} />
+        <Route path={ROUTE_ADMIN_CLASSROOM} component={ClassroomList} />
+      </Switch>
+    </div>
+  );
 }
 
-export default withRouter(ClassRoom);
+export default withRouter(Classroom);

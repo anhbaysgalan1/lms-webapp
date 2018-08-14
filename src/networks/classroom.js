@@ -4,35 +4,35 @@ import { API_CLASSROOM, API_PLAYLIST } from '../statics/urls';
 axios.defaults.validateStatus = status => status < 500;
 axios.defaults.withCredentials = true;
 
-export async function updateClassroomPromise(obj_class) {
-  const update = await axios.put(`${API_CLASSROOM}/${obj_class._id}`, obj_class);
+export async function updateClassroomPromise(objClass) {
+  const update = await axios.put(`${API_CLASSROOM}/${objClass._id}`, objClass);
   return update.data.data;
 }
 
-export async function deleteClassroomPromise(obj_class) {
-  const deleteFunc = axios.delete(`${API_CLASSROOM}/${obj_class._id}`);
+export async function deleteClassroomPromise(objClass) {
+  const deleteFunc = axios.delete(`${API_CLASSROOM}/${objClass._id}`);
   return {
-    classID: obj_class._id,
+    classID: objClass._id,
     deleteFunc: await deleteFunc,
   };
 }
 
-export async function addClassroomPromise(obj_class) {
-  const classAdd = await axios.post(API_CLASSROOM, obj_class);
+export async function addClassroomPromise(objClass) {
+  const classAdd = await axios.post(API_CLASSROOM, objClass);
   return classAdd.data.data;
 }
 
 export async function fetchClass() {
-  const data_get = await axios.get(API_CLASSROOM);
-  return data_get.data;
+  const datGet = await axios.get(API_CLASSROOM);
+  return datGet.data;
 }
 
 export async function fetchClassroomWithID(id) {
-  const data_get = await axios.get(`${API_CLASSROOM}/${id}`);
-  return data_get.data.data;
+  const dataGet = await axios.get(`${API_CLASSROOM}/${id}`);
+  return dataGet.data.data;
 }
 
 export async function fetchPlaylists() {
-  const data_get = await axios.get(API_PLAYLIST);
-  return data_get.data.data;
+  const dataGet = await axios.get(API_PLAYLIST);
+  return dataGet.data.data;
 }

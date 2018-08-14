@@ -1,22 +1,21 @@
-import _ from 'lodash';
 import axios from 'axios';
 import { API_VIDEO } from 'statics/urls';
-import { plainText, fieldsNotEmpty } from 'utils';
+import { fieldsNotEmpty } from 'utils';
 
 axios.defaults.validateStatus = status => status < 500;
 axios.defaults.withCredentials = true;
 
-export function searchVideo(terms) {
+export default function searchVideo(terms) {
   const searchUrl = `${API_VIDEO}?q=${terms}`;
   return new Promise((resolve, reject) => {
-    axios.get(searchUrl).then(response => {
+    axios.get(searchUrl).then((response) => {
       const responseData = response.data;
-      if(fieldsNotEmpty(responseData, 'success', 'data')) {
+      if (fieldsNotEmpty(responseData, 'success', 'data')) {
         resolve(responseData.data);
       } else {
-        reject("Not success or data is empty");
+        reject(new Error('something bad happened'));
       }
     })
-    .catch(reject);
+      .catch(reject);
   });
 }
