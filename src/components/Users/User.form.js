@@ -37,10 +37,10 @@ class UserForm extends Component {
     if (!values.phoneNumber){
       errors.phoneNumber = 'Phone number cant be blank!'
     }
-    if (!validatePhoneNumber(values.phoneNumber)){
+    if (!validatePhoneNumber(values.phoneNumber) && values.phoneNumber !== ''){
       errors.phoneNumber = `It's not PhoneNumber format!!`
     }
-    if (!validateLinkFB(values.linkFB)){
+    if (!validateLinkFB(values.linkFB) && values.linkFB !== ''){
       errors.linkFB = `It's not link Facebook format!!`;
     }
     return errors;

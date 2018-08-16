@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { updateUser } from '../../actions/user';
+import { fetchUsers, updateUser } from '../../actions/user';
 import { fetchUserById } from '../../networks/user';
 import UserDetailForm from './User.detail.form';
 /* eslint-disable */
@@ -30,7 +30,9 @@ class UserDetail extends Component {
   onSubmit(user) {
     const { history } = this.props;
     const ActionUpdateUser = _.get(this.props, 'updateUser');
+    const ActionfetchUsers = _.get(this.props, 'fetchUsers');
     ActionUpdateUser(user).then(() => {
+      ActionfetchUsers();
       history.goBack();
     });
   }
@@ -72,4 +74,4 @@ UserDetail.propTypes = {
 };
 
 
-export default connect(null, { updateUser })(UserDetail);
+export default connect(null, { updateUser, fetchUsers })(UserDetail);
