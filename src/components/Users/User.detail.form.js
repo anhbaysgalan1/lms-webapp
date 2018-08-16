@@ -6,10 +6,16 @@ import PropTypes from 'prop-types';
 import {
   Form, FormGroup, Label, Input, Button,
 } from 'reactstrap';
-import { validateEmail } from '../../utils';
+import { validateEmail, validateLinkFB, validatePhoneNumber } from '../../utils';
 
 class UserDetailForm extends Component {
-  static validate(values) {
+  constructor(props) {
+    super(props);
+    this.renderForm = this.renderForm.bind(this);
+  }
+
+  /* eslint-disable */
+  validate(values) {
     const errors = {};
     if (!values.username) {
       errors.username = 'Username is required';
@@ -19,13 +25,24 @@ class UserDetailForm extends Component {
     } else if (!validateEmail(values.email)) {
       errors.email = 'Email is not valid';
     }
+    if (!values.firstName){
+      errors.firstName = 'First name cant be blank!'
+    }
+    if (!values.lastName){
+      errors.lastName = 'Last name cant be blank!'
+    }
+    if (!values.phoneNumber){
+      errors.phoneNumber = 'Phone number cant be blank!'
+    }
+    if (!validatePhoneNumber(values.phoneNumber)){
+      errors.phoneNumber = `It's not PhoneNumber format!!`
+    }
+    if (!validateLinkFB(values.linkFB)){
+      errors.linkFB = `It's not link Facebook format!!`;
+    }
     return errors;
   }
-
-  constructor(props) {
-    super(props);
-    this.renderForm = this.renderForm.bind(this);
-  }
+  /* eslint-enable */
 
   renderForm(formProps) {
     const {
@@ -39,7 +56,7 @@ class UserDetailForm extends Component {
     } = formProps;
 
     const {
-      username, email, role,
+      username, email, role, firstName, lastName, linkFB, phoneNumber,
     } = values;
 
     const { onCancel } = this.props;
@@ -82,6 +99,90 @@ Email
           </div>
         </FormGroup>
 
+        {/* <FormGroup>
+          <Label>
+Password
+          </Label>
+          <Input
+            type="password"
+            name="password"
+            value={password}
+            onBlur={handleBlur}
+            invalid={touched.password && !!errors.password}
+            onChange={handleChange}
+          />
+          <div className="text-danger">
+            {touched.password ? errors.password : ''}
+          </div>
+        </FormGroup> */}
+
+        <FormGroup>
+          <Label>
+First Name
+          </Label>
+          <Input
+            type="text"
+            name="firstName"
+            value={firstName}
+            onBlur={handleBlur}
+            invalid={touched.firstName && !!errors.firstName}
+            onChange={handleChange}
+          />
+          <div className="text-danger">
+            {touched.firstName ? errors.firstName : ''}
+          </div>
+        </FormGroup>
+
+        <FormGroup>
+          <Label>
+Last Name
+          </Label>
+          <Input
+            type="text"
+            name="lastName"
+            value={lastName}
+            onBlur={handleBlur}
+            invalid={touched.lastName && !!errors.lastName}
+            onChange={handleChange}
+          />
+          <div className="text-danger">
+            {touched.lastName ? errors.lastName : ''}
+          </div>
+        </FormGroup>
+
+        <FormGroup>
+          <Label>
+Facebook
+          </Label>
+          <Input
+            type="text"
+            name="linkFB"
+            value={linkFB}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            invalid={touched.linkFB && !!errors.linkFB}
+          />
+          <div className="text-danger">
+            {touched.linkFB && errors.linkFB ? errors.linkFB : ''}
+          </div>
+        </FormGroup>
+
+        <FormGroup>
+          <Label>
+Phone Number
+          </Label>
+          <Input
+            type="text"
+            name="phoneNumber"
+            value={phoneNumber}
+            onBlur={handleBlur}
+            invalid={touched.phoneNumber && !!errors.phoneNumber}
+            onChange={handleChange}
+          />
+          <div className="text-danger">
+            {touched.phoneNumber ? errors.phoneNumber : ''}
+          </div>
+        </FormGroup>
 
         <FormGroup className="d-flex">
           <FormGroup check className="mr-2">

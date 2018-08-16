@@ -31,6 +31,10 @@ class UserNew extends Component {
             email: '',
             password: '',
             role: 0,
+            firstName: '',
+            lastName: '',
+            linkFB: '',
+            phoneNumber: '',
           }}
           onSubmit={this.onSubmit}
           onCancel={history.goBack}

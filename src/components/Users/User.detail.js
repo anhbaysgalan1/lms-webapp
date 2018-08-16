@@ -51,7 +51,7 @@ Loading...
           <UserDetailForm
             initialValues={user.data.data}
             onSubmit={this.onSubmit}
-            onCacel={history.goback}
+            onCancel={history.goBack}
           />
         </div>
       </div>

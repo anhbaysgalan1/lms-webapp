@@ -126,3 +126,16 @@ export const ListStringCourse = (list) => {
   });
   return empty;
 };
+
+
+/* eslint-disable */
+export const validateLinkFB = (par) =>{
+  const conditional = /(?:https?:\/\/)?(?:www\.)?facebook\.com\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)/;
+  return conditional.test(par);
+};
+
+export const validatePhoneNumber = (par) =>{
+  const conditional = /(09|01[2|6|8|9])+([0-9]{8})\b/g;
+  return conditional.test(par);
+} 
+
