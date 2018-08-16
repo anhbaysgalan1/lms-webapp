@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
+import { handleGoBack } from 'utils';
+
 import { addVideo } from 'actions/video';
 import VideoForm from './Video.form';
 
@@ -22,7 +24,7 @@ class VideoNew extends Component {
     this.setState({ isLoading: true });
     addVideoAction(video)
       .then(() => {
-        history.goBack();
+        handleGoBack(history);
       });
   }
 
@@ -44,7 +46,7 @@ class VideoNew extends Component {
                 videoId: '',
               }}
               onSubmit={this.onSubmit}
-              onCancel={history.goBack}
+              onCancel={() => { handleGoBack(history); }}
             />
           </div>
         </div>

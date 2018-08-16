@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-// action
 import _ from 'lodash';
-import { fetchClassrooms, UpdateClassroom } from '../../actions/classroom';
-import { fetchClassroomWithID, fetchPlaylists, fetchClass } from '../../networks/classroom';
-import { fetchCourse } from '../../networks/classcourse';
-import { fetchListUser } from '../../networks/user';
-import ClassroomEditForm from './Classroom.form/Classroom.form.edit';
+
 import {
-  removeItem, RemoveDuplicate, allIDinList, JointCourseAndName,
-} from '../../utils';
+  removeItem, RemoveDuplicate, allIDinList, JointCourseAndName, handleGoBack,
+} from 'utils';
+
+import { fetchClassrooms, UpdateClassroom } from 'actions/classroom';
+import { fetchClassroomWithID, fetchPlaylists, fetchClass } from 'networks/classroom';
+import { fetchCourse } from 'networks/classcourse';
+import { fetchListUser } from 'networks/user';
+import ClassroomEditForm from './Classroom.form/Classroom.form.edit';
 
 
 class ClassroomDetail extends Component {
@@ -104,8 +104,8 @@ class ClassroomDetail extends Component {
   }
 
   onCancel() {
-    const History = _.get(this.props, 'history');
-    History.goBack();
+    const history = _.get(this.props, 'history');
+    handleGoBack(history);
   }
 
   onSubmit(objClass) {

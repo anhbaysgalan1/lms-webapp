@@ -11,12 +11,31 @@ const playlistItem = (props) => {
     duration,
     playlistName,
     disableDelete,
+    showPreviewOnly,
     onClick,
     selected,
   } = props;
 
   const wrapperClassName = selected ? 'video-item highlight' : 'video-item';
 
+  if (showPreviewOnly) {
+    return (
+      <div
+        className={wrapperClassName}
+        onClick={onClick}
+        role="presentation"
+      >
+        <div className="content">
+          <div className="thumbnail">
+            <img
+              src={`https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`}
+              alt={`${title}`}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div
       className={wrapperClassName}
@@ -64,6 +83,7 @@ playlistItem.defaultProps = {
   onDeleteClick: null,
   duration: null,
   playlistName: null,
+  showPreviewOnly: null,
   disableDelete: null,
   onClick: null,
   selected: null,
@@ -75,6 +95,7 @@ playlistItem.propTypes = {
   onDeleteClick: PropTypes.func,
   duration: PropTypes.string,
   playlistName: PropTypes.string,
+  showPreviewOnly: PropTypes.bool,
   disableDelete: PropTypes.bool,
   onClick: PropTypes.func,
   selected: PropTypes.bool,

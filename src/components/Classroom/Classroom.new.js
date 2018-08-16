@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+
+import { handleGoBack, JointCourseAndName } from 'utils';
+
+import { fetchClassrooms, AddClassroom } from 'actions/classroom';
+import { fetchCourse } from 'networks/classcourse';
+import { fetchClass } from 'networks/classroom';
 import ClassroomForm from './Classroom.form/Classroom.form';
-import { fetchClassrooms, AddClassroom } from '../../actions/classroom';
-import { fetchCourse } from '../../networks/classcourse';
-import { fetchClass } from '../../networks/classroom';
-import { JointCourseAndName } from '../../utils';
 
 
 class ClassroomNew extends Component {
@@ -33,7 +35,7 @@ class ClassroomNew extends Component {
   onSubmit(classroom) {
     const objClass = classroom;
     const ActionAddClassroom = _.get(this.props, 'AddClassroom');
-    const PropsHistory = _.get(this.props, 'history');
+    const history = _.get(this.props, 'history');
     const { optionCourses } = this.state;
     this.setState({
       isSubmitting: true,
@@ -47,14 +49,14 @@ class ClassroomNew extends Component {
     });
     ActionAddClassroom(objClass).then(
       () => {
-        PropsHistory.goBack();
+        handleGoBack(history);
       },
     );
   }
 
   render() {
     const optionCourses = _.get(this.state, 'optionCourses');
-    const PropsHistory = _.get(this.props, 'history');
+    const history = _.get(this.props, 'history');
     const isSubmitting = _.get(this.state, 'isSubmitting');
     const { dataFetch } = this.state;
     const ListCourseAndName = JointCourseAndName(dataFetch);
@@ -88,7 +90,7 @@ class ClassroomNew extends Component {
               ListCourseAndName={ListCourseAndName}
               data_name_course={optionCourses}
               onSubmit={this.onSubmit}
-              onCancel={PropsHistory.goBack}
+              onCancel={() => { handleGoBack(history); }}
             />
           )}
 

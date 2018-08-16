@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { handleGoBack } from 'utils';
+
 import { updatePlaylist } from 'actions/playlist';
 import SimpleLoading from '../SimpleLoading';
 import { fetchPlaylistPromise } from '../../networks/playlist';
@@ -29,7 +31,7 @@ class PlaylistDetail extends Component {
   onSubmit(playlist) {
     const { updatePlaylistAction, history } = this.props;
     updatePlaylistAction(playlist);
-    history.goBack();
+    handleGoBack(history);
   }
 
   render() {
@@ -42,7 +44,7 @@ class PlaylistDetail extends Component {
           <PlaylistForm
             initialValues={playlist}
             onSubmit={this.onSubmit}
-            onCancel={history.goBack}
+            onCancel={() => { handleGoBack(history); }}
           />
         </div>
       </div>

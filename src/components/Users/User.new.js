@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+import { handleGoBack } from 'utils';
+
 import { addUser } from '../../actions/user';
 import UserForm from './User.form';
-/* eslint-disable */
-import PropTypes from 'prop-types';
-/* eslint-enable */
 
 class UserNew extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class UserNew extends Component {
     const ActionaddUser = _.get(this.props, 'addUser');
     const { history } = this.props;
     ActionaddUser(user).then(() => {
-      history.goBack();
+      handleGoBack(history);
     });
   }
 
@@ -37,7 +38,7 @@ class UserNew extends Component {
             phoneNumber: '',
           }}
           onSubmit={this.onSubmit}
-          onCancel={history.goBack}
+          onCancel={() => { handleGoBack(history); }}
         />
       </div>
     );

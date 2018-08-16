@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
+import { handleGoBack } from 'utils';
+
+import { fetchCourseWithID, fetchCourse, updateCourse } from 'networks/classcourse';
 import ClassroomFormEditCourse from './ClassroomCourse.form/Classroom.form.editcourse';
-import { fetchCourseWithID, fetchCourse, updateCourse } from '../../../networks/classcourse';
 
 class ClassroomDetailCourse extends Component {
   constructor(props) {
@@ -29,12 +32,12 @@ class ClassroomDetailCourse extends Component {
     const objCourse = obj;
     const { history } = this.props;
     updateCourse(objCourse);
-    history.goBack();
+    handleGoBack(history);
   }
 
   onCancel() {
     const { history } = this.props;
-    history.goBack();
+    handleGoBack(history);
   }
 
   render() {

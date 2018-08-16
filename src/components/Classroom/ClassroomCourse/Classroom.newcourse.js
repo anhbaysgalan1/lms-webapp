@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { AddCourseAction, FetchCourseAction } from '../../../actions/classcourse';
-import { fetchCourse } from '../../../networks/classcourse';
+
+import { handleGoBack, ListStringCourse } from 'utils';
+
+import { AddCourseAction, FetchCourseAction } from 'actions/classcourse';
+import { fetchCourse } from 'networks/classcourse';
 import ClassroomFormNewCourse from './ClassroomCourse.form/Classroom.form.newcourse';
 import ClassroomListCourse from './ClassroomCourse.form/Classroom.list.course';
-import { ListStringCourse } from '../../../utils';
 
 class ClassroomNewCourse extends Component {
   constructor(props) {
@@ -32,8 +34,8 @@ class ClassroomNewCourse extends Component {
   }
 
   onCancel() {
-    const PropsHistory = _.get(this.props, 'history');
-    PropsHistory.goBack();
+    const history = _.get(this.props, 'history');
+    handleGoBack(history);
   }
 
   render() {

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { handleGoBack } from 'utils';
+
 import { addPlaylist } from 'actions/playlist';
 import PlaylistForm from './Playlist.form';
 
@@ -14,7 +16,7 @@ class PlaylistNew extends Component {
   onSubmit(playlist) {
     const { addPlaylistAction, history } = this.props;
     addPlaylistAction(playlist);
-    history.goBack();
+    handleGoBack(history);
   }
 
   render() {
@@ -28,7 +30,7 @@ class PlaylistNew extends Component {
               videos: [],
             }}
             onSubmit={this.onSubmit}
-            onCancel={history.goBack}
+            onCancel={() => { handleGoBack(history); }}
           />
         </div>
       </div>

@@ -5,6 +5,8 @@ import {
 } from 'reactstrap';
 import _ from 'lodash';
 
+import getYoutubeVideoInfo from 'networks/youtube';
+
 import './index.css';
 
 class VideoForm extends Component {
@@ -19,12 +21,45 @@ class VideoForm extends Component {
       return false;
     };
 
+    this.checkYoutubeVideoId = (videoId, formProps) => {
+      const {
+        values, errors, setValues, setErrors,
+      } = formProps;
+
+      if (videoId) {
+        getYoutubeVideoInfo(videoId)
+          .then((videos) => {
+            const video = videos.items[0];
+            if (videos.items.length === 0 || (video && video.kind !== 'youtube#video')) {
+              setErrors({
+                ...errors,
+                videoId: 'Wrong youtube video id',
+              });
+            } else {
+              const { duration } = video.contentDetails;
+              setErrors({
+                ...errors,
+                videoId: undefined,
+              });
+              setValues({
+                ...values,
+                videoId: video.id,
+                title: video.snippet.title,
+                description: video.snippet.description,
+                duration: duration.slice(2, duration.length),
+              });
+            }
+          });
+      }
+    };
+
     this.validate = (values) => {
       const errors = {};
 
       if (!values.videoId) {
         errors.videoId = 'Video Id is required';
       }
+
       return errors;
     };
 
@@ -39,9 +74,12 @@ class VideoForm extends Component {
       handleChange,
       handleBlur,
       handleSubmit,
+      setFieldTouched,
     } = formProps;
 
-    const { title, description, videoId } = values;
+    const {
+      title = '', description = '', videoId = '', duration = '',
+    } = values;
 
     const onCancel = _.get(this.props, 'onCancel');
 
@@ -82,6 +120,22 @@ class VideoForm extends Component {
           </div>
         </FormGroup>
         <FormGroup>
+          <Label for="duration">
+            Video duration
+          </Label>
+          <Input
+            type="textarea"
+            name="duration"
+            value={duration}
+            invalid={touched.duration && !!errors.duration}
+            onBlur={handleBlur}
+            onChange={handleChange}
+          />
+          <div className="text-danger">
+            {touched.duration ? errors.duration : ''}
+          </div>
+        </FormGroup>
+        <FormGroup>
           <Label for="videoId">
             Video Id
             <span className="text-danger">
@@ -93,16 +147,21 @@ class VideoForm extends Component {
             name="videoId"
             value={videoId}
             invalid={touched.videoId && !!errors.videoId}
-            onBlur={handleBlur}
+            onBlur={(e) => {
+              handleBlur(e);
+              this.checkYoutubeVideoId(e.target.value, formProps);
+            }}
             onChange={(e) => {
+              setFieldTouched(e.target.name, true);
               if (this.getYoutubeVideoId(e.target.value)) {
                 e.target.value = this.getYoutubeVideoId(e.target.value);
                 handleChange(e);
               } else {
                 handleChange(e);
               }
+              this.checkYoutubeVideoId(e.target.value, formProps);
             }}
-            placeholder="Paste link youtube vào đây."
+            placeholder="Paste youtube link here."
           />
           <div className="text-danger">
             {touched.videoId ? errors.videoId : ''}
@@ -112,7 +171,7 @@ class VideoForm extends Component {
           <Button color="secondary" onClick={onCancel}>
             Cancel
           </Button>
-          <Button className="mx-1" color="primary">
+          <Button className="mx-1" color="primary" disabled={!!errors.videoId}>
             OK
           </Button>
         </div>

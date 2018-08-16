@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
+import { handleGoBack } from 'utils';
+
 import { updateVideo, fetchVideoDetail } from 'actions/video';
 import VideoForm from './Video.form';
 
@@ -36,10 +38,10 @@ class VideoDetail extends PureComponent {
 
     actionUpdateVideo(video)
       .then(() => {
-        history.goBack();
+        handleGoBack(history);
       })
       .catch(() => {
-        history.goBack();
+        handleGoBack(history);
       });
   }
 
@@ -62,7 +64,7 @@ class VideoDetail extends PureComponent {
           <VideoForm
             initialValues={videoReducer}
             onSubmit={this.onSubmit}
-            onCancel={history.goBack}
+            onCancel={() => { handleGoBack(history); }}
           />
         </div>
       </div>

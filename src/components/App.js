@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Switch, Route } from 'react-router-dom';
-import _ from 'lodash';
+import PropTypes from 'prop-types';
 
-import { checkAuth } from 'actions/auth';
+import { checkAuth, logout } from 'actions/auth';
 
 import SideBar from './SideBar';
 import Users from './Users';
@@ -22,12 +22,15 @@ import './App.css';
 
 class App extends Component {
   componentWillMount() {
-    const checkAuthAction = _.get(this.props, 'checkAuth');
+    const { checkAuthAction } = this.props;
+
     checkAuthAction();
   }
 
   render() {
-    const user = _.get(this.props, 'authReducer.user');
+    const { logoutAction, authReducer } = this.props;
+    const { user } = authReducer;
+
     if (user) {
       if (user.role > 0) {
         return (
@@ -63,6 +66,16 @@ class App extends Component {
               videoId="f_LgWgzCPnQ"
             />
             <div id="app-panel">
+              <div className="text-right mb-2">
+                <span>
+                  Hi,
+                  {' '}
+                  {user.username}
+                  <button className="ml-2" type="button" onClick={logoutAction}>
+                    Logout
+                  </button>
+                </span>
+              </div>
               <Switch>
                 <Route
                   path={ROUTE_ADMIN_VIDEO}
@@ -96,7 +109,17 @@ function mapReducerProps({ authReducer }) {
 }
 
 const actions = {
-  checkAuth,
+  logoutAction: logout,
+  checkAuthAction: checkAuth,
+};
+
+App.propTypes = {
+  authReducer: PropTypes.shape({
+    user: PropTypes.object,
+    errMsg: PropTypes.string,
+  }).isRequired,
+  logoutAction: PropTypes.func.isRequired,
+  checkAuthAction: PropTypes.func.isRequired,
 };
 
 export default withRouter(connect(mapReducerProps, actions)(App));

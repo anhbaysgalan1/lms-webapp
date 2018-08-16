@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import PropTypes from 'prop-types';
 import {
-  Form, Label, Input, Button, FormGroup, Container, FormFeedback,
+  Button, Form, Input, FormGroup, FormFeedback,
 } from 'reactstrap';
 
 import { login } from 'actions/auth';
@@ -14,102 +14,129 @@ class Login extends Component {
     super(props);
 
     this.state = {
+      loggingIn: false,
       username: '',
       password: '',
     };
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  handleChange(e) {
-    const { value, name } = e.target;
+  componentWillReceiveProps(nextProps) {
+    const { loggingIn } = this.state;
+    const { user, errMsg } = nextProps.authReducer;
 
-    if (value && name) {
-      this.setState({ [name]: value });
+    if (!user && errMsg && loggingIn) {
+      this.setState({
+        loggingIn: false,
+      });
     }
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
+  onSubmit(event) {
+    event.preventDefault();
     const { username, password } = this.state;
-    const loginAction = _.get(this.props, 'login');
+    const { loginAction } = this.props;
+
+    this.setState({
+      loggingIn: true,
+    });
 
     loginAction(username, password);
   }
 
+  handleInputChange(event) {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value,
+    });
+  }
+
   render() {
-    const { username, password } = this.state;
-    const errMsg = _.get(this.props, 'authReducer.errMsg');
+    const { username, password, loggingIn } = this.state;
+    const { authReducer } = this.props;
 
     return (
-      <div className="signin">
-        <Container className="text-left">
-          <Form className="col-md-6 offset-md-3" onSubmit={this.handleSubmit}>
-            <h1 className="h3 mb-3 font-weight-normal">
-              Please sign in to continue!
-            </h1>
+      <div className="login-page">
+        <div className="form">
+          <h3 className="mb-4">
+            LMS Admin
+          </h3>
+          <Form className="login-form" onSubmit={this.onSubmit}>
             <FormGroup>
-              <Label for="inputUsername">
-                Username
-              </Label>
               <Input
-                type="text"
                 name="username"
-                className="form-control"
-                placeholder="Username"
+                placeholder="username"
                 value={username}
-                onChange={this.handleChange}
+                onChange={this.handleInputChange}
                 required
-                autoFocus
+                invalid={authReducer.errMsg !== null}
               />
             </FormGroup>
             <FormGroup>
-              <Label for="inputPassword">
-                Password
-              </Label>
               <Input
-                type="password"
                 name="password"
-                className="form-control"
-                placeholder="Password"
+                placeholder="password"
                 value={password}
-                onChange={this.handleChange}
+                onChange={this.handleInputChange}
+                type="password"
                 required
+                invalid={authReducer.errMsg !== null}
               />
             </FormGroup>
             {
-              errMsg ? <Input type="hidden" invalid /> : ''
+              authReducer.errMsg ? (
+                <Input type="hidden" invalid />
+              ) : ''
             }
             <FormFeedback className="mb-3">
-              { errMsg || '' }
+              { authReducer.errMsg || '' }
             </FormFeedback>
-            <div className="checkbox mb-3">
-              <Label for="remember" className="checkbox">
-                <Input type="checkbox" name="remember" />
-                {' '}
-                Remember me
-              </Label>
-            </div>
-            <Button size="lg" color="primary" block type="submit">
-              Sign in
-            </Button>
-            <p className="mt-5 mb-3 text-muted text-center">
-              &copy; 2018, LMS Webapp.
-            </p>
+            {
+              loggingIn ? (
+                <div className="lds-spinner mt-3 mb-3">
+                  <div />
+                  <div />
+                  <div />
+                  <div />
+                  <div />
+                  <div />
+                  <div />
+                  <div />
+                  <div />
+                  <div />
+                  <div />
+                  <div />
+                </div>
+              ) : ''
+            }
+            <FormGroup>
+              <Button>
+                sign in
+              </Button>
+            </FormGroup>
           </Form>
-        </Container>
+        </div>
       </div>
     );
   }
 }
+
+Login.propTypes = {
+  authReducer: PropTypes.shape({
+    user: PropTypes.object,
+    errMsg: PropTypes.string,
+  }).isRequired,
+  loginAction: PropTypes.func.isRequired,
+};
 
 function mapReducerProps({ authReducer }) {
   return { authReducer };
 }
 
 const actions = {
-  login,
+  loginAction: login,
 };
 
 export default connect(mapReducerProps, actions)(Login);

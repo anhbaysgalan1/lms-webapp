@@ -9,3 +9,5 @@ export const API_CLASSROOM_COURSE = `${API_URL}/courseclassroom`;
 export const API_VIDEO = `${API_URL}/videos`;
 export const API_PLAYLIST = `${API_URL}/playlists`;
 export const API_AUTH = `${API_URL}/auth`;
+
+export const API_YOUTUBE = 'https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails&key=AIzaSyB4cunybCwtZCkB3xjo1F2BHIUosuwvzPw';

@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import SearchBar from 'components/SearchBar';
 import searchVideo from 'networks/video';
 
-import VideoItem from '../VideoItem';
+import VideoItem from 'components/Video/VideoItem';
 
 class VideoListModal extends Component {
   constructor(props) {

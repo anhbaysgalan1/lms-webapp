@@ -139,3 +139,29 @@ export const validatePhoneNumber = (par) =>{
   return conditional.test(par);
 } 
 
+export const handleGoBack = (history) => {
+  const currentUrl = new URL(window.location.href);
+  const currentPathnameArr = currentUrl.pathname.split('/');
+
+  if(!document.referrer) {
+    if(currentPathnameArr[2] == 'detail') {
+      history.push(`/${currentPathnameArr[1]}`);
+    } else {
+      const pathname = currentPathnameArr.slice(0, currentPathnameArr.length - 1).join('/');
+      history.push(pathname);
+    }
+  } else {
+    const prevDomain = new URL(document.referrer).origin;
+    const currentDomain = currentUrl.origin;
+    if(prevDomain !== currentDomain) {
+      if(currentPathnameArr[2] == 'detail') {
+        history.push(`/${currentPathnameArr[1]}`);
+      } else {
+        const pathname = currentPathnameArr.slice(0, currentPathnameArr.length - 1).join('/');
+        history.push(pathname);
+      }
+    } else {
+      history.goBack();
+    }
+  }
+}

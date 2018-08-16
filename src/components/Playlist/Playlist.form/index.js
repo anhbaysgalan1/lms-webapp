@@ -12,7 +12,7 @@ import {
 
 import './index.css';
 import { openVideoPlayer } from 'actions/videoPlayer';
-import VideoItem from './VideoItem';
+import VideoItem from 'components/Video/VideoItem';
 import VideoListModal from './VideoList.modal';
 
 function validate(values) {
