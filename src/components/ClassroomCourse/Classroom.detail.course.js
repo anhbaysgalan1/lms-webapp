@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import { connect } from 'react-redux';
 import { handleGoBack } from 'utils';
 
 import { fetchCourseWithID, fetchCourse, updateCourse } from 'networks/classcourse';
+import { FetchCourseAction } from '../../actions/classcourse';
 import ClassroomFormEditCourse from './ClassroomCourse.form/Classroom.form.editcourse';
 
 class ClassroomDetailCourse extends Component {
@@ -14,6 +15,7 @@ class ClassroomDetailCourse extends Component {
     this.state = ({
       fetchDataCourse: null,
       ListCourses: null,
+      isSubmitting: false,
     });
   }
 
@@ -31,8 +33,14 @@ class ClassroomDetailCourse extends Component {
   onSubmit(obj) {
     const objCourse = obj;
     const { history } = this.props;
-    updateCourse(objCourse);
-    handleGoBack(history);
+    const { FetchCourseAction: FetchCourse } = this.props;
+    this.setState({
+      isSubmitting: true,
+    });
+    updateCourse(objCourse).then(() => {
+      FetchCourse();
+      handleGoBack(history);
+    });
   }
 
   onCancel() {
@@ -41,12 +49,12 @@ class ClassroomDetailCourse extends Component {
   }
 
   render() {
-    const { fetchDataCourse, ListCourses } = this.state;
-    if (!fetchDataCourse) {
+    const { fetchDataCourse, ListCourses, isSubmitting } = this.state;
+    if (!fetchDataCourse || isSubmitting) {
       return (
         <div className="d-flex justify-content-center">
           {/* eslint-disable global-require */}
-          <img alt="" src={require('../../../statics/loader.gif')} />
+          <img alt="" src={require('../../statics/loader.gif')} />
           {/* eslint-enable global-require */}
         </div>
       );
@@ -63,6 +71,7 @@ class ClassroomDetailCourse extends Component {
 }
 
 ClassroomDetailCourse.propTypes = {
+  FetchCourseAction: PropTypes.func.isRequired,
   match: PropTypes.shape({
     path: PropTypes.string,
     url: PropTypes.string,
@@ -73,5 +82,12 @@ ClassroomDetailCourse.propTypes = {
   }).isRequired,
 };
 
+function mapReducerProps({ classcourseReducer }) {
+  return { classcourseReducer };
+}
 
-export default ClassroomDetailCourse;
+const actions = {
+  FetchCourseAction,
+};
+
+export default connect(mapReducerProps, actions)(ClassroomDetailCourse);

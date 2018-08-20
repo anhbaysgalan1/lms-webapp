@@ -7,7 +7,7 @@ import { handleGoBack, ListStringCourse } from 'utils';
 import { AddCourseAction, FetchCourseAction } from 'actions/classcourse';
 import { fetchCourse } from 'networks/classcourse';
 import ClassroomFormNewCourse from './ClassroomCourse.form/Classroom.form.newcourse';
-import ClassroomListCourse from './ClassroomCourse.form/Classroom.list.course';
+
 
 class ClassroomNewCourse extends Component {
   constructor(props) {
@@ -40,12 +40,11 @@ class ClassroomNewCourse extends Component {
 
   render() {
     const { fetchCourseData } = this.state;
-    const PropsHistory = _.get(this.props, 'history');
     if (!fetchCourseData) {
       return (
         <div className="d-flex justify-content-center">
           {/* eslint-disable global-require */}
-          <img alt="" src={require('../../../statics/loader.gif')} />
+          <img alt="" src={require('../../statics/loader.gif')} />
           {/* eslint-enable global-require */}
         </div>
       );
@@ -60,9 +59,6 @@ class ClassroomNewCourse extends Component {
             newcourse: '',
             session: '',
           }}
-        />
-        <ClassroomListCourse
-          PropsHistory={PropsHistory}
         />
       </div>
     );

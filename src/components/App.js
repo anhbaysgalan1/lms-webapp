@@ -13,9 +13,14 @@ import Video from './Video';
 import Playlist from './Playlist';
 import Login from './Login';
 import VideoPlayer from './VideoPlayer';
+import Course from './ClassroomCourse';
 
 import {
-  ROUTE_ADMIN_VIDEO, ROUTE_ADMIN_PLAYLIST, ROUTE_ADMIN_USER, ROUTE_ADMIN_CLASSROOM,
+  ROUTE_ADMIN_VIDEO,
+  ROUTE_ADMIN_PLAYLIST,
+  ROUTE_ADMIN_USER,
+  ROUTE_ADMIN_CLASSROOM,
+  ROUTE_ADMIN_CLASSROOM_COURSE,
 } from './routes';
 
 import './App.css';
@@ -55,6 +60,11 @@ class App extends Component {
                   image: <i className="fas fa-list-ul" />,
                 },
                 {
+                  title: 'Course',
+                  href: ROUTE_ADMIN_CLASSROOM_COURSE,
+                  image: <i className="fas fa-list-ul" />,
+                },
+                {
                   title: 'Playlist',
                   href: ROUTE_ADMIN_PLAYLIST,
                   image: <i className="fas fa-list-ul" />,
@@ -88,6 +98,10 @@ class App extends Component {
                 <Route
                   path={ROUTE_ADMIN_USER}
                   component={Users}
+                />
+                <Route
+                  path={ROUTE_ADMIN_CLASSROOM_COURSE}
+                  component={Course}
                 />
                 <Route
                   path={ROUTE_ADMIN_CLASSROOM}

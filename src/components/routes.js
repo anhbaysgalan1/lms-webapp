@@ -5,11 +5,13 @@ export const ROUTE_ADMIN_PLAYLIST_DETAIL_ID = '/playlist/detail/:_id';
 
 export const ROUTE_ADMIN_CLASSROOM = '/classroom';
 export const ROUTE_ADMIN_CLASSROOM_NEW = '/classroom/new';
-export const ROUTE_ADMIN_CLASSROOM_NEW_COURSE = '/classroom/newcourse';
-export const ROUTE_ADMIN_CLASSROOM_DETAIL_COURSE = '/classroom/course/detail';
-export const ROUTE_ADMIN_CLASSROOM_DETAIL_COURSE_ID = '/classroom/course/detail/:id';
 export const ROUTE_ADMIN_CLASSROOM_DETAIL = '/classroom/detail';
 export const ROUTE_ADMIN_CLASSROOM_DETAIL_ID = '/classroom/detail/:id';
+
+export const ROUTE_ADMIN_CLASSROOM_COURSE = '/course';
+export const ROUTE_ADMIN_CLASSROOM_NEW_COURSE = '/course/new';
+export const ROUTE_ADMIN_CLASSROOM_DETAIL_COURSE = '/course/detail';
+export const ROUTE_ADMIN_CLASSROOM_DETAIL_COURSE_ID = '/course/detail/:id';
 
 export const ROUTE_ADMIN_USER = '/user';
 export const ROUTE_ADMIN_USER_NEW = '/user/new';
