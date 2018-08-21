@@ -6,17 +6,32 @@ import {
 /* eslint-disable */
 import PropTypes from 'prop-types';
 /* eslint-enable */
-import { validateEmail, validateLinkFB, validatePhoneNumber } from '../../utils';
+import {
+  validateEmail,
+  validateLinkFB,
+  validatePhoneNumber,
+} from '../../utils';
 
 class UserForm extends Component {
   constructor(props) {
     super(props);
     this.renderForm = this.renderForm.bind(this);
+    this.validate = this.validate.bind(this);
   }
 
   /* eslint-disable */
-  validate(values) {
+ validate(values) {
+    const { ListUserExist } = this.props;
     const errors = {};
+    let flag = false;
+    ListUserExist.map(el => {
+      if (el === values.username){
+        flag = true;
+      }
+    });
+    if (flag) {
+      errors.usernameExisted = 'Username has been existed!!'
+    }
     if (!values.username) {
       errors.username = 'Username is required';
     }
@@ -76,12 +91,15 @@ Username
             name="username"
             onChange={handleChange}
             onBlur={handleBlur}
-            invalid={touched.username && !!errors.username}
+            invalid={touched.username && !!errors.username && !!errors.usernameExisted}
             value={username}
           />
+          {console.log(errors.username)}
+          {console.log(errors.flag)}
           <div className="text-danger">
             {' '}
             {touched.username ? errors.username : ''}
+            {errors.usernameExisted ? errors.usernameExisted : ''}
             {' '}
           </div>
         </FormGroup>
@@ -260,6 +278,7 @@ UserForm.defaultProps = {
 };
 
 UserForm.propTypes = {
+  ListUserExist: PropTypes.arrayOf(PropTypes.node).isRequired,
   initialValues: PropTypes.shape({
     username: PropTypes.string,
     role: PropTypes.number,

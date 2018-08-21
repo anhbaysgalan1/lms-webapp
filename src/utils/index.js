@@ -127,6 +127,13 @@ export const ListStringCourse = (list) => {
   return empty;
 };
 
+export const GetUserExisted = (list) => {
+  const empty = [];
+  _.map(list, (el) => {
+    empty.push(el.username);
+  });
+  return empty;
+}
 
 /* eslint-disable */
 export const validateLinkFB = (par) =>{
