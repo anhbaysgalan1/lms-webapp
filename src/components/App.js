@@ -98,7 +98,14 @@ class App extends Component {
           </div>
         );
       }
-      return "You don't have permission to access this feature!";
+      return (
+        <div className="warning">
+          You don&apos;t have permission to access this feature!
+          <button className="ml-2" type="button" onClick={logoutAction}>
+            Logout?
+          </button>
+        </div>
+      );
     }
     return <Login />;
   }

@@ -53,3 +53,27 @@
 .admin-btn:hover {
   background-color: #bec6e4;
 }
+
+.warning {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ff0000;
+  font-weight: 700;
+  font-size: 25px;
+}
+
+.warning button {
+  background: 0 none;
+  padding: 1px 12px;
+  outline: 0 none;
+  border: 0 none;
+  color: #0000ff;
+  text-decoration: underline;
+}
+
+.warning button:hover {
+  cursor: pointer;
+}
