@@ -47,22 +47,22 @@ class App extends Component {
                 {
                   title: 'Video',
                   href: ROUTE_ADMIN_VIDEO,
-                  image: <i className="fas fa-list-ul" />,
+                  image: <i className="fas fa-video" />,
                 },
                 {
                   title: 'Users',
                   href: ROUTE_ADMIN_USER,
-                  image: <i className="fas fa-list-ul" />,
+                  image: <i className="fas fa-user" />,
                 },
                 {
                   title: 'Classroom',
                   href: ROUTE_ADMIN_CLASSROOM,
-                  image: <i className="fas fa-list-ul" />,
+                  image: <i className="fas fa-users" />,
                 },
                 {
                   title: 'Course',
                   href: ROUTE_ADMIN_CLASSROOM_COURSE,
-                  image: <i className="fas fa-list-ul" />,
+                  image: <i className="fab fa-accusoft" />,
                 },
                 {
                   title: 'Playlist',

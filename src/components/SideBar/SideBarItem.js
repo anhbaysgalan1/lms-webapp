@@ -30,11 +30,13 @@ class SideBarItem extends Component {
     const title = Title || 'No title';
     const href = Href || '/no-href';
     return (
-      <Link className="sidebar-item" to={href}>
-        {image}
-        <span>
+      <Link className="sidebar-item m-1 d-flex justify-content-between w-60" to={href}>
+        <div className="col-md-1">
+          {image}
+        </div>
+        <div className="col-md-2">
           {title}
-        </span>
+        </div>
       </Link>
     );
   }
