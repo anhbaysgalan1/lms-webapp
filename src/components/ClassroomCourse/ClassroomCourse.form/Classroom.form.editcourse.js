@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { connect } from 'react-redux';
 import { Formik } from 'formik';
 import {
   Form, FormGroup, Label, Input, Button,
 } from 'reactstrap';
-import { FetchCourseAction } from '../../../../actions/classcourse';
-import { ListStringCourse } from '../../../../utils';
+import { ListStringCourse } from '../../../utils';
 
 
-class ClassroomFormNewCourse extends Component {
+class ClassroomFormEditCourse extends Component {
   constructor(props) {
     super(props);
     this.validate = this.validate.bind(this);
@@ -17,27 +15,15 @@ class ClassroomFormNewCourse extends Component {
   }
 
   componentWillMount() {
-    const classcourseReducer = _.get(this.props, 'classcourseReducer');
-    const PropsFetchCourseAction = _.get(this.props, 'FetchCourseAction');
-    if (!classcourseReducer) {
-      PropsFetchCourseAction();
-    }
-  }
-
-  componentDidMount() {
-    const classcourseReducer = _.get(this.props, 'classcourseReducer');
-    const PropsFetchCourseAction = _.get(this.props, 'FetchCourseAction');
-    if (!classcourseReducer) {
-      PropsFetchCourseAction();
-    }
   }
   /* eslint-disable */
   validate(values) {
     const errors = {};
-    const { classcourseReducer } = this.props;
-    const ListCourse = ListStringCourse(classcourseReducer);
-    if (!values.newcourse) {
-      errors.newcourse = 'New Course can\'t be blank!';
+    const { DataCourse, initialValues } = this.props;
+    const CurrentCourse = initialValues.course;
+    const ListCourse = ListStringCourse(DataCourse);
+    if (!values.course) {
+      errors.course = 'New Course can\'t be blank!';
     }
 
     if (!values.session) {
@@ -45,7 +31,7 @@ class ClassroomFormNewCourse extends Component {
     }
     // fetchCourseData
     _.map(ListCourse, (el) => {
-      if (values.newcourse.toUpperCase() === el.toUpperCase()) {
+      if (CurrentCourse.toUpperCase() !== values.course.toUpperCase() && values.course.toUpperCase() === el.toUpperCase()) {
         errors.duplicate = 'This Course has been existed!';
         errors.flag = true;
       }
@@ -66,7 +52,7 @@ class ClassroomFormNewCourse extends Component {
     } = formProps;
 
     const {
-      newcourse, session,
+      course, session,
     } = values;
 
     const onCancel = _.get(this.props, 'onCancel');
@@ -78,8 +64,8 @@ New Course
           </Label>
           <Input
             type="text"
-            name="newcourse"
-            value={newcourse}
+            name="course"
+            value={course}
             onBlur={handleBlur}
             onChange={handleChange}
             invalid={touched.newcourse && !!errors.newcourse && errors.flag}
@@ -115,16 +101,13 @@ Back
 
         </Button>
         <Button className="btn btn-info ">
-Add
+Edit
         </Button>
 
       </Form>
 
     );
   }
-
-  // onSubmit(values, {setSubmitting, setErrors}) {
-  // }
 
   render() {
     const initialValues = _.get(this.props, 'initialValues');
@@ -140,12 +123,4 @@ Add
   }
 }
 
-function mapReducerProps({ classcourseReducer }) {
-  return { classcourseReducer };
-}
-
-const actions = {
-  FetchCourseAction,
-};
-
-export default connect(mapReducerProps, actions)(ClassroomFormNewCourse);
+export default ClassroomFormEditCourse;

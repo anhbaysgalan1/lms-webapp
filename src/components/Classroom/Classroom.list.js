@@ -6,7 +6,7 @@ import _ from 'lodash';
 // action
 import { fetchClassrooms, deleteClassroom } from '../../actions/classroom';
 // route_path
-import { ROUTE_ADMIN_CLASSROOM_NEW, ROUTE_ADMIN_CLASSROOM_DETAIL, ROUTE_ADMIN_CLASSROOM_NEW_COURSE } from '../routes';
+import { ROUTE_ADMIN_CLASSROOM_NEW, ROUTE_ADMIN_CLASSROOM_DETAIL } from '../routes';
 
 import { openPopup } from '../../actions/popup';
 import './index.css';
@@ -16,23 +16,6 @@ class ClassRoomList extends Component {
   componentWillMount() {
     const PropsFetchClassrooms = _.get(this.props, 'fetchClassrooms');
     PropsFetchClassrooms();
-  }
-
-  renderAddCourse() {
-    const PropsHistory = _.get(this.props, 'history');
-    return (
-      <Button
-        className="admin-btn mr-2 text-dark"
-        onClick={() => PropsHistory.push(ROUTE_ADMIN_CLASSROOM_NEW_COURSE)}
-      >
-        <i className="fas fa-plus mr-1" />
-        {' '}
-        {'  '}
-        {' '}
-Course
-
-      </Button>
-    );
   }
 
   renderAdd() {
@@ -50,7 +33,7 @@ Course
 Add Class
 
         </Button>
-        {this.renderAddCourse()}
+        {/* {this.renderAddCourse()} */}
 
       </div>
     );

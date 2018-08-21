@@ -14,6 +14,7 @@ class UserDetail extends Component {
     super(props);
     this.state = {
       user: null,
+      isSubmitting: null,
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -32,6 +33,9 @@ class UserDetail extends Component {
     const { history } = this.props;
     const ActionUpdateUser = _.get(this.props, 'updateUser');
     const ActionfetchUsers = _.get(this.props, 'fetchUsers');
+    this.setState({
+      isSubmitting: true,
+    });
     ActionUpdateUser(user).then(() => {
       ActionfetchUsers();
       handleGoBack(history);
@@ -39,12 +43,14 @@ class UserDetail extends Component {
   }
 
   render() {
-    const { user } = this.state;
+    const { user, isSubmitting } = this.state;
     const { history } = this.props;
-    if (!user) {
+    if (!user || isSubmitting) {
       return (
-        <div>
-Loading...
+        <div className="d-flex justify-content-center">
+          {/* eslint-disable global-require */}
+          <img alt="" src={require('../../statics/loader.gif')} />
+          {/* eslint-enable global-require */}
         </div>
       );
     }
