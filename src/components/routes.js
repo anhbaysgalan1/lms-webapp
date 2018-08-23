@@ -1,6 +1,6 @@
-import { ROOT_URL } from 'statics/configs.json';
+import { DEV_ROUTE_ADMIN_ROOT, PROD_ROUTE_ADMIN_ROOT } from 'statics/configs.json';
 
-const ROUTE_ADMIN_ROOT = process.env.NODE_ENV === 'development' ? ROOT_URL : '/admin';
+const ROUTE_ADMIN_ROOT = process.env.NODE_ENV === 'development' ? DEV_ROUTE_ADMIN_ROOT : PROD_ROUTE_ADMIN_ROOT;
 
 export const ROUTE_ADMIN_PLAYLIST = `${ROUTE_ADMIN_ROOT}/playlist`;
 export const ROUTE_ADMIN_PLAYLIST_NEW = `${ROUTE_ADMIN_ROOT}/playlist/new`;
