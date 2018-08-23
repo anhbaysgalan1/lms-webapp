@@ -1,5 +1,6 @@
+import { API_ROOT } from './configs.json';
 // export const ROOT_URL = 'http://localhost:9000';
-export const ROOT_URL = process.env.API_ROOT || 'https://learn.techkids.vn';
+export const ROOT_URL = process.env.NODE_ENV === 'development' ? API_ROOT : 'https://learn.techkids.vn';
 
 export const API_URL = `${ROOT_URL}/api`;
 

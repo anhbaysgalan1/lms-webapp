@@ -22,7 +22,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development API_ROOT=https://tklms-api.herokuapp.com NODE_PATH=src react-scripts start",
+    "start": "cross-env NODE_PATH=src react-scripts start",
     "build": "cross-env NODE_PATH=src react-scripts build",
     "test": "cross-env NODE_PATH=src react-scripts test --env=jsdom",
     "eject": "cross-env NODE_PATH=src react-scripts eject"
