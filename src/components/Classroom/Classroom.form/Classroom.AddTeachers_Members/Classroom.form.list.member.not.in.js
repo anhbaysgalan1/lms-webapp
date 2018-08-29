@@ -41,7 +41,7 @@ class ClassRoomlistmembernotin extends Component {
     }
 
     return (
-      <div className="round-panel_cls">
+      <div className="round-panel">
         <p className="rounded font-weight-bold text-primary pl-2">
           List Member Not In Class
         </p>

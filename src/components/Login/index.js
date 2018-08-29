@@ -93,6 +93,11 @@ class Login extends Component {
             <FormFeedback className="mb-3">
               { authReducer.errMsg || '' }
             </FormFeedback>
+            <FormGroup>
+              <Button>
+                sign in
+              </Button>
+            </FormGroup>
             {
               loggingIn ? (
                 <div className="lds-spinner mt-3 mb-3">
@@ -111,11 +116,6 @@ class Login extends Component {
                 </div>
               ) : ''
             }
-            <FormGroup>
-              <Button>
-                sign in
-              </Button>
-            </FormGroup>
           </Form>
         </div>
       </div>

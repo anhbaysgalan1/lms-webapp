@@ -49,7 +49,7 @@ class UserNew extends Component {
         </div>);
     }
     const ListUserExist = GetUserExisted(dataFetch.data.data);
-    console.log(ListUserExist);
+
     return (
       <div>
         {isSubmitting ? (

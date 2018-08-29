@@ -19,6 +19,7 @@ export const ROUTE_ADMIN_CLASSROOM_DETAIL_COURSE_ID = `${ROUTE_ADMIN_ROOT}/cours
 
 export const ROUTE_ADMIN_USER = `${ROUTE_ADMIN_ROOT}/user`;
 export const ROUTE_ADMIN_USER_NEW = `${ROUTE_ADMIN_ROOT}/user/new`;
+export const ROUTE_ADMIN_ADD_BULK_USER = `${ROUTE_ADMIN_ROOT}/user/add-bulk`;
 export const ROUTE_ADMIN_USER_DETAIL = `${ROUTE_ADMIN_ROOT}/user/detail`;
 export const ROUTE_ADMIN_USER_DETAIL_ID = `${ROUTE_ADMIN_ROOT}/user/detail/:id`;
 

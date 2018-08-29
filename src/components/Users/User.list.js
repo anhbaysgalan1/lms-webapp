@@ -7,17 +7,14 @@ import PropTypes from 'prop-types';
 /* eslint-enable */
 import { fetchUsers, deleteUser } from '../../actions/user';
 import { openPopup } from '../../actions/popup';
-import { ROUTE_ADMIN_USER_NEW, ROUTE_ADMIN_USER_DETAIL } from '../routes';
+import { ROUTE_ADMIN_USER_NEW, ROUTE_ADMIN_ADD_BULK_USER, ROUTE_ADMIN_USER_DETAIL } from '../routes';
 
 import './User.list.css';
 
 class UserList extends Component {
   componentWillMount() {
-    const usersReducer = _.get(this.props, 'usersReducer');
     const ActionfetchUsers = _.get(this.props, 'fetchUsers');
-    if (!usersReducer) {
-      ActionfetchUsers();
-    }
+    ActionfetchUsers();
   }
 
 
@@ -97,8 +94,17 @@ class UserList extends Component {
           {' '}
           {'  '}
           {' '}
-Add User
-
+          Add User
+        </Button>
+        <Button
+          className="admin-btn mr-2 text-dark"
+          onClick={() => history.push(ROUTE_ADMIN_ADD_BULK_USER)}
+        >
+          <i className="fas fa-plus mr-1" />
+          {' '}
+          {'  '}
+          {' '}
+          Add Bulk User
         </Button>
       </div>
     );

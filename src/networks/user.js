@@ -4,7 +4,6 @@ import { API_USER } from 'statics/urls';
 axios.defaults.validateStatus = status => status < 500;
 axios.defaults.withCredentials = true;
 
-
 export async function fetchUserById(id) {
   const userID = await axios.get(`${API_USER}/${id}`);
   return userID;
@@ -17,6 +16,11 @@ export async function fetchListUser() {
 
 export async function addUser(user) {
   const userAdd = await axios.post(API_USER, user);
+  return userAdd;
+}
+
+export async function addBulkUser(classroom, studentData) {
+  const userAdd = await axios.post(`${API_USER}/addbulk`, { classroom, studentData });
   return userAdd;
 }
 

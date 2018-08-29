@@ -30,7 +30,7 @@ class ClassRoomList extends Component {
           {' '}
           {'  '}
           {' '}
-Add Class
+          Add Class
 
         </Button>
         {/* {this.renderAddCourse()} */}
@@ -57,58 +57,58 @@ Add Class
     return (
       <div>
         {this.renderAdd()}
-        <div className="round-panel_cls">
+        <div className="round-panel">
           {
-_.values(classroomReducer).map((_classroom, index) => (
-  <div
-    className="classroom-item"
-    key={_classroom._id}
-    onClick={() => PropsHistory.push(`${ROUTE_ADMIN_CLASSROOM_DETAIL}/${_classroom._id}`)}
-    onKeyDown={() => {}}
-    role="button"
-    tabIndex="0"
-  >
-    <div className="no">
-      { index + 1 }
-    </div>
-    <div className="name">
-      { _classroom.course }
-      {/* eslint-disable */}
-      { _classroom.classroom }
-    </div>
-    <div className="name2">
-      {_classroom.teachers ? _classroom.teachers.length : 0 }
-      {' '}
-      Teachers
-    </div>
-    <div className="name3">
-      {_classroom.members ? _classroom.members.length : 0 }
-      {' '}
-      Members
-    </div>
-    <div className="name3">
-      {_classroom.playlists.length > 1 ? `${_classroom.playlists.length} Playlists` : `${_classroom.playlists.length} Playlist` }
-      {' '}
-    </div>
-    <div className="video-count" />
-    <div
-      className="controls"
-      onKeyDown={() => {}}
-      role="button"
-      tabIndex="-1"
-      onClick={(event) => {
-        event.stopPropagation();
-        PropsopenPopup(() => { PropsdeleteClassroom(_classroom); }, null);
-      }}
-    >
-      <div className="delete">
-        <i className="text-dark fas fa-trash-alt" />
-      </div>
-    </div>
-  </div>
-))
-  }
-      </div>
+            _.values(classroomReducer).map((_classroom, index) => (
+              <div
+                className="classroom-item"
+                key={_classroom._id}
+                onClick={() => PropsHistory.push(`${ROUTE_ADMIN_CLASSROOM_DETAIL}/${_classroom._id}`)}
+                onKeyDown={() => {}}
+                role="button"
+                tabIndex="0"
+              >
+                <div className="no">
+                  { index + 1 }
+                </div>
+                <div className="name">
+                  { _classroom.course }
+                  {/* eslint-disable */}
+                  { _classroom.classroom }
+                </div>
+                <div className="name2">
+                  {_classroom.teachers ? _classroom.teachers.length : 0 }
+                  {' '}
+                  Teachers
+                </div>
+                <div className="name3">
+                  {_classroom.members ? _classroom.members.length : 0 }
+                  {' '}
+                  Members
+                </div>
+                <div className="name3">
+                  {_classroom.playlists.length > 1 ? `${_classroom.playlists.length} Playlists` : `${_classroom.playlists.length} Playlist` }
+                  {' '}
+                </div>
+                <div className="video-count" />
+                <div
+                  className="controls"
+                  onKeyDown={() => {}}
+                  role="button"
+                  tabIndex="-1"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    PropsopenPopup(() => { PropsdeleteClassroom(_classroom); }, null);
+                  }}
+                >
+                  <div className="delete">
+                    <i className="text-dark fas fa-trash-alt" />
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
       </div>
     );
   }

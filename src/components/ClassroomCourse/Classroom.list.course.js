@@ -54,7 +54,7 @@ Add Course
     return (
       <div>
         {this.buttonAdd()}
-        <div className="round-panel_cls mt-4">
+        <div className="round-panel mt-4">
           {
         _.values(listCourse).map((course, index) => (
           <div
