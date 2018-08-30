@@ -48,7 +48,7 @@ class UserAddBulk extends Component {
     let studentData = pastedData.split('\n').map(student => student.split('\t'));
     studentData = studentData.map((student) => {
       const temp = student;
-      temp[2] = temp[2] ? `0${temp[2]}` : temp[2];
+      temp[2] = temp[2] && Number(temp[2][0]) !== 0 ? `0${temp[2]}` : temp[2];
       return temp;
     });
     this.setState({ studentData });
