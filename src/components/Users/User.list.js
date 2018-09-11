@@ -2,24 +2,69 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'reactstrap';
 import _ from 'lodash';
+import { fetchListUser } from '../../networks/user';
 /* eslint-disable */
 import PropTypes from 'prop-types';
 /* eslint-enable */
-import { fetchUsers, deleteUser } from '../../actions/user';
+import { fetchUsers, deleteUser, fetchUserPagination } from '../../actions/user';
 import { openPopup } from '../../actions/popup';
 import { ROUTE_ADMIN_USER_NEW, ROUTE_ADMIN_USER_DETAIL } from '../routes';
+import { LIMIT } from '../../utils';
 
 import './User.list.css';
 
 class UserList extends Component {
-  componentWillMount() {
+  constructor(props) {
+    super(props);
+    this.props = props;
+    this.state = {
+      total: null,
+    };
+    this.numberPage = this.numberPage.bind(this);
+  }
+
+  async componentWillMount() {
     const usersReducer = _.get(this.props, 'usersReducer');
     const ActionfetchUsers = _.get(this.props, 'fetchUsers');
+    const Total = await fetchListUser();
+    this.setState({
+      total: Total.data.data.total,
+    });
     if (!usersReducer) {
       ActionfetchUsers();
     }
   }
 
+  numberPage(num) {
+    const arrNumber = [];
+    const { fetchUserPaginationAction } = this.props;
+    for (let i = 0; i < num; i += 1) {
+      arrNumber.push(i + 1);
+    }
+    return (
+      _.map(arrNumber, el => (
+        <li className="page-item">
+          <div key={el} className="page-link" onClick={() => fetchUserPaginationAction(el, LIMIT)} onKeyDown={() => {}} tabIndex="-1" role="presentation">
+            {el}
+          </div>
+        </li>
+      ))
+    );
+  }
+
+  pagination() {
+    const { total } = this.state;
+    const numberPagination = Math.ceil(total / LIMIT);
+    return (
+      <div className="d-flex justify-content-end mt-3">
+        <nav aria-label="...">
+          <ul className="pagination pagination-sm">
+            {this.numberPage(numberPagination)}
+          </ul>
+        </nav>
+      </div>
+    );
+  }
 
   renderUsers() {
     const users = _.get(this.props, 'usersReducer');
@@ -79,8 +124,9 @@ class UserList extends Component {
             </div>
           ))
         }
-
+        {this.pagination()}
       </div>
+
     );
   }
 
@@ -119,6 +165,7 @@ UserList.propTypes = {
     length: PropTypes.number,
     action: PropTypes.string,
   }).isRequired,
+  fetchUserPaginationAction: PropTypes.func.isRequired,
 };
 
 function mapReducerProps({ usersReducer }) {
@@ -129,6 +176,7 @@ const actions = {
   fetchUsers,
   deleteUser,
   openPopup,
+  fetchUserPaginationAction: fetchUserPagination,
 };
 
 export default connect(mapReducerProps, actions)(UserList);

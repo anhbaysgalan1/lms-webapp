@@ -4,7 +4,6 @@ import { API_USER } from 'statics/urls';
 axios.defaults.validateStatus = status => status < 500;
 axios.defaults.withCredentials = true;
 
-
 export async function fetchUserById(id) {
   const userID = await axios.get(`${API_USER}/${id}`);
   return userID;

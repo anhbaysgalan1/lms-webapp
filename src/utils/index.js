@@ -133,7 +133,7 @@ export const GetUserExisted = (list) => {
     empty.push(el.username);
   });
   return empty;
-}
+};
 
 /* eslint-disable */
 export const validateLinkFB = (par) =>{
@@ -172,3 +172,5 @@ export const handleGoBack = (history) => {
     }
   }
 }
+
+export const LIMIT = 20;
