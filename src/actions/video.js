@@ -6,9 +6,18 @@ export const FETCH_VIDEO_DETAIL = 'Fetch video detail';
 export const UPDATE_VIDEO = 'Update video';
 export const ADD_VIDEO = 'Add video';
 export const DELETE_VIDEO = 'Delete video';
+export const FETCH_VIDEOS_PAGE = 'FETCH_VIDEOS_PAGE';
 
 axios.defaults.validateStatus = status => status < 500;
 axios.defaults.withCredentials = true;
+
+export function fetchVideoPagination(number, limit) {
+  const request = axios.get(`${API_VIDEO}?page=${number}&limit=${limit}`);
+  return {
+    type: FETCH_VIDEOS_PAGE,
+    payload: request,
+  };
+}
 
 export function fetchVideos() {
   const request = axios.get(API_VIDEO);

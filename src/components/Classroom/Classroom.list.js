@@ -4,18 +4,73 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 // action
-import { fetchClassrooms, deleteClassroom } from '../../actions/classroom';
+import { fetchClassrooms, deleteClassroom, fetchClassroomPagination } from '../../actions/classroom';
 // route_path
 import { ROUTE_ADMIN_CLASSROOM_NEW, ROUTE_ADMIN_CLASSROOM_DETAIL } from '../routes';
-
+import { fetchClass } from '../../networks/classroom';
 import { openPopup } from '../../actions/popup';
 import './index.css';
+import { LIMIT_CLASSROOM, SeparatePage } from '../../utils';
 
 
 class ClassRoomList extends Component {
-  componentWillMount() {
-    const PropsFetchClassrooms = _.get(this.props, 'fetchClassrooms');
-    PropsFetchClassrooms();
+  constructor(props){
+    super(props);
+    this.props = props;
+    this.state = {
+      active: null,
+      defaultDisable: true,
+      total: null,
+    }
+  }
+
+  async componentWillMount() {
+    // const PropsFetchClassrooms = _.get(this.props, 'fetchClassrooms');
+    const { fetchClassroomPaginationAction } = this.props;
+    const Total = await fetchClass();
+    this.setState({
+      total: Total.data.total,
+    })
+    fetchClassroomPaginationAction(1, LIMIT_CLASSROOM);
+  }
+
+  toggleActive(index) {
+    this.setState({
+      active: index,
+      defaultDisable: false,
+    });
+  }
+
+  numberPage(num) {
+    const arrNumber = [];
+    const { active, defaultDisable } = this.state;
+    const { fetchClassroomPaginationAction } = this.props;
+    for (let i = 0; i < num; i += 1) {
+      arrNumber.push(i + 1);
+    }
+    return (
+      _.map(arrNumber, (el, index) => (
+        <li className={active === index || (defaultDisable & index === 0)  ? 'page-item disabled' : 'page-item'} key={index}>
+          <div className="page-link" onClick={() => { fetchClassroomPaginationAction(el, LIMIT_CLASSROOM); this.toggleActive(index); }} onKeyDown={() => {}} tabIndex="1" role="presentation">
+            {el}
+          </div>
+        </li>
+      ))
+    );
+  }
+
+  pagination() {
+    const { total } = this.state;
+    const numberPagination = SeparatePage(total, LIMIT_CLASSROOM);
+    return (
+      <div className="d-flex justify-content-end mt-3">
+        <nav aria-label="...">
+          <ul className="pagination pagination-sm">
+            {this.numberPage(numberPagination)}
+          </ul>
+        </nav>
+      </div>
+    );
   }
 
   renderAdd() {
@@ -108,7 +163,8 @@ class ClassRoomList extends Component {
               </div>
             ))
           }
-        </div>
+          {this.pagination()}
+        </div>   
       </div>
     );
   }
@@ -126,6 +182,7 @@ const actions = {
   fetchClassrooms,
   deleteClassroom,
   openPopup,
+  fetchClassroomPaginationAction: fetchClassroomPagination,
 };
 
 

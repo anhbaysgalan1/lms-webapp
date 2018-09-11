@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 /* eslint-enable */
 import { fetchUsers, deleteUser, fetchUserPagination } from '../../actions/user';
 import { openPopup } from '../../actions/popup';
-import { LIMIT, SeparatePage } from '../../utils';
+import { LIMIT_USER, SeparatePage } from '../../utils';
 import { ROUTE_ADMIN_USER_NEW, ROUTE_ADMIN_ADD_BULK_USER, ROUTE_ADMIN_USER_DETAIL } from '../routes';
 
 import './User.list.css';
@@ -19,6 +19,8 @@ class UserList extends Component {
     this.props = props;
     this.state = {
       total: null,
+      isLoading: false,
+      defaultDisable: true,
     };
     this.numberPage = this.numberPage.bind(this);
     this.toggleActive = this.toggleActive.bind(this);
@@ -26,34 +28,37 @@ class UserList extends Component {
 
   async componentWillMount() {
     const usersReducer = _.get(this.props, 'usersReducer');
-    const ActionfetchUsers = _.get(this.props, 'fetchUsers');
+    // const ActionfetchUsers = _.get(this.props, 'fetchUsers');
+    const { fetchUserPaginationAction } = this.props;
     const Total = await fetchListUser();
     this.setState({
       total: Total.data.data.total,
-      active: false,
+      active: null,
     });
     if (!usersReducer) {
-      ActionfetchUsers();
+      fetchUserPaginationAction(1, LIMIT_USER)
+      // ActionfetchUsers();
     }
   }
 
-  toggleActive() {
+  toggleActive(index) {
     this.setState({
-      active: true,
+      active: index,
+      defaultDisable: false,
     });
   }
 
   numberPage(num) {
     const arrNumber = [];
-    const { active } = this.state;
+    const { active, defaultDisable } = this.state;
     const { fetchUserPaginationAction } = this.props;
     for (let i = 0; i < num; i += 1) {
       arrNumber.push(i + 1);
     }
     return (
       _.map(arrNumber, (el, index) => (
-        <li className={active ? 'page-item disabled' : 'page-item'} key={index}>
-          <div className="page-link" onClick={() => { fetchUserPaginationAction(el, LIMIT); this.toggleActive(); }} onKeyDown={() => {}} tabIndex="-1" role="presentation">
+        <li className={active === index || (defaultDisable & index === 0)  ? 'page-item disabled' : 'page-item'} key={index}>
+          <div className="page-link" onClick={() => { fetchUserPaginationAction(el, LIMIT_USER); this.toggleActive(index); }} onKeyDown={() => {}} tabIndex="1" role="presentation">
             {el}
           </div>
         </li>
@@ -63,7 +68,7 @@ class UserList extends Component {
 
   pagination() {
     const { total } = this.state;
-    const numberPagination = SeparatePage(total, LIMIT);
+    const numberPagination = SeparatePage(total, LIMIT_USER);
     return (
       <div className="d-flex justify-content-end mt-3">
         <nav aria-label="...">

@@ -4,19 +4,78 @@ import { Button } from 'reactstrap';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 
-import { fetchPlaylists, deletePlaylist } from 'actions/playlist';
+import { fetchPlaylists, deletePlaylist, fetchPlaylistPagination } from 'actions/playlist';
 import { openPopup } from 'actions/popup';
 import SimpleLoading from '../SimpleLoading';
+import { fetchPlaylistsPromise } from '../../networks/playlist';
+import { LIMIT_PLAYLIST, SeparatePage } from '../../utils';
 import { ROUTE_ADMIN_PLAYLIST_NEW, ROUTE_ADMIN_PLAYLIST_DETAIL } from '../routes';
 
 import './Playlist.list.css';
 
 class PlayListList extends Component {
-  componentWillMount() {
-    const { playlistReducer, fetchPlaylistsAction } = this.props;
+  constructor(props) {
+    super(props);
+    this.props = props;
+    this.state = {
+      total: null,
+      isLoading: false,
+      defaultDisable: true,
+    };
+    this.numberPage = this.numberPage.bind(this);
+    this.toggleActive = this.toggleActive.bind(this);
+  }
+
+  async componentWillMount() {
+    const { playlistReducer, fetchPlaylistPaginationAction } = this.props;
+    const Total = await fetchPlaylistsPromise()
+    console.log(Total.total);
+    this.setState({
+      total: Total.total,
+      active: null,
+    });
     if (!playlistReducer) {
-      fetchPlaylistsAction();
+      fetchPlaylistPaginationAction(1, LIMIT_PLAYLIST);
     }
+  }
+
+  toggleActive(index) {
+    this.setState({
+      active: index,
+      defaultDisable: false,
+    });
+  }
+
+  numberPage(num) {
+    const arrNumber = [];
+    const { active, defaultDisable } = this.state;
+    const { fetchPlaylistPaginationAction } = this.props;
+    for (let i = 0; i < num; i += 1) {
+      arrNumber.push(i + 1);
+    }
+    return (
+      _.map(arrNumber, (el, index) => (
+        <li className={active === index || (defaultDisable & index === 0)  ? 'page-item disabled' : 'page-item'} key={index}>
+          <div className="page-link" onClick={() => { fetchPlaylistPaginationAction(el, LIMIT_PLAYLIST); this.toggleActive(index); }} onKeyDown={() => {}} tabIndex="1" role="presentation">
+            {el}
+          </div>
+        </li>
+      ))
+    );
+  }
+
+  pagination() {
+    const { total } = this.state;
+    const numberPagination = SeparatePage(total, LIMIT_PLAYLIST);
+    return (
+      <div className="d-flex justify-content-end mt-3">
+        <nav aria-label="...">
+          <ul className="pagination pagination-sm">
+            {this.numberPage(numberPagination)}
+          </ul>
+        </nav>
+      </div>
+    );
   }
 
   renderItemControls(playlist) {
@@ -73,6 +132,7 @@ class PlayListList extends Component {
             </div>
           ))
         }
+        {this.pagination()}
       </div>
     );
   }
@@ -111,6 +171,7 @@ const actions = {
   fetchPlaylistsAction: fetchPlaylists,
   deletePlaylistAction: deletePlaylist,
   openPopupAction: openPopup,
+  fetchPlaylistPaginationAction: fetchPlaylistPagination,
 };
 
 PlayListList.defaultProps = {
@@ -118,13 +179,7 @@ PlayListList.defaultProps = {
 };
 
 PlayListList.propTypes = {
-  playlistReducer: PropTypes.shape({
-    _id: PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      videos: PropTypes.array.isRequired,
-    }),
-  }),
+  playlistReducer: PropTypes.array,
   history: PropTypes.shape({
     goBack: PropTypes.func.isRequired,
   }).isRequired,
