@@ -1,0 +1,6 @@
+{
+  "DEV_API_ROOT": "https://tklms-api.herokuapp.com",
+  "PROD_API_ROOT": "https://learn.techkids.vn",
+  "DEV_ROUTE_ADMIN_ROOT": "",
+  "PROD_ROUTE_ADMIN_ROOT": "/admin"
+}

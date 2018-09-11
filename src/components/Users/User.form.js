@@ -94,8 +94,6 @@ Username
             invalid={touched.username && !!errors.username && !!errors.usernameExisted}
             value={username}
           />
-          {console.log(errors.username)}
-          {console.log(errors.flag)}
           <div className="text-danger">
             {' '}
             {touched.username ? errors.username : ''}

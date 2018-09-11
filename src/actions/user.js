@@ -2,6 +2,7 @@ import {
   fetchListUser, addUser as addUserPromise,
   deleteUser as deleteUserPromise,
   updateUser as updateUserPromise,
+  addBulkUser as addBulkUserPromise,
 } from 'networks/user';
 import axios from 'axios';
 import { API_USER } from '../statics/urls';
@@ -11,6 +12,7 @@ export const ADD_USER = 'Add user';
 export const UPDATE_USER = 'Update user';
 export const DELETE_USER = 'Delete user';
 export const FETCH_USER_PAGE = 'FETCH_USER_PAGE';
+export const ADD_BULK_USER = 'Add bulk user';
 
 export function fetchUsers() {
   return {
@@ -39,6 +41,13 @@ export function addUser(user) {
   return {
     type: ADD_USER,
     payload: addUserPromise(user),
+  };
+}
+
+export function addBulkUser(classroom, studentData) {
+  return {
+    type: ADD_BULK_USER,
+    payload: addBulkUserPromise(classroom, studentData),
   };
 }
 

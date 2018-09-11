@@ -174,3 +174,7 @@ export const handleGoBack = (history) => {
 }
 
 export const LIMIT = 20;
+
+export const SeparatePage = (total, limit) => {
+  return Math.ceil(total/limit)
+}

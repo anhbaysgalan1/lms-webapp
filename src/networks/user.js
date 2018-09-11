@@ -19,6 +19,11 @@ export async function addUser(user) {
   return userAdd;
 }
 
+export async function addBulkUser(classroom, studentData) {
+  const userAdd = await axios.post(`${API_USER}/addbulk`, { classroom, studentData });
+  return userAdd;
+}
+
 export async function updateUser(user) {
   const userUpdate = await axios.put(`${API_USER}/${user._id}`, user);
   return userUpdate;

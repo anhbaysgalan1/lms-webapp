@@ -13,19 +13,18 @@ export default function (state = null, action) {
       return _.mapKeys(action.payload.data.data.users, '_id');
     case ADD_USER:
       return {
-        [action.payload.data.data.users._id]: action.payload.data.data.users,
+        [action.payload.data.data._id]: action.payload.data.data,
         ...state,
       };
     case UPDATE_USER:
       return {
         ...state,
-        [action.payload.data.data.users._id]: action.payload.data.data.users,
+        [action.payload.data.data._id]: action.payload.data.data,
       };
     case DELETE_USER:
       return _.omit(state, [action.payload.userId]);
 
     case FETCH_USER_PAGE:
-      console.log(action.payload.data.data);
       return action.payload.data.data.users;
 
     default:

@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
 /* eslint-enable */
 import { fetchUsers, deleteUser, fetchUserPagination } from '../../actions/user';
 import { openPopup } from '../../actions/popup';
-import { ROUTE_ADMIN_USER_NEW, ROUTE_ADMIN_USER_DETAIL } from '../routes';
-import { LIMIT } from '../../utils';
+import { LIMIT, SeparatePage } from '../../utils';
+import { ROUTE_ADMIN_USER_NEW, ROUTE_ADMIN_ADD_BULK_USER, ROUTE_ADMIN_USER_DETAIL } from '../routes';
 
 import './User.list.css';
 
@@ -21,6 +21,7 @@ class UserList extends Component {
       total: null,
     };
     this.numberPage = this.numberPage.bind(this);
+    this.toggleActive = this.toggleActive.bind(this);
   }
 
   async componentWillMount() {
@@ -29,22 +30,30 @@ class UserList extends Component {
     const Total = await fetchListUser();
     this.setState({
       total: Total.data.data.total,
+      active: false,
     });
     if (!usersReducer) {
       ActionfetchUsers();
     }
   }
 
+  toggleActive() {
+    this.setState({
+      active: true,
+    });
+  }
+
   numberPage(num) {
     const arrNumber = [];
+    const { active } = this.state;
     const { fetchUserPaginationAction } = this.props;
     for (let i = 0; i < num; i += 1) {
       arrNumber.push(i + 1);
     }
     return (
-      _.map(arrNumber, el => (
-        <li className="page-item">
-          <div key={el} className="page-link" onClick={() => fetchUserPaginationAction(el, LIMIT)} onKeyDown={() => {}} tabIndex="-1" role="presentation">
+      _.map(arrNumber, (el, index) => (
+        <li className={active ? 'page-item disabled' : 'page-item'} key={index}>
+          <div className="page-link" onClick={() => { fetchUserPaginationAction(el, LIMIT); this.toggleActive(); }} onKeyDown={() => {}} tabIndex="-1" role="presentation">
             {el}
           </div>
         </li>
@@ -54,7 +63,7 @@ class UserList extends Component {
 
   pagination() {
     const { total } = this.state;
-    const numberPagination = Math.ceil(total / LIMIT);
+    const numberPagination = SeparatePage(total, LIMIT);
     return (
       <div className="d-flex justify-content-end mt-3">
         <nav aria-label="...">
@@ -143,8 +152,17 @@ class UserList extends Component {
           {' '}
           {'  '}
           {' '}
-Add User
-
+          Add User
+        </Button>
+        <Button
+          className="admin-btn mr-2 text-dark"
+          onClick={() => history.push(ROUTE_ADMIN_ADD_BULK_USER)}
+        >
+          <i className="fas fa-plus mr-1" />
+          {' '}
+          {'  '}
+          {' '}
+          Add Bulk User
         </Button>
       </div>
     );
