@@ -9,7 +9,12 @@ import PropTypes from 'prop-types';
 import { fetchUsers, deleteUser, fetchUserPagination } from '../../actions/user';
 import { openPopup } from '../../actions/popup';
 import { LIMIT_USER, SeparatePage } from '../../utils';
-import { ROUTE_ADMIN_USER_NEW, ROUTE_ADMIN_ADD_BULK_USER, ROUTE_ADMIN_USER_DETAIL } from '../routes';
+import {
+  ROUTE_ADMIN_USER_NEW,
+  ROUTE_ADMIN_ADD_BULK_USER,
+  ROUTE_ADMIN_USER_DETAIL,
+  ROUTE_ADMIN_USER,
+} from '../routes';
 
 import './User.list.css';
 
@@ -19,8 +24,8 @@ class UserList extends Component {
     this.props = props;
     this.state = {
       total: null,
-      isLoading: false,
       defaultDisable: true,
+      getParams: null,
     };
     this.numberPage = this.numberPage.bind(this);
     this.toggleActive = this.toggleActive.bind(this);
@@ -28,16 +33,36 @@ class UserList extends Component {
 
   async componentWillMount() {
     const usersReducer = _.get(this.props, 'usersReducer');
-    // const ActionfetchUsers = _.get(this.props, 'fetchUsers');
-    const { fetchUserPaginationAction } = this.props;
+    const { location, fetchUserPaginationAction } = this.props;
+    const getParams = new URLSearchParams(location.search).get('page');
     const Total = await fetchListUser();
     this.setState({
       total: Total.data.data.total,
       active: null,
+      getParams,
     });
+
     if (!usersReducer) {
-      fetchUserPaginationAction(1, LIMIT_USER)
+      if (getParams === null) {
+        fetchUserPaginationAction(1, LIMIT_USER);
+        this.setState({
+          defaultDisable: true,
+        });
+      } else {
+        fetchUserPaginationAction(getParams, LIMIT_USER);
+      }
+
       // ActionfetchUsers();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { location } = this.props;
+    if (nextProps.location.search !== location.search) {
+      const getParams = new URLSearchParams(nextProps.location.search).get('page');
+      this.setState({
+        getParams,
+      });
     }
   }
 
@@ -50,15 +75,15 @@ class UserList extends Component {
 
   numberPage(num) {
     const arrNumber = [];
-    const { active, defaultDisable } = this.state;
-    const { fetchUserPaginationAction } = this.props;
+    const { active, defaultDisable, getParams } = this.state;
+    const { fetchUserPaginationAction, history } = this.props;
     for (let i = 0; i < num; i += 1) {
       arrNumber.push(i + 1);
     }
     return (
       _.map(arrNumber, (el, index) => (
-        <li className={active === index || (defaultDisable & index === 0)  ? 'page-item disabled' : 'page-item'} key={index}>
-          <div className="page-link" onClick={() => { fetchUserPaginationAction(el, LIMIT_USER); this.toggleActive(index); }} onKeyDown={() => {}} tabIndex="1" role="presentation">
+        <li className={(active === index) || (parseInt(getParams, 10) === index + 1) || (defaultDisable && getParams === null && index === 0) ? 'page-item disabled' : 'page-item'} key={index}>
+          <div className="page-link" onClick={() => { history.push(`${ROUTE_ADMIN_USER}?page=${el}`); fetchUserPaginationAction(el, LIMIT_USER); this.toggleActive(index); }} onKeyDown={() => {}} tabIndex="-1" role="presentation">
             {el}
           </div>
         </li>
@@ -189,6 +214,10 @@ UserList.propTypes = {
     action: PropTypes.string,
   }).isRequired,
   fetchUserPaginationAction: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+    search: PropTypes.string,
+  }).isRequired,
 };
 
 function mapReducerProps({ usersReducer }) {

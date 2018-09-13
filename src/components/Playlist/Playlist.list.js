@@ -9,7 +9,7 @@ import { openPopup } from 'actions/popup';
 import SimpleLoading from '../SimpleLoading';
 import { fetchPlaylistsPromise } from '../../networks/playlist';
 import { LIMIT_PLAYLIST, SeparatePage } from '../../utils';
-import { ROUTE_ADMIN_PLAYLIST_NEW, ROUTE_ADMIN_PLAYLIST_DETAIL } from '../routes';
+import { ROUTE_ADMIN_PLAYLIST_NEW, ROUTE_ADMIN_PLAYLIST_DETAIL, ROUTE_ADMIN_PLAYLIST } from '../routes';
 
 import './Playlist.list.css';
 
@@ -19,23 +19,42 @@ class PlayListList extends Component {
     this.props = props;
     this.state = {
       total: null,
-      isLoading: false,
       defaultDisable: true,
+      getParams: null,
     };
     this.numberPage = this.numberPage.bind(this);
     this.toggleActive = this.toggleActive.bind(this);
   }
 
   async componentWillMount() {
+    const { location } = this.props;
+    const getParams = new URLSearchParams(location.search).get('page');
     const { playlistReducer, fetchPlaylistPaginationAction } = this.props;
-    const Total = await fetchPlaylistsPromise()
-    console.log(Total.total);
+    const Total = await fetchPlaylistsPromise();
     this.setState({
       total: Total.total,
       active: null,
+      getParams,
     });
     if (!playlistReducer) {
-      fetchPlaylistPaginationAction(1, LIMIT_PLAYLIST);
+      if (getParams === null) {
+        fetchPlaylistPaginationAction(1, LIMIT_PLAYLIST);
+        this.setState({
+          defaultDisable: true,
+        });
+      } else {
+        fetchPlaylistPaginationAction(getParams, LIMIT_PLAYLIST);
+      }
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { location } = this.props;
+    if (nextProps.location.search !== location.search) {
+      const getParams = new URLSearchParams(nextProps.location.search).get('page');
+      this.setState({
+        getParams,
+      });
     }
   }
 
@@ -48,15 +67,15 @@ class PlayListList extends Component {
 
   numberPage(num) {
     const arrNumber = [];
-    const { active, defaultDisable } = this.state;
-    const { fetchPlaylistPaginationAction } = this.props;
+    const { active, defaultDisable, getParams } = this.state;
+    const { fetchPlaylistPaginationAction, history } = this.props;
     for (let i = 0; i < num; i += 1) {
       arrNumber.push(i + 1);
     }
     return (
       _.map(arrNumber, (el, index) => (
-        <li className={active === index || (defaultDisable & index === 0)  ? 'page-item disabled' : 'page-item'} key={index}>
-          <div className="page-link" onClick={() => { fetchPlaylistPaginationAction(el, LIMIT_PLAYLIST); this.toggleActive(index); }} onKeyDown={() => {}} tabIndex="1" role="presentation">
+        <li className={(active === index) || (parseInt(getParams, 10) === index + 1) || (defaultDisable && getParams === null && index === 0) ? 'page-item disabled' : 'page-item'} key={index}>
+          <div className="page-link" onClick={() => { history.push(`${ROUTE_ADMIN_PLAYLIST}?page=${el}`); fetchPlaylistPaginationAction(el, LIMIT_PLAYLIST); this.toggleActive(index); }} onKeyDown={() => {}} tabIndex="-1" role="presentation">
             {el}
           </div>
         </li>
@@ -100,8 +119,8 @@ class PlayListList extends Component {
   }
 
   renderPlaylists() {
+    const playlists = _.get(this.props, 'playlistReducer');
     const {
-      playlistReducer: playlists,
       history,
     } = this.props;
 
@@ -167,25 +186,25 @@ function mapReducerProps({ playlistReducer }) {
   return { playlistReducer };
 }
 
+PlayListList.propTypes = {
+  deletePlaylistAction: PropTypes.func.isRequired,
+  openPopupAction: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    length: PropTypes.number,
+    action: PropTypes.string,
+  }).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+    search: PropTypes.string,
+  }).isRequired,
+  fetchPlaylistPaginationAction: PropTypes.func.isRequired,
+};
+
 const actions = {
   fetchPlaylistsAction: fetchPlaylists,
   deletePlaylistAction: deletePlaylist,
   openPopupAction: openPopup,
   fetchPlaylistPaginationAction: fetchPlaylistPagination,
-};
-
-PlayListList.defaultProps = {
-  playlistReducer: null,
-};
-
-PlayListList.propTypes = {
-  playlistReducer: PropTypes.array,
-  history: PropTypes.shape({
-    goBack: PropTypes.func.isRequired,
-  }).isRequired,
-  fetchPlaylistsAction: PropTypes.func.isRequired,
-  deletePlaylistAction: PropTypes.func.isRequired,
-  openPopupAction: PropTypes.func.isRequired,
 };
 
 export default connect(mapReducerProps, actions)(PlayListList);
