@@ -47,6 +47,9 @@ class ClassRoomList extends Component {
         fetchClassroomPaginationAction(getParams, LIMIT_CLASSROOM);
       }
     }
+    if (getParams === null) {
+      fetchClassroomPaginationAction(1, LIMIT_CLASSROOM);
+    }
   }
 
   componentWillReceiveProps(nextProps) {

@@ -46,6 +46,9 @@ class VideoList extends Component {
         fetchVideoPaginationAction(getParams, LIMIT_VIDEO);
       }
     }
+    if (getParams === null) {
+      fetchVideoPaginationAction(getParams, LIMIT_VIDEO);
+    }
   }
 
   componentWillReceiveProps(nextProps) {

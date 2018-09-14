@@ -46,6 +46,9 @@ class PlayListList extends Component {
         fetchPlaylistPaginationAction(getParams, LIMIT_PLAYLIST);
       }
     }
+    if (getParams === null) {
+      fetchPlaylistPaginationAction(1, LIMIT_PLAYLIST);
+    }
   }
 
   componentWillReceiveProps(nextProps) {

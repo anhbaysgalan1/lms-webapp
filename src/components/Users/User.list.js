@@ -51,8 +51,10 @@ class UserList extends Component {
       } else {
         fetchUserPaginationAction(getParams, LIMIT_USER);
       }
-
       // ActionfetchUsers();
+    }
+    if (getParams === null) {
+      fetchUserPaginationAction(1, LIMIT_USER);
     }
   }
 
