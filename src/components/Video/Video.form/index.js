@@ -5,21 +5,14 @@ import {
 } from 'reactstrap';
 import _ from 'lodash';
 
-import getYoutubeVideoInfo from 'networks/youtube';
+import { getYoutubeId } from 'utils';
+import { getYoutubeVideoInfo } from 'networks/youtube';
 
 import './index.css';
 
 class VideoForm extends Component {
   constructor(props) {
     super(props);
-
-    this.getYoutubeVideoId = (text) => {
-      const re = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube(?:-nocookie)?\.com\S*?[^\w\s-])([\w-]{11})(?=[^\w-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/ig;
-      if (re.test(text)) {
-        return text.replace(re, '$1');
-      }
-      return false;
-    };
 
     this.checkYoutubeVideoId = (videoId, formProps) => {
       const {
@@ -153,8 +146,9 @@ class VideoForm extends Component {
             }}
             onChange={(e) => {
               setFieldTouched(e.target.name, true);
-              if (this.getYoutubeVideoId(e.target.value)) {
-                e.target.value = this.getYoutubeVideoId(e.target.value);
+              const videoId = getYoutubeId(e.target.value, 'video');
+              if (videoId) {
+                e.target.value = videoId;
                 handleChange(e);
               } else {
                 handleChange(e);

@@ -61,3 +61,14 @@ export function addPlaylistPromise(playlist) {
       return responseData.data;
     });
 }
+
+export function addPlaylistFromYoutubePromise(playlistData) {
+  return axios.post(`${API_PLAYLIST}/fromyoutube`, playlistData)
+    .then(response => response.data)
+    .then((responseData) => {
+      if (!fieldsNotEmpty(responseData, 'success', 'data')) {
+        throw new Error('Not success or data is empty');
+      }
+      return responseData.data;
+    });
+}

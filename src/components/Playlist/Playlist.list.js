@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { fetchPlaylists, deletePlaylist } from 'actions/playlist';
 import { openPopup } from 'actions/popup';
 import SimpleLoading from '../SimpleLoading';
-import { ROUTE_ADMIN_PLAYLIST_NEW, ROUTE_ADMIN_PLAYLIST_DETAIL } from '../routes';
+import { ROUTE_ADMIN_PLAYLIST_NEW, ROUTE_ADMIN_PLAYLIST_DETAIL, ROUTE_ADMIN_PLAYLIST_FROM_YOUTUBE } from '../routes';
 
 import './Playlist.list.css';
 
@@ -88,6 +88,14 @@ class PlayListList extends Component {
           <i className="fas fa-plus mr-1" />
           {'  '}
           Add playlist
+        </Button>
+        <Button
+          className="admin-btn mr-2 text-dark"
+          onClick={() => history.push(ROUTE_ADMIN_PLAYLIST_FROM_YOUTUBE)}
+        >
+          <i className="fas fa-plus mr-1" />
+          {'  '}
+          Add playlist from youtube
         </Button>
       </div>
     );

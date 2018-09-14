@@ -20,6 +20,29 @@ export function tryGet(obj, key, defaultValue) {
   return defaultValue;
 }
 
+export function getYoutubeId(text, type) {
+  const re = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube(?:-nocookie)?\.com\S*?[^\w\s-])([\w-]{11})(?=[^\w-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/ig;
+  const reList = /^.*(youtu.be\/|list=)([^#\&\?\/]*).*/;
+  switch(type) {
+    case 'video': {
+        if (re.test(text)) {
+          return text.replace(re, '$1');
+        }
+        return false;
+      }
+      break;
+    case 'playlist': {
+        const match = text.match(reList);
+        if(match && match[2]) {
+          return match[2];
+        }
+        return false;
+      }
+      break;
+    default:
+      return false;
+  }
+};
 
 export function checkFields(obj, paths) {
   if (typeof (paths) === 'string') {

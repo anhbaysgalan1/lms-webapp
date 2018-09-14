@@ -4,6 +4,7 @@ const ROUTE_ADMIN_ROOT = process.env.NODE_ENV === 'development' ? DEV_ROUTE_ADMI
 
 export const ROUTE_ADMIN_PLAYLIST = `${ROUTE_ADMIN_ROOT}/playlist`;
 export const ROUTE_ADMIN_PLAYLIST_NEW = `${ROUTE_ADMIN_ROOT}/playlist/new`;
+export const ROUTE_ADMIN_PLAYLIST_FROM_YOUTUBE = `${ROUTE_ADMIN_ROOT}/playlist/fromyoutube`;
 export const ROUTE_ADMIN_PLAYLIST_DETAIL = `${ROUTE_ADMIN_ROOT}/playlist/detail`;
 export const ROUTE_ADMIN_PLAYLIST_DETAIL_ID = `${ROUTE_ADMIN_ROOT}/playlist/detail/:_id`;
 
