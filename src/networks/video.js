@@ -19,3 +19,8 @@ export default function searchVideo(terms) {
       .catch(reject);
   });
 }
+
+export async function fetchListVideo() {
+  const request = await axios.get(API_VIDEO);
+  return request;
+}

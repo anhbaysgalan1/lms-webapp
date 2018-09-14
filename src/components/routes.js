@@ -2,12 +2,17 @@ import { DEV_ROUTE_ADMIN_ROOT, PROD_ROUTE_ADMIN_ROOT } from 'statics/configs.jso
 
 const ROUTE_ADMIN_ROOT = process.env.NODE_ENV === 'development' ? DEV_ROUTE_ADMIN_ROOT : PROD_ROUTE_ADMIN_ROOT;
 
+export const ROUTE_ADMIN_USER_PAGINATION = `${ROUTE_ADMIN_ROOT}/user/page/:pagenumber`;
+export const ROUTE_ADMIN_USER_PAGE = `${ROUTE_ADMIN_ROOT}/user/page`;
+
 export const ROUTE_ADMIN_PLAYLIST = `${ROUTE_ADMIN_ROOT}/playlist`;
 export const ROUTE_ADMIN_PLAYLIST_NEW = `${ROUTE_ADMIN_ROOT}/playlist/new`;
 export const ROUTE_ADMIN_PLAYLIST_FROM_YOUTUBE = `${ROUTE_ADMIN_ROOT}/playlist/fromyoutube`;
 export const ROUTE_ADMIN_PLAYLIST_DETAIL = `${ROUTE_ADMIN_ROOT}/playlist/detail`;
 export const ROUTE_ADMIN_PLAYLIST_DETAIL_ID = `${ROUTE_ADMIN_ROOT}/playlist/detail/:_id`;
 
+export const ROUTE_ADMIN_CLASSROOM_PAGINATION = `${ROUTE_ADMIN_ROOT}/classroom/page/:pagenumber`;
+export const ROUTE_ADMIN_CLASSROOM_PAGE = `${ROUTE_ADMIN_ROOT}/classroom/page`;
 export const ROUTE_ADMIN_CLASSROOM = `${ROUTE_ADMIN_ROOT}/classroom`;
 export const ROUTE_ADMIN_CLASSROOM_NEW = `${ROUTE_ADMIN_ROOT}/classroom/new`;
 export const ROUTE_ADMIN_CLASSROOM_DETAIL = `${ROUTE_ADMIN_ROOT}/classroom/detail`;

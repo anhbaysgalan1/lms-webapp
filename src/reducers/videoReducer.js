@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import {
-  FETCH_VIDEOS, FETCH_VIDEO_DETAIL, UPDATE_VIDEO, ADD_VIDEO, DELETE_VIDEO,
+  FETCH_VIDEOS, FETCH_VIDEO_DETAIL, UPDATE_VIDEO, ADD_VIDEO, DELETE_VIDEO, FETCH_VIDEOS_PAGE,
 } from '../actions/video';
 
 export default function (state = null, action) {
@@ -14,6 +14,8 @@ export default function (state = null, action) {
       return state && action.payload._id ? _.omit(state, [action.payload._id]) : {};
     case FETCH_VIDEO_DETAIL:
       return action.payload.data.data._id ? action.payload.data.data : {};
+    case FETCH_VIDEOS_PAGE:
+      return action.payload.data.data.videos;
     default:
       return state;
   }

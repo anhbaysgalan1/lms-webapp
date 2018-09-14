@@ -4,11 +4,15 @@ import {
   DELETE_CLASSROOM,
   ADD_CLASSROOM,
   UPDATE_CLASSROOM,
+  FETCH_CLASSROOM_PAGE,
 } from '../actions/classroom';
 
 
 export default function (state = null, action) {
   switch (action.type) {
+    case FETCH_CLASSROOM_PAGE:
+      return action.payload.data.data.class;
+
     case FETCH_CLASSROOM:
       return _.mapKeys(action.payload.data, '_id');
 

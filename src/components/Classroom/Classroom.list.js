@@ -2,20 +2,103 @@ import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 
 // action
-import { fetchClassrooms, deleteClassroom } from '../../actions/classroom';
+import { fetchClassrooms, deleteClassroom, fetchClassroomPagination } from '../../actions/classroom';
 // route_path
-import { ROUTE_ADMIN_CLASSROOM_NEW, ROUTE_ADMIN_CLASSROOM_DETAIL } from '../routes';
-
+import { ROUTE_ADMIN_CLASSROOM_NEW, ROUTE_ADMIN_CLASSROOM_DETAIL, ROUTE_ADMIN_CLASSROOM } from '../routes';
+import { fetchClass } from '../../networks/classroom';
 import { openPopup } from '../../actions/popup';
 import './index.css';
+import { LIMIT_CLASSROOM, SeparatePage } from '../../utils';
 
 
 class ClassRoomList extends Component {
-  componentWillMount() {
-    const PropsFetchClassrooms = _.get(this.props, 'fetchClassrooms');
-    PropsFetchClassrooms();
+  constructor(props) {
+    super(props);
+    this.props = props;
+    this.state = {
+      active: null,
+      defaultDisable: true,
+      total: null,
+      getParams: null,
+    };
+  }
+
+  async componentWillMount() {
+    const { fetchClassroomPaginationAction, classroomReducer } = this.props;
+    const { location } = this.props;
+    const getParams = new URLSearchParams(location.search).get('page');
+    const Total = await fetchClass();
+    this.setState({
+      total: Total.data.total,
+      active: null,
+      getParams,
+    });
+
+    if (!classroomReducer) {
+      if (getParams === null) {
+        fetchClassroomPaginationAction(1, LIMIT_CLASSROOM);
+        this.setState({
+          defaultDisable: true,
+        });
+      } else {
+        fetchClassroomPaginationAction(getParams, LIMIT_CLASSROOM);
+      }
+    }
+    if (getParams === null) {
+      fetchClassroomPaginationAction(1, LIMIT_CLASSROOM);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { location } = this.props;
+    if (nextProps.location.search !== location.search) {
+      const getParams = new URLSearchParams(nextProps.location.search).get('page');
+      this.setState({
+        getParams,
+      });
+    }
+  }
+
+  toggleActive(index) {
+    this.setState({
+      active: index,
+      defaultDisable: false,
+    });
+  }
+
+  numberPage(num) {
+    const arrNumber = [];
+    const { active, defaultDisable, getParams } = this.state;
+    const { fetchClassroomPaginationAction, history } = this.props;
+    for (let i = 0; i < num; i += 1) {
+      arrNumber.push(i + 1);
+    }
+    return (
+      _.map(arrNumber, (el, index) => (
+        <li className={(active === index) || (parseInt(getParams, 10) === index + 1) || (defaultDisable && getParams === null && index === 0) ? 'page-item disabled' : 'page-item'} key={index}>
+          <div className="page-link" onClick={() => { history.push(`${ROUTE_ADMIN_CLASSROOM}?page=${el}`); fetchClassroomPaginationAction(el, LIMIT_CLASSROOM); this.toggleActive(index); }} onKeyDown={() => {}} tabIndex="-1" role="presentation">
+            {el}
+          </div>
+        </li>
+      ))
+    );
+  }
+
+  pagination() {
+    const { total } = this.state;
+    const numberPagination = SeparatePage(total, LIMIT_CLASSROOM);
+    return (
+      <div className="d-flex justify-content-end mt-3">
+        <nav aria-label="...">
+          <ul className="pagination pagination-sm">
+            {this.numberPage(numberPagination)}
+          </ul>
+        </nav>
+      </div>
+    );
   }
 
   renderAdd() {
@@ -108,7 +191,8 @@ class ClassRoomList extends Component {
               </div>
             ))
           }
-        </div>
+          {this.pagination()}
+        </div>   
       </div>
     );
   }
@@ -122,10 +206,23 @@ class ClassRoomList extends Component {
   }
 }
 
+ClassRoomList.propTypes = {
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+    search: PropTypes.string,
+  }).isRequired,
+  fetchClassroomPaginationAction: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    length: PropTypes.number,
+    action: PropTypes.string,
+  }).isRequired,
+}
+
 const actions = {
   fetchClassrooms,
   deleteClassroom,
   openPopup,
+  fetchClassroomPaginationAction: fetchClassroomPagination,
 };
 
 

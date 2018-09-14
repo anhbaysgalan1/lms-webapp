@@ -196,7 +196,10 @@ export const handleGoBack = (history) => {
   }
 }
 
-export const LIMIT = 20;
+export const LIMIT_USER = 20;
+export const LIMIT_VIDEO = 5;
+export const LIMIT_CLASSROOM = 10;
+export const LIMIT_PLAYLIST = 5;
 
 export const SeparatePage = (total, limit) => {
   return Math.ceil(total/limit)

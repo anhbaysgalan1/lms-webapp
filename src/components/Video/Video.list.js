@@ -3,24 +3,101 @@ import { connect } from 'react-redux';
 import { Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-
-import { fetchVideos, deleteVideo } from 'actions/video';
+import { fetchVideos, deleteVideo, fetchVideoPagination } from 'actions/video';
 import { openPopup } from 'actions/popup';
 import { openVideoPlayer } from 'actions/videoPlayer';
-import { ROUTE_ADMIN_VIDEO_NEW, ROUTE_ADMIN_VIDEO_DETAIL } from '../routes';
+import { LIMIT_VIDEO, SeparatePage } from '../../utils';
+import { fetchListVideo } from '../../networks/video';
+import { ROUTE_ADMIN_VIDEO_NEW, ROUTE_ADMIN_VIDEO_DETAIL, ROUTE_ADMIN_VIDEO } from '../routes';
 
 import VideoItem from './VideoItem';
 
 import './Video.list.css';
 
 class VideoList extends Component {
-  componentWillMount() {
-    const videos = _.get(this.props, 'videoReducer');
-    const { fetchVideosAction } = this.props;
+  constructor(props) {
+    super(props);
+    this.props = props;
+    this.state = {
+      active: null,
+      defaultDisable: true,
+      total: null,
+      getParams: null,
+    };
+  }
 
+  async componentWillMount() {
+    const videos = _.get(this.props, 'videoReducer');
+    const { location, fetchVideoPaginationAction } = this.props;
+    const getParams = new URLSearchParams(location.search).get('page');
+    const Total = await fetchListVideo();
+    this.setState({
+      total: Total.data.data.total,
+      active: null,
+      getParams,
+    });
     if (!videos || videos._id) {
-      fetchVideosAction();
+      if (getParams === null) {
+        fetchVideoPaginationAction(1, LIMIT_VIDEO);
+        this.setState({
+          defaultDisable: true,
+        });
+      } else {
+        fetchVideoPaginationAction(getParams, LIMIT_VIDEO);
+      }
     }
+    if (getParams === null) {
+      fetchVideoPaginationAction(getParams, LIMIT_VIDEO);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { location } = this.props;
+    if (nextProps.location.search !== location.search) {
+      const getParams = new URLSearchParams(nextProps.location.search).get('page');
+      this.setState({
+        getParams,
+      });
+    }
+  }
+
+  toggleActive(index) {
+    this.setState({
+      active: index,
+      defaultDisable: false,
+    });
+  }
+
+  numberPage(num) {
+    const arrNumber = [];
+    const { active, defaultDisable, getParams } = this.state;
+    const { fetchVideoPaginationAction, history } = this.props;
+    for (let i = 0; i < num; i += 1) {
+      arrNumber.push(i + 1);
+    }
+    return (
+      _.map(arrNumber, (el, index) => (
+        <li className={(active === index) || (parseInt(getParams, 10) === index + 1) || (defaultDisable && getParams === null && index === 0) ? 'page-item disabled' : 'page-item'} key={index}>
+          <div className="page-link" onClick={() => { history.push(`${ROUTE_ADMIN_VIDEO}?page=${el}`); fetchVideoPaginationAction(el, LIMIT_VIDEO); this.toggleActive(index); }} onKeyDown={() => {}} tabIndex="-1" role="presentation">
+            {el}
+          </div>
+        </li>
+      ))
+    );
+  }
+
+  pagination() {
+    const { total } = this.state;
+    const numberPagination = SeparatePage(total, LIMIT_VIDEO);
+    return (
+      <div className="d-flex justify-content-end mt-3">
+        <nav aria-label="...">
+          <ul className="pagination pagination-sm">
+            {this.numberPage(numberPagination)}
+          </ul>
+        </nav>
+      </div>
+    );
   }
 
   renderVideos() {
@@ -125,6 +202,7 @@ class VideoList extends Component {
             </div>
           ))
         }
+        {this.pagination()}
       </div>
     );
   }
@@ -160,6 +238,15 @@ VideoList.propTypes = {
   deleteVideoAction: PropTypes.func.isRequired,
   fetchVideosAction: PropTypes.func.isRequired,
   openVideoPlayerAction: PropTypes.func.isRequired,
+  fetchVideoPaginationAction: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+    search: PropTypes.string,
+  }).isRequired,
+  history: PropTypes.shape({
+    length: PropTypes.number,
+    action: PropTypes.string,
+  }).isRequired,
 };
 
 function mapReducerProps({ videoReducer }) {
@@ -171,6 +258,7 @@ const actions = {
   deleteVideoAction: deleteVideo,
   openPopupAction: openPopup,
   openVideoPlayerAction: openVideoPlayer,
+  fetchVideoPaginationAction: fetchVideoPagination,
 };
 
 export default connect(mapReducerProps, actions)(VideoList);
