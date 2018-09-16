@@ -15,8 +15,8 @@ export const FETCH_CLASSROOM_PAGE = 'FETCH_CLASSROOM_PAGE';
 
 export const optionCourse = ['C4E', 'CI', 'WEB'];
 
-export function fetchClassroomPagination(number, limit){
-  const request = axios.get(`${API_CLASSROOM}?page=${number}&limit=${limit}`)
+export function fetchClassroomPagination(number, limit, keyword){
+  const request = axios.get(`${API_CLASSROOM}?page=${number|| 1}&limit=${limit || 30}${keyword ? '&q='+keyword : ''}`)
   return {
     type: FETCH_CLASSROOM_PAGE,
     payload: request,

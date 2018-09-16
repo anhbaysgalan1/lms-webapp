@@ -20,6 +20,7 @@ class SearchBar extends Component {
       <div className={className}>
         <Input
           onChange={event => this.search(event.target.value)}
+          placeholder="Input keyword to search"
         />
       </div>
     );

@@ -5,13 +5,14 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 
 // action
-import { fetchClassrooms, deleteClassroom, fetchClassroomPagination } from '../../actions/classroom';
+import { fetchClassrooms, deleteClassroom, fetchClassroomPagination } from 'actions/classroom';
 // route_path
 import { ROUTE_ADMIN_CLASSROOM_NEW, ROUTE_ADMIN_CLASSROOM_DETAIL, ROUTE_ADMIN_CLASSROOM } from '../routes';
-import { fetchClass } from '../../networks/classroom';
-import { openPopup } from '../../actions/popup';
+import { fetchClass } from 'networks/classroom';
+import { openPopup } from 'actions/popup';
 import './index.css';
-import { LIMIT_CLASSROOM, SeparatePage } from '../../utils';
+import { LIMIT_CLASSROOM, SeparatePage } from 'utils';
+import SearchBar from 'components/SearchBar';
 
 
 class ClassRoomList extends Component {
@@ -23,32 +24,34 @@ class ClassRoomList extends Component {
       defaultDisable: true,
       total: null,
       getParams: null,
+      keyword: '',
     };
   }
 
   async componentWillMount() {
     const { fetchClassroomPaginationAction, classroomReducer } = this.props;
+    const { keyword } = this.state;
     const { location } = this.props;
     const getParams = new URLSearchParams(location.search).get('page');
-    const Total = await fetchClass();
+    const Total = await fetchClassroomPaginationAction(1, LIMIT_CLASSROOM, keyword);
     this.setState({
-      total: Total.data.total,
+      total: Total.payload.data.total,
       active: null,
       getParams,
     });
 
     if (!classroomReducer) {
       if (getParams === null) {
-        fetchClassroomPaginationAction(1, LIMIT_CLASSROOM);
+        fetchClassroomPaginationAction(1, LIMIT_CLASSROOM, keyword);
         this.setState({
           defaultDisable: true,
         });
       } else {
-        fetchClassroomPaginationAction(getParams, LIMIT_CLASSROOM);
+        fetchClassroomPaginationAction(getParams, LIMIT_CLASSROOM, keyword);
       }
     }
     if (getParams === null) {
-      fetchClassroomPaginationAction(1, LIMIT_CLASSROOM);
+      fetchClassroomPaginationAction(1, LIMIT_CLASSROOM, keyword);
     }
   }
 
@@ -71,7 +74,7 @@ class ClassRoomList extends Component {
 
   numberPage(num) {
     const arrNumber = [];
-    const { active, defaultDisable, getParams } = this.state;
+    const { active, defaultDisable, getParams, keyword } = this.state;
     const { fetchClassroomPaginationAction, history } = this.props;
     for (let i = 0; i < num; i += 1) {
       arrNumber.push(i + 1);
@@ -79,7 +82,7 @@ class ClassRoomList extends Component {
     return (
       _.map(arrNumber, (el, index) => (
         <li className={(active === index) || (parseInt(getParams, 10) === index + 1) || (defaultDisable && getParams === null && index === 0) ? 'page-item disabled' : 'page-item'} key={index}>
-          <div className="page-link" onClick={() => { history.push(`${ROUTE_ADMIN_CLASSROOM}?page=${el}`); fetchClassroomPaginationAction(el, LIMIT_CLASSROOM); this.toggleActive(index); }} onKeyDown={() => {}} tabIndex="-1" role="presentation">
+          <div className="page-link" onClick={() => { history.push(`${ROUTE_ADMIN_CLASSROOM}?page=${el || 1}`); fetchClassroomPaginationAction(el, LIMIT_CLASSROOM, keyword); this.toggleActive(index); }} onKeyDown={() => {}} tabIndex="-1" role="presentation">
             {el}
           </div>
         </li>
@@ -102,12 +105,12 @@ class ClassRoomList extends Component {
   }
 
   renderAdd() {
-    const PropsHistory = _.get(this.props, 'history');
+    const { history, fetchClassroomPaginationAction  } = this.props;
     return (
       <div className="admin-controls">
         <Button
           className="admin-btn mr-2 text-dark"
-          onClick={() => PropsHistory.push(ROUTE_ADMIN_CLASSROOM_NEW)}
+          onClick={() => history.push(ROUTE_ADMIN_CLASSROOM_NEW)}
         >
           <i className="fas fa-plus mr-1" />
           {' '}
@@ -117,16 +120,32 @@ class ClassRoomList extends Component {
 
         </Button>
         {/* {this.renderAddCourse()} */}
+        <div className="mr-auto d-inline-flex align-items-center">
+          <span className="mr-2">Search:</span>
+          <SearchBar onSearch={(keyword) => {
+            this.setState({ keyword });
+            fetchClassroomPaginationAction(1, LIMIT_CLASSROOM, keyword)
+              .then((data) => {
+                const classroomData = data.payload.data
+                history.push(`${ROUTE_ADMIN_CLASSROOM}?page=1`);
+                this.setState({
+                  total: classroomData.total,
+                  active: null,
+                  getParams : 1,
+                });
+              });            
+          }} />
+        </div>
 
       </div>
     );
   }
 
   renderList() {
+    const { history  } = this.props;
     const classroomReducer = _.get(this.props, 'classroomReducer');
     const PropsopenPopup = _.get(this.props, 'openPopup');
     const PropsdeleteClassroom = _.get(this.props, 'deleteClassroom');
-    const PropsHistory = _.get(this.props, 'history');
     if (!classroomReducer) {
       return (
         <div className="d-flex justify-content-center">
@@ -142,11 +161,11 @@ class ClassRoomList extends Component {
         {this.renderAdd()}
         <div className="round-panel">
           {
-            _.values(classroomReducer).map((_classroom, index) => (
+            classroomReducer ? _.values(classroomReducer).map((_classroom, index) => (
               <div
                 className="classroom-item"
                 key={_classroom._id}
-                onClick={() => PropsHistory.push(`${ROUTE_ADMIN_CLASSROOM_DETAIL}/${_classroom._id}`)}
+                onClick={() => history.push(`${ROUTE_ADMIN_CLASSROOM_DETAIL}/${_classroom._id}`)}
                 onKeyDown={() => {}}
                 role="button"
                 tabIndex="0"
@@ -170,7 +189,7 @@ class ClassRoomList extends Component {
                   Members
                 </div>
                 <div className="name3">
-                  {_classroom.playlists.length > 1 ? `${_classroom.playlists.length} Playlists` : `${_classroom.playlists.length} Playlist` }
+                  {_classroom.playlists && _classroom.playlists.length > 1 ? `${_classroom.playlists.length} Playlists` : `0 Playlist` }
                   {' '}
                 </div>
                 <div className="video-count" />
@@ -189,7 +208,7 @@ class ClassRoomList extends Component {
                   </div>
                 </div>
               </div>
-            ))
+            )) : ''
           }
           {this.pagination()}
         </div>   

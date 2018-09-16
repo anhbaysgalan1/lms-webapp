@@ -7,8 +7,9 @@ import PropTypes from 'prop-types';
 import { fetchPlaylists, deletePlaylist, fetchPlaylistPagination } from 'actions/playlist';
 import { openPopup } from 'actions/popup';
 import SimpleLoading from '../SimpleLoading';
-import { fetchPlaylistsPromise } from '../../networks/playlist';
-import { LIMIT_PLAYLIST, SeparatePage } from '../../utils';
+import { fetchPlaylistsPromise } from 'networks/playlist';
+import { LIMIT_PLAYLIST, SeparatePage } from 'utils';
+import SearchBar from 'components/SearchBar';
 import { ROUTE_ADMIN_PLAYLIST_NEW, ROUTE_ADMIN_PLAYLIST_DETAIL, ROUTE_ADMIN_PLAYLIST, ROUTE_ADMIN_PLAYLIST_FROM_YOUTUBE } from '../routes';
 
 import './Playlist.list.css';
@@ -21,6 +22,7 @@ class PlayListList extends Component {
       total: null,
       defaultDisable: true,
       getParams: null,
+      keyword: '',
     };
     this.numberPage = this.numberPage.bind(this);
     this.toggleActive = this.toggleActive.bind(this);
@@ -28,26 +30,27 @@ class PlayListList extends Component {
 
   async componentWillMount() {
     const { location } = this.props;
+    const { keyword } = this.state;
     const getParams = new URLSearchParams(location.search).get('page');
     const { playlistReducer, fetchPlaylistPaginationAction } = this.props;
-    const Total = await fetchPlaylistsPromise();
+    const Total = await fetchPlaylistPaginationAction(1, LIMIT_PLAYLIST, keyword);
     this.setState({
-      total: Total.total,
+      total: Total.payload.total,
       active: null,
       getParams,
     });
     if (!playlistReducer) {
       if (getParams === null) {
-        fetchPlaylistPaginationAction(1, LIMIT_PLAYLIST);
+        fetchPlaylistPaginationAction(1, LIMIT_PLAYLIST, keyword);
         this.setState({
           defaultDisable: true,
         });
       } else {
-        fetchPlaylistPaginationAction(getParams, LIMIT_PLAYLIST);
+        fetchPlaylistPaginationAction(getParams, LIMIT_PLAYLIST, keyword);
       }
     }
     if (getParams === null) {
-      fetchPlaylistPaginationAction(1, LIMIT_PLAYLIST);
+      fetchPlaylistPaginationAction(1, LIMIT_PLAYLIST, keyword);
     }
   }
 
@@ -70,7 +73,7 @@ class PlayListList extends Component {
 
   numberPage(num) {
     const arrNumber = [];
-    const { active, defaultDisable, getParams } = this.state;
+    const { active, defaultDisable, getParams, keyword } = this.state;
     const { fetchPlaylistPaginationAction, history } = this.props;
     for (let i = 0; i < num; i += 1) {
       arrNumber.push(i + 1);
@@ -78,7 +81,7 @@ class PlayListList extends Component {
     return (
       _.map(arrNumber, (el, index) => (
         <li className={(active === index) || (parseInt(getParams, 10) === index + 1) || (defaultDisable && getParams === null && index === 0) ? 'page-item disabled' : 'page-item'} key={index}>
-          <div className="page-link" onClick={() => { history.push(`${ROUTE_ADMIN_PLAYLIST}?page=${el}`); fetchPlaylistPaginationAction(el, LIMIT_PLAYLIST); this.toggleActive(index); }} onKeyDown={() => {}} tabIndex="-1" role="presentation">
+          <div className="page-link" onClick={() => { history.push(`${ROUTE_ADMIN_PLAYLIST}?page=${el || 1}`); fetchPlaylistPaginationAction(el, LIMIT_PLAYLIST, keyword); this.toggleActive(index); }} onKeyDown={() => {}} tabIndex="-1" role="presentation">
             {el}
           </div>
         </li>
@@ -160,7 +163,7 @@ class PlayListList extends Component {
   }
 
   renderControls() {
-    const { history } = this.props;
+    const { history, fetchPlaylistPaginationAction  } = this.props;
     return (
       <div className="admin-controls">
         <Button
@@ -179,6 +182,22 @@ class PlayListList extends Component {
           {'  '}
           Add playlist from youtube
         </Button>
+        <div className="mr-auto d-inline-flex align-items-center">
+          <span className="mr-2">Search:</span>
+          <SearchBar onSearch={(keyword) => {
+            this.setState({ keyword });
+            fetchPlaylistPaginationAction(1, LIMIT_PLAYLIST, keyword)
+              .then((data) => {
+                const playlistData = data.payload.data
+                history.push(`${ROUTE_ADMIN_PLAYLIST}?page=1`);
+                this.setState({
+                  total: playlistData.total,
+                  active: null,
+                  getParams : 1,
+                });
+              });            
+          }} />
+        </div>
       </div>
     );
   }

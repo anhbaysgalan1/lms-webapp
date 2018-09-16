@@ -6,8 +6,9 @@ import _ from 'lodash';
 import { fetchVideos, deleteVideo, fetchVideoPagination } from 'actions/video';
 import { openPopup } from 'actions/popup';
 import { openVideoPlayer } from 'actions/videoPlayer';
-import { LIMIT_VIDEO, SeparatePage } from '../../utils';
-import { fetchListVideo } from '../../networks/video';
+import { LIMIT_VIDEO, SeparatePage } from 'utils';
+import { fetchListVideo } from 'networks/video';
+import SearchBar from 'components/SearchBar';
 import { ROUTE_ADMIN_VIDEO_NEW, ROUTE_ADMIN_VIDEO_DETAIL, ROUTE_ADMIN_VIDEO } from '../routes';
 
 import VideoItem from './VideoItem';
@@ -23,31 +24,33 @@ class VideoList extends Component {
       defaultDisable: true,
       total: null,
       getParams: null,
+      keyword: ''
     };
   }
 
   async componentWillMount() {
+    const { keyword } = this.state;
     const videos = _.get(this.props, 'videoReducer');
     const { location, fetchVideoPaginationAction } = this.props;
     const getParams = new URLSearchParams(location.search).get('page');
-    const Total = await fetchListVideo();
+    const Total = await fetchVideoPaginationAction(1, LIMIT_VIDEO, keyword);
     this.setState({
-      total: Total.data.data.total,
+      total: Total.payload.data.data.total,
       active: null,
       getParams,
     });
     if (!videos || videos._id) {
       if (getParams === null) {
-        fetchVideoPaginationAction(1, LIMIT_VIDEO);
+        fetchVideoPaginationAction(1, LIMIT_VIDEO, keyword);
         this.setState({
           defaultDisable: true,
         });
       } else {
-        fetchVideoPaginationAction(getParams, LIMIT_VIDEO);
+        fetchVideoPaginationAction(getParams, LIMIT_VIDEO, keyword);
       }
     }
     if (getParams === null) {
-      fetchVideoPaginationAction(getParams, LIMIT_VIDEO);
+      fetchVideoPaginationAction(getParams, LIMIT_VIDEO, keyword);
     }
   }
 
@@ -70,7 +73,7 @@ class VideoList extends Component {
 
   numberPage(num) {
     const arrNumber = [];
-    const { active, defaultDisable, getParams } = this.state;
+    const { active, defaultDisable, getParams, keyword } = this.state;
     const { fetchVideoPaginationAction, history } = this.props;
     for (let i = 0; i < num; i += 1) {
       arrNumber.push(i + 1);
@@ -78,7 +81,7 @@ class VideoList extends Component {
     return (
       _.map(arrNumber, (el, index) => (
         <li className={(active === index) || (parseInt(getParams, 10) === index + 1) || (defaultDisable && getParams === null && index === 0) ? 'page-item disabled' : 'page-item'} key={index}>
-          <div className="page-link" onClick={() => { history.push(`${ROUTE_ADMIN_VIDEO}?page=${el}`); fetchVideoPaginationAction(el, LIMIT_VIDEO); this.toggleActive(index); }} onKeyDown={() => {}} tabIndex="-1" role="presentation">
+          <div className="page-link" onClick={() => { history.push(`${ROUTE_ADMIN_VIDEO}?page=${el || 1}`); fetchVideoPaginationAction(el, LIMIT_VIDEO, keyword); this.toggleActive(index); }} onKeyDown={() => {}} tabIndex="-1" role="presentation">
             {el}
           </div>
         </li>
@@ -208,7 +211,7 @@ class VideoList extends Component {
   }
 
   renderControls() {
-    const history = _.get(this.props, 'history');
+    const { history, fetchVideoPaginationAction  } = this.props;
     return (
       <div className="admin-controls">
         <Button
@@ -219,6 +222,22 @@ class VideoList extends Component {
           {'  '}
           Add video
         </Button>
+        <div className="mr-auto d-inline-flex align-items-center">
+          <span className="mr-2">Search:</span>
+          <SearchBar onSearch={(keyword) => {
+            this.setState({ keyword });
+            fetchVideoPaginationAction(1, LIMIT_VIDEO, keyword)
+              .then((data) => {
+                const videoData = data.payload.data.data
+                history.push(`${ROUTE_ADMIN_VIDEO}?page=1`);
+                this.setState({
+                  total: videoData.total,
+                  active: null,
+                  getParams : 1,
+                });
+              });            
+          }} />
+        </div>
       </div>
     );
   }

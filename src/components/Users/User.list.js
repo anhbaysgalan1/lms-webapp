@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'reactstrap';
 import _ from 'lodash';
-import { fetchListUser } from '../../networks/user';
+import { fetchListUser } from 'networks/user';
 /* eslint-disable */
 import PropTypes from 'prop-types';
 /* eslint-enable */
-import { fetchUsers, deleteUser, fetchUserPagination } from '../../actions/user';
-import { openPopup } from '../../actions/popup';
-import { LIMIT_USER, SeparatePage } from '../../utils';
+import { fetchUsers, deleteUser, fetchUserPagination } from 'actions/user';
+import { openPopup } from 'actions/popup';
+import { LIMIT_USER, SeparatePage } from 'utils';
+import SearchBar from 'components/SearchBar';
 import {
   ROUTE_ADMIN_USER_NEW,
   ROUTE_ADMIN_ADD_BULK_USER,
@@ -26,6 +27,7 @@ class UserList extends Component {
       total: null,
       defaultDisable: true,
       getParams: null,
+      keyword: '',
     };
     this.numberPage = this.numberPage.bind(this);
     this.toggleActive = this.toggleActive.bind(this);
@@ -34,27 +36,28 @@ class UserList extends Component {
   async componentWillMount() {
     const usersReducer = _.get(this.props, 'usersReducer');
     const { location, fetchUserPaginationAction } = this.props;
+    const { keyword } = this.state;
     const getParams = new URLSearchParams(location.search).get('page');
-    const Total = await fetchListUser();
+    const Total = await fetchUserPaginationAction(1, LIMIT_USER, keyword);
     this.setState({
-      total: Total.data.data.total,
+      total: Total.payload.data.data.total,
       active: null,
       getParams,
     });
 
     if (!usersReducer) {
       if (getParams === null) {
-        fetchUserPaginationAction(1, LIMIT_USER);
+        fetchUserPaginationAction(1, LIMIT_USER, keyword);
         this.setState({
           defaultDisable: true,
         });
       } else {
-        fetchUserPaginationAction(getParams, LIMIT_USER);
+        fetchUserPaginationAction(getParams, LIMIT_USER, keyword);
       }
       // ActionfetchUsers();
     }
     if (getParams === null) {
-      fetchUserPaginationAction(1, LIMIT_USER);
+      fetchUserPaginationAction(1, LIMIT_USER, keyword);
     }
   }
 
@@ -77,7 +80,7 @@ class UserList extends Component {
 
   numberPage(num) {
     const arrNumber = [];
-    const { active, defaultDisable, getParams } = this.state;
+    const { active, defaultDisable, getParams, keyword } = this.state;
     const { fetchUserPaginationAction, history } = this.props;
     for (let i = 0; i < num; i += 1) {
       arrNumber.push(i + 1);
@@ -85,7 +88,7 @@ class UserList extends Component {
     return (
       _.map(arrNumber, (el, index) => (
         <li className={(active === index) || (parseInt(getParams, 10) === index + 1) || (defaultDisable && getParams === null && index === 0) ? 'page-item disabled' : 'page-item'} key={index}>
-          <div className="page-link" onClick={() => { history.push(`${ROUTE_ADMIN_USER}?page=${el}`); fetchUserPaginationAction(el, LIMIT_USER); this.toggleActive(index); }} onKeyDown={() => {}} tabIndex="-1" role="presentation">
+          <div className="page-link" onClick={() => { history.push(`${ROUTE_ADMIN_USER}?page=${el || 1}`); fetchUserPaginationAction(el, LIMIT_USER, keyword); this.toggleActive(index); }} onKeyDown={() => {}} tabIndex="-1" role="presentation">
             {el}
           </div>
         </li>
@@ -173,7 +176,7 @@ class UserList extends Component {
 
 
   renderControls() {
-    const { history } = this.props;
+    const { history, fetchUserPaginationAction  } = this.props;
     return (
       <div className="admin-controls">
         <Button
@@ -196,6 +199,22 @@ class UserList extends Component {
           {' '}
           Add Bulk User
         </Button>
+        <div className="mr-auto d-inline-flex align-items-center">
+          <span className="mr-2">Search:</span>
+          <SearchBar onSearch={(keyword) => {
+            this.setState({ keyword });
+            fetchUserPaginationAction(1, LIMIT_USER, keyword)
+              .then((data) => {
+                const userData = data.payload.data.data
+                history.push(`${ROUTE_ADMIN_USER}?page=1`);
+                this.setState({
+                  total: userData.total,
+                  active: null,
+                  getParams : 1,
+                });
+              });            
+          }} />
+        </div>
       </div>
     );
   }

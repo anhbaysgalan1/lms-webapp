@@ -11,8 +11,8 @@ export const FETCH_VIDEOS_PAGE = 'FETCH_VIDEOS_PAGE';
 axios.defaults.validateStatus = status => status < 500;
 axios.defaults.withCredentials = true;
 
-export function fetchVideoPagination(number, limit) {
-  const request = axios.get(`${API_VIDEO}?page=${number}&limit=${limit}`);
+export function fetchVideoPagination(number, limit, keyword) {
+  const request = axios.get(`${API_VIDEO}?page=${number|| 1}&limit=${limit || 30}${ keyword ? '&q='+keyword : '' }`);
   return {
     type: FETCH_VIDEOS_PAGE,
     payload: request,

@@ -21,8 +21,8 @@ export function fetchUsers() {
   };
 }
 
-export function fetchUserPagination(number, limit) {
-  const request = axios.get(`${API_USER}?page=${number}&limit=${limit}`);
+export function fetchUserPagination(number, limit, keyword) {
+  const request = axios.get(`${API_USER}?page=${number|| 1}&limit=${limit || 30}${keyword ? '&q='+keyword : ''}`);
   return {
     type: FETCH_USER_PAGE,
     payload: request,

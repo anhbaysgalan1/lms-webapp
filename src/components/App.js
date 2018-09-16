@@ -32,6 +32,12 @@ class App extends Component {
     checkAuthAction();
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if(this.props.location.pathname !== nextProps.location.pathname || this.props.location.search !== nextProps.location.search) {
+      document.querySelector('#app-panel > .h-100') ? document.querySelector('#app-panel > .h-100').scrollTo(0, 0) : '';
+    }
+  }
+
   render() {
     const { logoutAction, authReducer } = this.props;
     const { user } = authReducer;

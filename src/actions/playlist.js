@@ -15,8 +15,8 @@ export const DELETE_PLAYLIST = 'Delete playlist';
 export const ADD_PLAYLIST_FROM_YOUTUBE = 'Add playlist from youtube';
 export const FETCH_PLAYLIST_PAGE = 'FETCH_PLAYLIST_PAGE'
 
-export function fetchPlaylistPagination(number, limit){
-  const request = axios.get(`${API_PLAYLIST}?page=${number}&limit=${limit}`)
+export function fetchPlaylistPagination(number, limit, keyword){
+  const request = axios.get(`${API_PLAYLIST}?page=${number|| 1}&limit=${limit || 30}${ keyword ? '&q='+keyword : '' }`)
   return {
     type: FETCH_PLAYLIST_PAGE,
     payload: request,
