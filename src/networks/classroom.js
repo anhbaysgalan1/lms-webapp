@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_CLASSROOM, API_PLAYLIST } from '../statics/urls';
+import { API_CLASSROOM, API_PLAYLIST, API_USER } from '../statics/urls';
 
 axios.defaults.validateStatus = status => status < 500;
 axios.defaults.withCredentials = true;
@@ -35,4 +35,9 @@ export async function fetchClassroomWithID(id) {
 export async function fetchPlaylists() {
   const dataGet = await axios.get(API_PLAYLIST);
   return dataGet.data.data;
+}
+
+export async function fetchUserByRole(role) {
+  const dataGet = await axios.get(`${API_USER}?role=${role}`);
+  return dataGet;
 }

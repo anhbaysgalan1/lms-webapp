@@ -7,7 +7,7 @@ import {
 } from 'utils';
 
 import { fetchClassrooms, UpdateClassroom } from 'actions/classroom';
-import { fetchClassroomWithID, fetchPlaylists, fetchClass } from 'networks/classroom';
+import { fetchClassroomWithID, fetchPlaylists, fetchClass, fetchUserByRole } from 'networks/classroom';
 import { fetchCourse } from 'networks/classcourse';
 import { fetchListUser } from 'networks/user';
 import ClassroomEditForm from './Classroom.form/Classroom.form.edit';
@@ -50,21 +50,25 @@ class ClassroomDetail extends Component {
       const option = await fetchCourse();
       const getData = await fetchListUser();
       const getPlaylist = await fetchPlaylists();
+      const getDataTeachers = await fetchUserByRole(1);
+      const getDataMembers = await fetchUserByRole(0);
+      console.log(getDataMembers);
+      
       const listPlaylistInClass = [];
       _.map(fetch.playlists, (el) => {
         listPlaylistInClass.push(el.playlist);
       });
-
       this.setState({
         dataFetch: fetchData.data,
         _classSelected: fetch,
         option_course: option.data,
-        listTeachers: getData.data.data,
-        listMember: getData.data.data,
-        listPlaylist: getPlaylist,
+        listTeachers: getDataTeachers.data.data.users,
+        listMember: getDataMembers.data.data.users,
+        listPlaylist: getPlaylist.playlists,
         listPlayListsContainPlaylist: fetch.playlists,
         listPlaylistInClass,
       });
+      // console.log(fetch);
       const classSelectedTeachers = _.get(this.state, '_classSelected.teachers');
       const classListTeachers = _.get(this.state, 'listTeachers');
       const classSelectedMembers = _.get(this.state, '_classSelected.members');
@@ -73,7 +77,6 @@ class ClassroomDetail extends Component {
       const listRemoveDuplicateMem = RemoveDuplicate(classSelectedMembers, classListMembers);
       const listTeachersNotInClass = [];
       const listMemberNotInClass = [];
-
       _.map(listRemoveDuplicateteachers, (el) => {
         if (el.role === 1) {
           listTeachersNotInClass.push(el);
@@ -236,7 +239,6 @@ class ClassroomDetail extends Component {
       listPlayListsContainPlaylist,
       dataFetch
     } = this.state;
-    
     const classSelected = _classSelected;
     const ListCourseAndName = JointCourseAndName(dataFetch);
     if (!classSelected) {

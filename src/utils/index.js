@@ -87,16 +87,14 @@ export const RemoveDuplicate = (list1, list2) => {
 
   // Sắp xếp tăng dần theo _id
   const sortJoinList = _.sortBy(JoinList, obj => obj._id);
-
   // List dùng để lưu _id trùng
   const listIdDuplicate = [];
   // Xử lý nếu gặp trùng thì đút _id vào List trên
   for (let i = 0; i < sortJoinList.length - 1; i += 1) {
-    if (_.isEqual(sortJoinList[i], sortJoinList[i + 1])) {
+    if (sortJoinList[i]._id === sortJoinList[i + 1]._id) {
       listIdDuplicate.push(sortJoinList[i]._id);
     }
   }
-
   // List đã bỏ các obj trung lặp
   const listUnique = _.sortedUniqBy(sortJoinList, el => el._id);
   _.map(listIdDuplicate, (index) => {
