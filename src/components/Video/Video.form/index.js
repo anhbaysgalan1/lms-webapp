@@ -39,7 +39,7 @@ class VideoForm extends Component {
                 videoId: video.id,
                 title: video.snippet.title,
                 description: video.snippet.description,
-                duration: duration.slice(2, duration.length),
+                duration: duration ? duration.slice(2).toLowerCase() : '',
               });
             }
           });

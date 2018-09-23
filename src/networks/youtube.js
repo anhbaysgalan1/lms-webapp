@@ -30,7 +30,7 @@ export function getYoutubePlaylistInfo(playlistId, playlistData, nextPageToken) 
         return {
           ...item,
           duration: _.get(videoContents.data, `items[${index}].contentDetails.duration`)
-            ? _.get(videoContents.data, `items[${index}].contentDetails.duration`).slice(2)
+            ? _.get(videoContents.data, `items[${index}].contentDetails.duration`).slice(2).toLowerCase()
             : '',
         }
       });
@@ -50,7 +50,7 @@ export function getYoutubePlaylistInfo(playlistId, playlistData, nextPageToken) 
         return {
           ...item,
           duration: _.get(videoContents.data, `items[${index}].contentDetails.duration`)
-            ? _.get(videoContents.data, `items[${index}].contentDetails.duration`).slice(2)
+            ? _.get(videoContents.data, `items[${index}].contentDetails.duration`).slice(2).toLowerCase()
             : '',
         }
       });
