@@ -13,7 +13,7 @@ const createStoreWithMiddleware = applyMiddleware(promise, thunk)(createStore);
 
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(rootReducer)}>
-    <BrowserRouter basename='/admin'>
+    <BrowserRouter>
       <div className="wrapper">
         <App />
       </div>
