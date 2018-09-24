@@ -37,6 +37,7 @@ class ClassroomDetail extends Component {
     this.clickGetData = this.clickGetData.bind(this);
     this.removeData = this.removeData.bind(this);
     this.clickToUnlock = this.clickToUnlock.bind(this);
+    this.updateMemberPlaylistUnlock = this.updateMemberPlaylistUnlock.bind(this);
   }
 
   async componentWillMount() {
@@ -221,6 +222,25 @@ class ClassroomDetail extends Component {
     }
     
   }
+  
+  updateMemberPlaylistUnlock(playlist, memberId) {
+    let { listPlayListsContainPlaylist } = this.state;
+    let members = playlist.members || [];
+    if(members && members.length && members.length > 0 && members.includes(memberId)) {
+      members = members.filter(item => item != memberId);
+    } else {
+      members = [ ...members, memberId ];
+    }
+
+    listPlayListsContainPlaylist = listPlayListsContainPlaylist.map(el => {
+      if(el._id == playlist._id) {
+        el.members = members;
+        return el;
+      } else return el;
+    });
+    console.log(listPlayListsContainPlaylist)
+    this.setState(listPlayListsContainPlaylist);
+  }
 
   render() {
     const {
@@ -248,7 +268,7 @@ class ClassroomDetail extends Component {
         </div>
       );
     }
-
+    
     return (
       <div>
         {isSubmitting
@@ -279,11 +299,11 @@ class ClassroomDetail extends Component {
               clickGetData={this.clickGetData}
               removeData={this.removeData}
               clickToUnlock={this.clickToUnlock}
+              updateMemberPlaylistUnlock= {this.updateMemberPlaylistUnlock}
 
               listPlayListsContainPlaylist={listPlayListsContainPlaylist}
 
               ListCourseAndName={ListCourseAndName}
-
             />
           )}
       </div>

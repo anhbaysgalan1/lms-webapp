@@ -5,13 +5,17 @@ import { withRouter } from 'react-router';
 /* eslint-enable */
 import _ from 'lodash';
 
+import VideosUnlock from '../Classroom.VideosUnlock';
+
 class ClassRoomlistmember extends Component {
   constructor(props) {
     super(props);
     const listMember = _.get(this.props, 'list_member');
     this.state = {
+      listExpanded: [],
       listMemberState: listMember,
     };
+    this.handleExpanded = this.handleExpanded.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -27,7 +31,20 @@ class ClassRoomlistmember extends Component {
     PropsHistory.push(path);
   }
 
+  handleExpanded(memberId) {
+    const listExpanded = _.get(this.state, 'listExpanded');
+    let newListExpanded = listExpanded;
+    if(listExpanded.includes(memberId)) {
+      newListExpanded = newListExpanded.filter(item => item != memberId);
+      this.setState({ listExpanded: newListExpanded });
+    } else {
+      newListExpanded.push(memberId);
+      this.setState({ listExpanded: newListExpanded });
+    }
+  }
+
   renderList() {
+    const listExpanded = _.get(this.state, 'listExpanded');
     const listMemberState = _.get(this.state, 'listMemberState');
     const removeData = _.get(this.props, 'removeData');
     if (!listMemberState) {
@@ -46,7 +63,8 @@ class ClassRoomlistmember extends Component {
           List Member In Class
         </p>
         {
-            listMemberState.map((member, index) => (
+          listMemberState.map((member, index) => (
+            <div key={index}>
               <div
                 className="classroom-item"
                 onKeyDown={() => {}}
@@ -64,7 +82,17 @@ class ClassRoomlistmember extends Component {
                 <div className="name2">
                   {member.email}
                 </div>
-                <div className="video-count" />
+                <div
+                  className="unlockVideo"
+                  onKeyDown={() => {}}
+                  role="presentation"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    this.handleExpanded(member._id);
+                  }}
+                >
+                  <i className="fas fa-video"></i>
+                </div>
                 <div
                   className="controls"
                   onKeyDown={() => {}}
@@ -79,7 +107,13 @@ class ClassRoomlistmember extends Component {
                   </div>
                 </div>
               </div>
-            ))
+              <VideosUnlock
+                {...this.props}
+                memberId={member._id}
+                expanded={listExpanded.includes(member._id)}
+              />
+            </div>
+          ))
         }
 
       </div>
