@@ -2,6 +2,7 @@
   "name": "lms-webapp",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://learn.techkids.vn/admin",
   "dependencies": {
     "ajv": "^6.5.2",
     "axios": "^0.18.0",
