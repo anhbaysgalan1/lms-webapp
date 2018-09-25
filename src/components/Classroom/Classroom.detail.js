@@ -6,7 +6,7 @@ import {
   removeItem, RemoveDuplicate, allIDinList, JointCourseAndName, handleGoBack,
 } from 'utils';
 
-import { fetchClassrooms, UpdateClassroom } from 'actions/classroom';
+import { fetchClassrooms, UpdateClassroom, fetchMemberNotInClassroom } from 'actions/classroom';
 import { fetchClassroomWithID, fetchPlaylists, fetchClass } from 'networks/classroom';
 import { fetchCourse } from 'networks/classcourse';
 import { fetchListUser } from 'networks/user';
@@ -73,18 +73,18 @@ class ClassroomDetail extends Component {
       const listRemoveDuplicateteachers = RemoveDuplicate(classSelectedTeachers, classListTeachers);
       const listRemoveDuplicateMem = RemoveDuplicate(classSelectedMembers, classListMembers);
       const listTeachersNotInClass = [];
-      const listMemberNotInClass = [];
+      const listMemberNotInClass = fetch.memberNotin;
 
       _.map(listRemoveDuplicateteachers, (el) => {
         if (el.role === 1) {
           listTeachersNotInClass.push(el);
         }
       });
-      _.map(listRemoveDuplicateMem, (el) => {
-        if (el.role === 0) {
-          listMemberNotInClass.push(el);
-        }
-      });
+      // _.map(listRemoveDuplicateMem, (el) => {
+      //   if (el.role === 0) {
+      //     listMemberNotInClass.push(el);
+      //   }
+      // });
 
       const { listPlaylist } = this.state;
       const listRemoveDuplicatePlaylist = RemoveDuplicate(listPlaylistInClass, listPlaylist);

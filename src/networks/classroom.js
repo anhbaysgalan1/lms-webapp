@@ -36,3 +36,8 @@ export async function fetchPlaylists() {
   const dataGet = await axios.get(API_PLAYLIST);
   return dataGet.data.data;
 }
+
+export async function fetchMemberNotInClassroomPromise(classroomId) {
+  const dataGet = await axios.get(`${API_CLASSROOM}/${classroomId}/membersnotin`);
+  return dataGet.data.data;
+}
