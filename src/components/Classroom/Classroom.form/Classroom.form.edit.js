@@ -222,10 +222,14 @@ class ClassroomEditForm extends Component {
   renderMember() {
     const listMemberInClass = _.get(this.state, 'listMemberInClass');
     const removeData = _.get(this.props, 'removeData');
+    const updateMemberPlaylistUnlock = _.get(this.props, 'updateMemberPlaylistUnlock');
+    const listPlaylistUnlock = _.get(this.props, 'listPlayListsContainPlaylist') || [];
     return (
       <ClassRoomlistmember
         list_member={listMemberInClass}
         removeData={removeData}
+        playlists={listPlaylistUnlock}
+        updateMemberPlaylistUnlock={updateMemberPlaylistUnlock}
       />
     );
   }
@@ -298,7 +302,7 @@ class ClassroomEditForm extends Component {
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <Label>
-Course
+            Course
           </Label>
           <Input
             type="select"
@@ -309,7 +313,7 @@ Course
             invalid={touched.course && !!errors.course}
           >
             <option key="0" value="">
-Choose...
+              Choose...
             </option>
             {this.renderOption()}
           </Input>
@@ -322,7 +326,7 @@ Choose...
         {/* Class */}
         <FormGroup>
           <Label>
-Class
+            Class
           </Label>
           <Input
             type="number"
@@ -343,7 +347,7 @@ Class
 
         <FormGroup>
           <Label>
-Session
+            Session
           </Label>
           <Input
             type="number"
@@ -395,11 +399,11 @@ Session
           className="mx-1"
           onClick={onCancel}
         >
-Back
+          Back
         </Button>
 
         <Button className="btn btn-info">
-Submit
+          Submit
         </Button>
         </div>
       </Form>

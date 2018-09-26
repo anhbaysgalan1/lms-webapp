@@ -207,6 +207,7 @@ class UserAddBulk extends Component {
   render() {
     const { studentData, isLoading } = this.state;
     const { history } = this.props;
+    console.log(_.get(this.props, 'classroomReducer'))
 
     if (isLoading) {
       return (

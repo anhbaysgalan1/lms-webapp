@@ -52,7 +52,7 @@ class ClassRoomPlaylistNotIn extends Component {
               className="classroom-item"
               onKeyDown={() => {}}
               role="presentation"
-              key={el._id}
+              key={index}
               onClick={() => {}}
             >
               <div className="no">

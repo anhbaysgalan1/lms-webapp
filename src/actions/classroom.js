@@ -1,5 +1,5 @@
 import {
-  fetchClass, addClassroomPromise, deleteClassroomPromise, updateClassroomPromise,
+  fetchClass, addClassroomPromise, deleteClassroomPromise, updateClassroomPromise, fetchMemberNotInClassroomPromise
 } from '../networks/classroom';
 import { API_CLASSROOM } from '../statics/urls';
 import axios from 'axios';
@@ -12,6 +12,7 @@ export const ADD_CLASSROOM = 'ADD_CLASSROOM';
 export const UPDATE_CLASSROOM = 'UPDATE_CLASSROOM';
 export const FETCH_COURSE_CLASSROOM = 'FETCH_COURSE_CLASSROOM';
 export const FETCH_CLASSROOM_PAGE = 'FETCH_CLASSROOM_PAGE';
+export const FETCH_MEMBER_NOTIN_CLASSROOM = 'FETCH_MEMBER_NOTIN_CLASSROOM';
 
 export const optionCourse = ['C4E', 'CI', 'WEB'];
 
@@ -48,5 +49,12 @@ export function deleteClassroom(classroom) {
   return {
     type: DELETE_CLASSROOM,
     payload: deleteClassroomPromise(classroom),
+  };
+}
+
+export function fetchMemberNotInClassroom(classroomId) {
+  return {
+    type: FETCH_MEMBER_NOTIN_CLASSROOM,
+    payload: fetchMemberNotInClassroomPromise(classroomId),
   };
 }
