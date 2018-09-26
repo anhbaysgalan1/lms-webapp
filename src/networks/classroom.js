@@ -24,7 +24,7 @@ export async function addClassroomPromise(objClass) {
 
 export async function fetchClass() {
   const datGet = await axios.get(API_CLASSROOM);
-  return datGet.data;
+  return datGet.data.data;
 }
 
 export async function fetchClassroomWithID(id) {

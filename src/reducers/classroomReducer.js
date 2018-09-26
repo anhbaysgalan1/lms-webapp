@@ -14,7 +14,7 @@ export default function (state = null, action) {
       return action.payload.data.data.class;
 
     case FETCH_CLASSROOM:
-      return _.mapKeys(action.payload.data, '_id');
+      return _.mapKeys(action.payload.class, '_id');
 
     case UPDATE_CLASSROOM:
       return {
