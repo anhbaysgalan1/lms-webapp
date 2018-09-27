@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'reactstrap';
 import _ from 'lodash';
-import { fetchListUser } from 'networks/user';
+// import { fetchListUser } from 'networks/user';
 /* eslint-disable */
 import PropTypes from 'prop-types';
 /* eslint-enable */
@@ -80,7 +80,9 @@ class UserList extends Component {
 
   numberPage(num) {
     const arrNumber = [];
-    const { active, defaultDisable, getParams, keyword } = this.state;
+    const {
+      active, defaultDisable, getParams, keyword,
+    } = this.state;
     const { fetchUserPaginationAction, history } = this.props;
     for (let i = 0; i < num; i += 1) {
       arrNumber.push(i + 1);
@@ -116,7 +118,8 @@ class UserList extends Component {
     const ActiondeleteUser = _.get(this.props, 'deleteUser');
     const role = ['student', 'teacher'];
     const { history } = this.props;
-    if (!users) {
+    const { total, getParams} = this.state;
+    if (!users || !total) {
       return (
         <div className="d-flex justify-content-center">
           {/* eslint-disable global-require */}
@@ -125,6 +128,8 @@ class UserList extends Component {
         </div>
       );
     }
+    const intParams = parseInt(getParams, 10);
+    const count = intParams - 1 || 0;
     return (
       <div className="round-panel">
         {
@@ -136,7 +141,7 @@ class UserList extends Component {
               onClick={() => history.push(`${ROUTE_ADMIN_USER_DETAIL}/${userS._id}`)}
             >
               <div className="no">
-                {index + 1}
+                { count * 30 + (index + 1)}
               </div>
               <div className="name">
                 {' '}
@@ -174,9 +179,8 @@ class UserList extends Component {
     );
   }
 
-
   renderControls() {
-    const { history, fetchUserPaginationAction  } = this.props;
+    const { history, fetchUserPaginationAction } = this.props;
     return (
       <div className="admin-controls">
         <Button
@@ -200,20 +204,23 @@ class UserList extends Component {
           Add Bulk User
         </Button>
         <div className="mr-auto d-inline-flex align-items-center">
-          <span className="mr-2">Search:</span>
+          <span className="mr-2">
+          Search:
+          </span>
           <SearchBar onSearch={(keyword) => {
             this.setState({ keyword });
             fetchUserPaginationAction(1, LIMIT_USER, keyword)
               .then((data) => {
-                const userData = data.payload.data.data
+                const userData = data.payload.data.data;
                 history.push(`${ROUTE_ADMIN_USER}?page=1`);
                 this.setState({
                   total: userData.total,
                   active: null,
-                  getParams : 1,
+                  getParams: 1,
                 });
-              });            
-          }} />
+              });
+          }}
+          />
         </div>
       </div>
     );

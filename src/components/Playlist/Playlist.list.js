@@ -6,11 +6,13 @@ import PropTypes from 'prop-types';
 
 import { fetchPlaylists, deletePlaylist, fetchPlaylistPagination } from 'actions/playlist';
 import { openPopup } from 'actions/popup';
-import SimpleLoading from '../SimpleLoading';
 import { fetchPlaylistsPromise } from 'networks/playlist';
 import { LIMIT_PLAYLIST, SeparatePage } from 'utils';
 import SearchBar from 'components/SearchBar';
-import { ROUTE_ADMIN_PLAYLIST_NEW, ROUTE_ADMIN_PLAYLIST_DETAIL, ROUTE_ADMIN_PLAYLIST, ROUTE_ADMIN_PLAYLIST_FROM_YOUTUBE } from '../routes';
+import SimpleLoading from '../SimpleLoading';
+import {
+  ROUTE_ADMIN_PLAYLIST_NEW, ROUTE_ADMIN_PLAYLIST_DETAIL, ROUTE_ADMIN_PLAYLIST, ROUTE_ADMIN_PLAYLIST_FROM_YOUTUBE,
+} from '../routes';
 
 import './Playlist.list.css';
 
@@ -73,7 +75,9 @@ class PlayListList extends Component {
 
   numberPage(num) {
     const arrNumber = [];
-    const { active, defaultDisable, getParams, keyword } = this.state;
+    const {
+      active, defaultDisable, getParams, keyword,
+    } = this.state;
     const { fetchPlaylistPaginationAction, history } = this.props;
     for (let i = 0; i < num; i += 1) {
       arrNumber.push(i + 1);
@@ -163,7 +167,7 @@ class PlayListList extends Component {
   }
 
   renderControls() {
-    const { history, fetchPlaylistPaginationAction  } = this.props;
+    const { history, fetchPlaylistPaginationAction } = this.props;
     return (
       <div className="admin-controls">
         <Button
@@ -183,20 +187,23 @@ class PlayListList extends Component {
           Add playlist from youtube
         </Button>
         <div className="mr-auto d-inline-flex align-items-center">
-          <span className="mr-2">Search:</span>
+          <span className="mr-2">
+Search:
+          </span>
           <SearchBar onSearch={(keyword) => {
             this.setState({ keyword });
             fetchPlaylistPaginationAction(1, LIMIT_PLAYLIST, keyword)
               .then((data) => {
-                const playlistData = data.payload.data
+                const playlistData = data.payload.data;
                 history.push(`${ROUTE_ADMIN_PLAYLIST}?page=1`);
                 this.setState({
                   total: playlistData.total,
                   active: null,
-                  getParams : 1,
+                  getParams: 1,
                 });
-              });            
-          }} />
+              });
+          }}
+          />
         </div>
       </div>
     );

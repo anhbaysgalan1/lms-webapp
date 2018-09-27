@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   fetchPlaylistsPromise,
   updatePlaylistPromise,
@@ -5,22 +6,21 @@ import {
   addPlaylistPromise,
   addPlaylistFromYoutubePromise,
 } from '../networks/playlist';
-import { API_PLAYLIST } from '../statics/urls';
-import axios from 'axios';
+import { API_PLAYLIST_ADMIN } from '../statics/urls';
 
 export const FETCH_PLAYLISTS = 'Fetch playlists';
 export const UPDATE_PLAYLIST = 'Update playlist';
 export const ADD_PLAYLIST = 'Add playlist';
 export const DELETE_PLAYLIST = 'Delete playlist';
 export const ADD_PLAYLIST_FROM_YOUTUBE = 'Add playlist from youtube';
-export const FETCH_PLAYLIST_PAGE = 'FETCH_PLAYLIST_PAGE'
+export const FETCH_PLAYLIST_PAGE = 'FETCH_PLAYLIST_PAGE';
 
-export function fetchPlaylistPagination(number, limit, keyword){
-  const request = axios.get(`${API_PLAYLIST}?page=${number|| 1}&limit=${limit || 30}${ keyword ? '&q='+keyword : '' }`)
+export function fetchPlaylistPagination(number, limit, keyword) {
+  const request = axios.get(`${API_PLAYLIST_ADMIN}?page=${number || 1}&limit=${limit || 30}${keyword ? `&q=${keyword}` : ''}`);
   return {
     type: FETCH_PLAYLIST_PAGE,
     payload: request,
-  }
+  };
 }
 
 export function fetchPlaylists() {

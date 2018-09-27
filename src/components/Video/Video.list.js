@@ -7,7 +7,7 @@ import { fetchVideos, deleteVideo, fetchVideoPagination } from 'actions/video';
 import { openPopup } from 'actions/popup';
 import { openVideoPlayer } from 'actions/videoPlayer';
 import { LIMIT_VIDEO, SeparatePage } from 'utils';
-import { fetchListVideo } from 'networks/video';
+// import { fetchListVideo } from 'networks/video';
 import SearchBar from 'components/SearchBar';
 import { ROUTE_ADMIN_VIDEO_NEW, ROUTE_ADMIN_VIDEO_DETAIL, ROUTE_ADMIN_VIDEO } from '../routes';
 
