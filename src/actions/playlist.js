@@ -7,8 +7,6 @@ import {
   addPlaylistFromYoutubePromise,
 } from '../networks/playlist';
 import { API_PLAYLIST_ADMIN } from '../statics/urls';
-import { API_PLAYLIST } from '../statics/urls';
-import axios from 'axios';
 import { getUnicodeSearchName } from 'utils';
 
 export const FETCH_PLAYLISTS = 'Fetch playlists';
