@@ -3,6 +3,7 @@ import {
 } from '../networks/classroom';
 import { API_CLASSROOM } from '../statics/urls';
 import axios from 'axios';
+import { getUnicodeSearchName } from 'utils';
 
 export const FETCH_CLASSROOM_ID = 'FETCH_CLASSROOM_ID';
 export const ADD_COURSE_CLASSROOM = 'ADD_COURSE_CLASSROOM';
@@ -16,7 +17,8 @@ export const FETCH_MEMBER_NOTIN_CLASSROOM = 'FETCH_MEMBER_NOTIN_CLASSROOM';
 
 export const optionCourse = ['C4E', 'CI', 'WEB'];
 
-export function fetchClassroomPagination(number, limit, keyword){
+export function fetchClassroomPagination(number, limit, q){
+  const keyword = q ? getUnicodeSearchName(q) : null;
   const request = axios.get(`${API_CLASSROOM}?page=${number|| 1}&limit=${limit || 30}${keyword ? '&q='+keyword : ''}`)
   return {
     type: FETCH_CLASSROOM_PAGE,

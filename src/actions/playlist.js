@@ -7,6 +7,7 @@ import {
 } from '../networks/playlist';
 import { API_PLAYLIST } from '../statics/urls';
 import axios from 'axios';
+import { getUnicodeSearchName } from 'utils';
 
 export const FETCH_PLAYLISTS = 'Fetch playlists';
 export const UPDATE_PLAYLIST = 'Update playlist';
@@ -15,7 +16,8 @@ export const DELETE_PLAYLIST = 'Delete playlist';
 export const ADD_PLAYLIST_FROM_YOUTUBE = 'Add playlist from youtube';
 export const FETCH_PLAYLIST_PAGE = 'FETCH_PLAYLIST_PAGE'
 
-export function fetchPlaylistPagination(number, limit, keyword){
+export function fetchPlaylistPagination(number, limit, q){
+  const keyword = q ? getUnicodeSearchName(q) : null;
   const request = axios.get(`${API_PLAYLIST}?page=${number|| 1}&limit=${limit || 30}${ keyword ? '&q='+keyword : '' }`)
   return {
     type: FETCH_PLAYLIST_PAGE,

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_VIDEO } from 'statics/urls';
+import { getUnicodeSearchName } from 'utils';
 
 export const FETCH_VIDEOS = 'Fetch videos';
 export const FETCH_VIDEO_DETAIL = 'Fetch video detail';
@@ -11,7 +12,8 @@ export const FETCH_VIDEOS_PAGE = 'FETCH_VIDEOS_PAGE';
 axios.defaults.validateStatus = status => status < 500;
 axios.defaults.withCredentials = true;
 
-export function fetchVideoPagination(number, limit, keyword) {
+export function fetchVideoPagination(number, limit, q) {
+  const keyword = q ? getUnicodeSearchName(q) : null;
   const request = axios.get(`${API_VIDEO}?page=${number|| 1}&limit=${limit || 30}${ keyword ? '&q='+keyword : '' }`);
   return {
     type: FETCH_VIDEOS_PAGE,

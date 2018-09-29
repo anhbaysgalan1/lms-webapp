@@ -6,6 +6,7 @@ import {
 } from 'networks/user';
 import axios from 'axios';
 import { API_USER } from '../statics/urls';
+import { getUnicodeSearchName } from 'utils';
 
 export const FETCH_USER = 'Fetch user';
 export const ADD_USER = 'Add user';
@@ -21,7 +22,8 @@ export function fetchUsers() {
   };
 }
 
-export function fetchUserPagination(number, limit, keyword) {
+export function fetchUserPagination(number, limit, q) {
+  const keyword = q ? getUnicodeSearchName(q) : null;
   const request = axios.get(`${API_USER}?page=${number|| 1}&limit=${limit || 30}${keyword ? '&q='+keyword : ''}`);
   return {
     type: FETCH_USER_PAGE,
