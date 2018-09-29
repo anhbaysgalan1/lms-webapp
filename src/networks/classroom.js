@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_CLASSROOM, API_PLAYLIST } from '../statics/urls';
+import { getUnicodeSearchName } from 'utils';
 
 axios.defaults.validateStatus = status => status < 500;
 axios.defaults.withCredentials = true;
@@ -37,7 +38,20 @@ export async function fetchPlaylists() {
   return dataGet.data.data;
 }
 
-export async function fetchMemberNotInClassroomPromise(classroomId) {
-  const dataGet = await axios.get(`${API_CLASSROOM}/${classroomId}/membersnotin`);
+export async function fetchMemberNotInClassroomPromise(classroomId, q) {
+  const keyword = q ? getUnicodeSearchName(q) : null;
+  const dataGet = await axios.get(`${API_CLASSROOM}/${classroomId}/membersnotin${keyword ? '?q='+keyword : ''}`);
+  return dataGet.data.data;
+}
+
+export async function fetchPlaylistNotInClassroomPromise(classroomId, q) {
+  const keyword = q ? getUnicodeSearchName(q) : null;
+  const dataGet = await axios.get(`${API_CLASSROOM}/${classroomId}/playlistsnotin${keyword ? '?q='+keyword : ''}`);
+  return dataGet.data.data;
+}
+
+export async function fetchTeacherNotInClassroomPromise(classroomId, q) {
+  const keyword = q ? getUnicodeSearchName(q) : null;
+  const dataGet = await axios.get(`${API_CLASSROOM}/${classroomId}/teachersnotin${keyword ? '?q='+keyword : ''}`);
   return dataGet.data.data;
 }

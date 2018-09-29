@@ -260,6 +260,11 @@ class ClassroomEditForm extends Component {
     );
   }
 
+  handleSubmitForm(values, submitForm, isStay) {
+    values.isStay = isStay;
+    submitForm(values);
+  }
+
   renderForm(formProps) {
     const {
       values,
@@ -268,6 +273,7 @@ class ClassroomEditForm extends Component {
       handleChange,
       handleBlur,
       handleSubmit,
+      submitForm
       // isSubmitting,
     } = formProps;
     const {
@@ -402,8 +408,11 @@ class ClassroomEditForm extends Component {
           Back
         </Button>
 
-        <Button className="btn btn-info">
+        <Button className="btn btn-info mx-1" type="button" onClick={() => this.handleSubmitForm(values, submitForm, true)}>
           Submit
+        </Button>
+        <Button className="btn btn-info mx-1" type="button" onClick={() => this.handleSubmitForm(values, submitForm, false)}>
+          Submit and back
         </Button>
         </div>
       </Form>

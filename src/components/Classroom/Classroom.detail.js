@@ -6,8 +6,8 @@ import {
   removeItem, RemoveDuplicate, allIDinList, JointCourseAndName, handleGoBack,
 } from 'utils';
 
-import { fetchClassrooms, UpdateClassroom, fetchMemberNotInClassroom } from 'actions/classroom';
-import { fetchClassroomWithID, fetchPlaylists, fetchClass } from 'networks/classroom';
+import { fetchClassrooms, UpdateClassroom } from 'actions/classroom';
+import { fetchClassroomWithID, fetchPlaylists, fetchClass, fetchMemberNotInClassroomPromise, fetchTeacherNotInClassroomPromise, fetchPlaylistNotInClassroomPromise } from 'networks/classroom';
 import { fetchCourse } from 'networks/classcourse';
 import { fetchListUser } from 'networks/user';
 import ClassroomEditForm from './Classroom.form/Classroom.form.edit';
@@ -70,16 +70,16 @@ class ClassroomDetail extends Component {
       const classListTeachers = _.get(this.state, 'listTeachers');
       const classSelectedMembers = _.get(this.state, '_classSelected.members');
       const classListMembers = _.get(this.state, 'listMember');
-      const listRemoveDuplicateteachers = RemoveDuplicate(classSelectedTeachers, classListTeachers);
-      const listRemoveDuplicateMem = RemoveDuplicate(classSelectedMembers, classListMembers);
-      const listTeachersNotInClass = [];
-      const listMemberNotInClass = fetch.memberNotin;
+      // const listRemoveDuplicateteachers = RemoveDuplicate(classSelectedTeachers, classListTeachers);
+      // const listRemoveDuplicateMem = RemoveDuplicate(classSelectedMembers, classListMembers);
+      const listTeachersNotInClass = await fetchTeacherNotInClassroomPromise(classID);
+      const listMemberNotInClass = await fetchMemberNotInClassroomPromise(classID);
 
-      _.map(listRemoveDuplicateteachers, (el) => {
-        if (el.role === 1) {
-          listTeachersNotInClass.push(el);
-        }
-      });
+      // _.map(listRemoveDuplicateteachers, (el) => {
+      //   if (el.role === 1) {
+      //     listTeachersNotInClass.push(el);
+      //   }
+      // });
       // _.map(listRemoveDuplicateMem, (el) => {
       //   if (el.role === 0) {
       //     listMemberNotInClass.push(el);
@@ -87,8 +87,9 @@ class ClassroomDetail extends Component {
       // });
 
       const { listPlaylist } = this.state;
-      const listRemoveDuplicatePlaylist = RemoveDuplicate(listPlaylistInClass, listPlaylist);
-      const listPlaylistNotInClass = listRemoveDuplicatePlaylist;
+      // const listRemoveDuplicatePlaylist = RemoveDuplicate(listPlaylistInClass, listPlaylist);
+      const listPlaylistNotInClass = await fetchPlaylistNotInClassroomPromise(classID);
+
       this.setState({
         listTeachersNotInClass,
         listTeachersInClass: fetch.teachers,
@@ -111,7 +112,8 @@ class ClassroomDetail extends Component {
 
   onSubmit(objClass) {
     const obj = objClass;
-    
+    const isStay = objClass.isStay;
+    objClass.isStay = undefined;
     
     const {
       listTeachersInClass,
@@ -125,12 +127,21 @@ class ClassroomDetail extends Component {
     // const allIDPlaylists = listPlaylistInClass;
     obj.teachers = allIDTeachers;
     obj.members = allIDMembers;
-    obj.playlists = listPlayListsContainPlaylist;
+    obj.playlists = listPlayListsContainPlaylist.map(item => {
+      let playlist = item.playlist._id;
+      return { ...item, playlist }
+    });
     this.setState({
       isSubmitting: true,
     });
     ActionUpdateClassroom(obj).then(() => {
-      this.onCancel();
+      if(!isStay) {
+        this.onCancel();
+      } else {
+        this.setState({
+          isSubmitting: false,
+        });
+      }
     });
   }
 
