@@ -94,7 +94,53 @@ class ClassRoomPlaylist extends Component {
                 </div>
               </div>
             </div>
-          ) : null)
+          ) : (
+			  
+
+            <div
+              className={el.unlock ? 'classroom-item' : 'bg-gray classroom-item opacity-lock font-weight-light bg-light text-muted'}
+              onKeyDown={() => {}}
+              role="presentation"
+              key={el._id}
+              onClick={() => {}}
+            >
+              <div className="no">
+                { index + 1 }
+                {el.unlock}
+              </div>
+              <div className="name">
+              </div>
+              <div className="name2">
+              </div>
+              <div className="video-count" />
+              <div
+                className="controls not-opacity"
+                onKeyDown={() => {}}
+                role="presentation"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  clickToUnlock(el);
+                }}
+              >
+                <div className="delete ">
+                  <i className={el.unlock ? 'text-dark fas fa-lock-open' : 'text-dark fas fa-lock'} />
+                </div>
+              </div>
+              <div
+                className="controls"
+                onKeyDown={() => {}}
+                role="presentation"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  removeData(el, 2);
+                }}
+              >
+                <div className="delete">
+                  <i className="text-dark fas fa-trash-alt" />
+                </div>
+              </div>
+            </div>
+		  ))
         }
 
       </div>
