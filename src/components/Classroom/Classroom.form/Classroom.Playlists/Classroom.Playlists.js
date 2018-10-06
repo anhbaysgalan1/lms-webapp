@@ -47,7 +47,7 @@ class ClassRoomPlaylist extends Component {
           List PlayLists In Class
         </p>
         {
-          listPlaylistState.map((el, index) => (
+          listPlaylistState.map((el, index) => el.playlist ? (
 
             <div
               className={el.unlock ? 'classroom-item' : 'bg-gray classroom-item opacity-lock font-weight-light bg-light text-muted'}
@@ -94,7 +94,7 @@ class ClassRoomPlaylist extends Component {
                 </div>
               </div>
             </div>
-          ))
+          ) : null)
         }
 
       </div>
