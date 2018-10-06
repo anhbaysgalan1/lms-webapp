@@ -46,7 +46,7 @@ class ClassRoomPlaylistNotIn extends Component {
           List PlayLists Not In Class
         </p>
         {
-          listPlaylistState.map((el, index) => (
+          listPlaylistState.map((el, index) => el ? (
 
             <div
               className="classroom-item"
@@ -63,6 +63,37 @@ class ClassRoomPlaylistNotIn extends Component {
               </div>
               <div className="name2">
                 {el.videos ? `${el.videos.length} Videos` : '0 Video'}
+              </div>
+              <div className="video-count" />
+              <div
+                className="controls"
+                onKeyDown={() => {}}
+                role="presentation"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  clickGetData(el, 2);
+                }}
+              >
+                <div className="delete">
+                  <i className="text-dark fas fa-plus" />
+                </div>
+              </div>
+            </div>
+          ): (
+
+            <div
+              className="classroom-item"
+              onKeyDown={() => {}}
+              role="presentation"
+              key={index}
+              onClick={() => {}}
+            >
+              <div className="no">
+                { index + 1 }
+              </div>
+              <div className="name">
+              </div>
+              <div className="name2">
               </div>
               <div className="video-count" />
               <div
