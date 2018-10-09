@@ -6,12 +6,15 @@ import PropTypes from 'prop-types';
 
 import { fetchPlaylists, deletePlaylist, fetchPlaylistPagination } from 'actions/playlist';
 import { openPopup } from 'actions/popup';
-import { fetchPlaylistsPromise } from 'networks/playlist';
+// import { fetchPlaylistsPromise } from 'networks/playlist';
 import { LIMIT_PLAYLIST, SeparatePage } from 'utils';
 import SearchBar from 'components/SearchBar';
 import SimpleLoading from '../SimpleLoading';
 import {
-  ROUTE_ADMIN_PLAYLIST_NEW, ROUTE_ADMIN_PLAYLIST_DETAIL, ROUTE_ADMIN_PLAYLIST, ROUTE_ADMIN_PLAYLIST_FROM_YOUTUBE,
+  ROUTE_ADMIN_PLAYLIST_NEW,
+  ROUTE_ADMIN_PLAYLIST_DETAIL,
+  ROUTE_ADMIN_PLAYLIST,
+  ROUTE_ADMIN_PLAYLIST_FROM_YOUTUBE,
 } from '../routes';
 
 import './Playlist.list.css';
@@ -57,12 +60,17 @@ class PlayListList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { location } = this.props;
+    const { location, fetchPlaylistPaginationAction } = this.props;
+    const { keyword } = this.state;
+    const playlistReducer = _.get(this.props, 'playlistReducer');
     if (nextProps.location.search !== location.search) {
       const getParams = new URLSearchParams(nextProps.location.search).get('page');
       this.setState({
         getParams,
       });
+    }
+    if (playlistReducer !== nextProps.playlistReducer) {
+      fetchPlaylistPaginationAction(1, LIMIT_PLAYLIST, keyword);
     }
   }
 
@@ -188,7 +196,7 @@ class PlayListList extends Component {
         </Button>
         <div className="mr-auto d-inline-flex align-items-center">
           <span className="mr-2">
-Search:
+          Search:
           </span>
           <SearchBar onSearch={(keyword) => {
             this.setState({ keyword });

@@ -31,8 +31,8 @@ class VideosUnlock extends Component {
             else return item;
         }).slice(0, 10);
         
-        const playlistElement = list.map((el, index) => {
-            return <div
+        const playlistElement = list.map((el, index) =>  el.playlist ? (
+            <div
               className={el.members && el.members.includes(memberId) ? 'classroom-item' : 'bg-gray classroom-item opacity-lock font-weight-light bg-light text-muted'}
               onKeyDown={() => {}}
               role="presentation"
@@ -62,8 +62,9 @@ class VideosUnlock extends Component {
                         <i className={el.members && el.members.includes(memberId) ? 'text-dark fas fa-lock-open' : 'text-dark fas fa-lock'} />
                     </div>
                 </div>
-            </div>
-        });
+            </div>) : 
+            (<div>ASDASD</div>)
+        );
 
         return (
             <div>

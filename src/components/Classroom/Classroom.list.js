@@ -7,12 +7,12 @@ import PropTypes from 'prop-types';
 // action
 import { fetchClassrooms, deleteClassroom, fetchClassroomPagination } from 'actions/classroom';
 // route_path
-import { ROUTE_ADMIN_CLASSROOM_NEW, ROUTE_ADMIN_CLASSROOM_DETAIL, ROUTE_ADMIN_CLASSROOM } from '../routes';
-import { fetchClass } from 'networks/classroom';
+// import { fetchClass } from 'networks/classroom';
 import { openPopup } from 'actions/popup';
 import './index.css';
 import { LIMIT_CLASSROOM, SeparatePage } from 'utils';
 import SearchBar from 'components/SearchBar';
+import { ROUTE_ADMIN_CLASSROOM_NEW, ROUTE_ADMIN_CLASSROOM_DETAIL, ROUTE_ADMIN_CLASSROOM } from '../routes';
 
 
 class ClassRoomList extends Component {
@@ -74,7 +74,9 @@ class ClassRoomList extends Component {
 
   numberPage(num) {
     const arrNumber = [];
-    const { active, defaultDisable, getParams, keyword } = this.state;
+    const {
+      active, defaultDisable, getParams, keyword,
+    } = this.state;
     const { fetchClassroomPaginationAction, history } = this.props;
     for (let i = 0; i < num; i += 1) {
       arrNumber.push(i + 1);
@@ -105,7 +107,7 @@ class ClassRoomList extends Component {
   }
 
   renderAdd() {
-    const { history, fetchClassroomPaginationAction  } = this.props;
+    const { history, fetchClassroomPaginationAction } = this.props;
     return (
       <div className="admin-controls">
         <Button
@@ -121,20 +123,23 @@ class ClassRoomList extends Component {
         </Button>
         {/* {this.renderAddCourse()} */}
         <div className="mr-auto d-inline-flex align-items-center">
-          <span className="mr-2">Search:</span>
+          <span className="mr-2">
+            Search:
+          </span>
           <SearchBar onSearch={(keyword) => {
             this.setState({ keyword });
             fetchClassroomPaginationAction(1, LIMIT_CLASSROOM, keyword)
               .then((data) => {
-                const classroomData = data.payload.data
+                const classroomData = data.payload.data;
                 history.push(`${ROUTE_ADMIN_CLASSROOM}?page=1`);
                 this.setState({
                   total: classroomData.total,
                   active: null,
-                  getParams : 1,
+                  getParams: 1,
                 });
-              });            
-          }} />
+              });
+          }}
+          />
         </div>
 
       </div>
@@ -142,7 +147,7 @@ class ClassRoomList extends Component {
   }
 
   renderList() {
-    const { history  } = this.props;
+    const { history } = this.props;
     const classroomReducer = _.get(this.props, 'classroomReducer');
     const PropsopenPopup = _.get(this.props, 'openPopup');
     const PropsdeleteClassroom = _.get(this.props, 'deleteClassroom');
@@ -189,7 +194,7 @@ class ClassRoomList extends Component {
                   Members
                 </div>
                 <div className="name3">
-                  {_classroom.playlists && _classroom.playlists.length > 1 ? `${_classroom.playlists.length} Playlists` : `0 Playlist` }
+                  {_classroom.playlists && _classroom.playlists.length >= 1 ? `${_classroom.playlists.length} Playlists` : `0 Playlist` }
                   {' '}
                 </div>
                 <div className="video-count" />
